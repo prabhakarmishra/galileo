@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block full_container %}
+<script type="text/javascript">
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.imageform.id_img.value == "")
+   {
+     checkvalidate =  false;
+     alert( "Please Select image first !" );
+     
+	 return false;
+   }
+   return checkvalidate ;
+}
+</script>		
+		<div class="centerl_container maxw1200">
+			<div class="centerl_containerContent">
+			<!-- FIRST COLUMN -->
+				<div class="ppbox">
+					{{user.fName}}&nbsp;{{user.lName}}
+					
+					<form method="POST" enctype="multipart/form-data" name="imageform" id="imageform" action="/student/upload-image/">
+					<input type="hidden" name="ct_id" value="{{student.userId}}">
+					{% if student.photo %}
+					
+						<object data="/media/{{student.photo}}" width="107" height="90">
+							<img src="/static/images/poster-liz-chang.jpg" width="107" height="90" border=0 alt="">
+							
+						</object>
+						<div class="addPrjctImgHolder invisible"><input type="file" name="img" id="id_img"></div>
+					{% else %}
+					<img src="{% static 'images/poster-liz-chang.jpg' %}" width="107" height="90" border=0 alt="">
+					<div class="addPrjctImgHolder invisible"><input type="file" name="img" id="id_img"></div>
+					{% endif %}
+					
+					<button type="submit" class="btnchangephoto" style="margin-top:30px;" onclick="return validateForm()">&nbsp;</button>
+					</form>
+					<!--div style="margin-top:50px;"></div>
+					<div class="knowmore">
+						Know more<br>
+						<img src="{% static 'images/knowmore.gif' %}" width="119" height="112" border=0 alt="">
+					</div>
+					<div class="knowmorecontrol">
+						<div class="stop"></div>
+						<div class="prev"></div>
+						<div class="play"></div>
+						<div class="next"></div>
+					</div-->
+
+			<div class="scorecard">
+				<div class="color1"><span>912</span>Grind Score</div>
+				<div class="color2"><span>178</span>Academics</div>
+				<div class="color2"><span>714</span>Performances</div>
+			</div>
+
+					<!-- THIRD COLUMN -->
+
+			<!-- FORTH COLUMN -->
+			<div class="pedigree">
+				<div>Pedigree</div>
+				<div>Archetype</div>
+			</div>
+
+				</div>
+
+				
+			<!-- SECOND COLUMN -->
+				<div class="thumbchartgrp">
+					<h4>All Projects</h4>
+					<div class="carouse_box">
+						<div class="btn_prev"></div>
+						<div class="btn_next"></div>
+						<div class="carouse_thumbs"><div class="thumbchartgrps">
+						{% for project,value in pro_details.items %}
+							<a href="/student/submit-project/?project_id={{project.projectId}}"><div class="thumbchart">
+								<img {% if project.img %}src="/media/{{project.img}}"{% else %}src="{% static 'images/spacer.gif' %}" {% endif %} width="172px" height="112px" border=0 alt="" class="thumbposter">
+								<p>
+									<span>{{project.name}}</span>
+									{{project.description}}
+								</p>
+								<div class="thumbchart_days">{{value.diff}} <br/>DAYS</div>
+								<div class="thumbchart_submited">{{value.submission_count}}<br/>SUBMITTED </div>
+								<div class="thumbchart_win">0 <br/>WINNER</div>
+								<div class="thumbchart_dollar">{{project.project_value}}<br/>{{project.currency}}</div>
+								<a href="/student/project/verify/?pro_id={{project.projectId}}" class="verifyBtn_02"></a>
+								<a href="/student/project/assess/?pro_id={{project.projectId}}" class="accesslink"><img src="/static/images/assess.png" width="49" height="18" border=0 alt=""></a>
+							</div></a>
+						{% endfor %}
+
+						<!-- Carrousel end -->
+						</div></div>
+					</div>
+
+
+					<h4>My Performances <a href="/student/add_performance/" class="addBtn_01"><span>Add</span></a></h4>
+					<div class="carouse_box">
+						<div class="btn_prev"></div>
+						<div class="btn_next"></div>
+						<div class="carouse_thumbs"><div class="thumbchartgrps">
+						{% if performance_list %}
+							{% for project in performance_list %}
+							<a href="/student/edit_performance/?perf_id={{project.performanceId}}"><div class="thumbchart">
+								<img {% if project.image %}src="/media/{{project.image}}"{% else %}src="{% static 'images/spacer.gif' %}" {% endif %} width="172px" height="112px" border=0 alt="" class="thumbposter">
+								<p>
+									<span>{{project.name}}</span>
+									{{project.description}}
+								</p>
+								<div class="thumbchart_days">{{value.diff}} <br/>DAYS</div>
+								<div class="thumbchart_submited">{{value.submission_count}}<br/>SUBMITTED </div>
+								<div class="thumbchart_win">0 <br/>WINNER</div>
+								<div class="thumbchart_dollar">{{project.project_value}}<br/>{{project.currency}}</div>
+
+							<a href="/student/performance/verify/?pro_id={{project.performanceId}}" class="verifyBtn_02"></a>
+							<a href="/student/performance/assess/?perf_id={{project.performanceId}}" class="accesslink"><img src="/static/images/assess.png" width="49" height="18" border=0 alt=""></a>
+
+							</div></a>
+
+							{% endfor %}
+						{% else %}
+
+							
+							<div class="thumbchart">
+								Please click add to add to My Performances.
+							</div> 
+
+						{% endif %}
+
+							
+						<!-- Carrousel end -->
+						</div></div>
+					</div>
+
+				</div>
+
+
+			
+			
+			
+			<!-- THIRD COLUMN -->
+			<div class="thirdcol">
+				<div class="skillsWrapper">
+					<h4 class="active">Skills</h4><a href="/student/skill/add/" class="addBtn_01"><span>Add</span></a>
+					<div class="skillsContainer">
+					{% if skill_list %}
+					{% for skill in skill_list %}
+						<div class="skillsInnerContainer"><span>{{skill.description}}</span><a href="/student/skill/verify/?skill_id={{skill.skillId}}" class="verifyBtn_01"></a></div>
+					{% endfor %}
+					{% else %}
+					Please click add to add to Certifications/Associations.
+					{% endif %}
+					</div>
+				</div>
+				<div class="skillsWrapper">
+					<h4>Associations/Certifications (25 chars or less)</h4><a href="/student/certification/add/" class="addBtn_01"><span>Add</span></a>
+					<div class="skillsContainer noshow">
+					{% if certification_list %}
+					{% for cert in certification_list %}
+						<div class="skillsInnerContainer"><span>{{cert.description}}</span><a href="/student/certification/verify/?cert_id={{cert.membershipId}}" class="verifyBtn_01"></a></div>
+					{% endfor %}
+					{% else %}
+					Please click add to add to Certifications/Associations.
+					{% endif %}
+					</div>
+				</div>
+
+
+			<form method=post action="" name="academicform" id="academicform">
+			
+			<div class="academicBackground">
+				<h4>Academic background (25 chars or less)</h4><a href="/student/academic/add/" class="addBtn_02"><span>Add</span></a>
+				<div class="clearfix"></div>
+				
+				<ul class="academicBackgroundUl noshow">
+					{% if academic_list %}
+					{% for ace in academic_list %}
+					<li>
+					<span href="#" class="qualification">{{ace.degree}}</span>
+					<input type="text" name="grade" value="{{ace.graduationScore}}">
+					<a href="/student/academic/verify/?ace_id={{ace.academicId}}" class="verifyBtn_02"></a>
+					</li>
+					{% endfor %}
+					{% else %}
+					Please click add to add to Academic Information.
+					{% endif %}
+					
+				</ul>
+			</div>
+			</form>
+
+			
+			</div>
+			<!-- End THIRD COLUMN -->
+
+
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	{% endblock %}

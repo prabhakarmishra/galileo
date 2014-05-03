@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+	{% block full_container %}
+<!-- Javascript or form validation -->
+<script type="text/javascript">
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.registrationForm.name.value == "" || document.registrationForm.name.value == "Enterprise Name" )
+   {
+     checkvalidate =  false;
+     alert( "Please provide your enterprise name" );
+     document.registrationForm.name.focus() ;
+	 return false;
+   }
+   if( document.registrationForm.emailId.value == "" || document.registrationForm.emailId.value == "Create your Grinder User Name" )
+   {
+     checkvalidate =  false;
+     alert( "Please enter your grinder user name" );
+     document.registrationForm.emailId.focus() ;
+     return false;
+   }
+   if( document.registrationForm.password.value == "" || document.registrationForm.password.value == "Password" )
+   {
+     checkvalidate =  false;
+     alert( "Please provide your password" );
+     document.registrationForm.password.focus() ;
+     return false;
+   }
+   if( document.registrationForm.cnfpassword.value !=  document.registrationForm.password.value )
+   {
+     checkvalidate =  false;
+     alert( "Please enter confirm password again" );
+     document.registrationForm.cnfpassword.focus() ;
+     return false;
+   }
+   if( document.registrationForm.contact.value == "" || document.registrationForm.contact.value == "Enterprise Representative/Contact")
+   {
+     checkvalidate =  false;
+     alert( "Enterprise representative/contact" );
+     document.registrationForm.contact.focus() ;
+     return false;
+   }
+
+   if( document.registrationForm.contactPhone.value == "" || document.registrationForm.contactPhone.value == "Contact Phone")
+   {
+     checkvalidate =  false;
+     alert( "Please enter contact phone" );
+     document.registrationForm.contactPhone.focus() ;
+     return false;
+   }
+
+   if( document.registrationForm.contactEmailAddress.value == "" || document.registrationForm.contactEmailAddress.value == "Contact Email Address")
+   {
+     checkvalidate =  false;
+     alert( "Please enter contact email address" );
+     document.registrationForm.contactEmailAddress.focus() ;
+     return false;
+   }
+
+   //if (checkvalidate)
+	//	document.forms["registrationForm"].submit();
+	$('input[name=linkedIn], input[name=facebook], input[name=website]').attr('onblur','');
+
+   if( document.registrationForm.website.value == "Website")
+		document.registrationForm.website.value = '';
+   if( document.registrationForm.linkedIn.value == "LinkedIn Profile(optional)")
+		document.registrationForm.linkedIn.value = '';
+   if( document.registrationForm.facebook.value == "Facebook Profile(optional)")
+		document.registrationForm.facebook.value = '';
+
+
+
+
+   return checkvalidate ;
+}
+</script>
+
+<!-- Forms validation Ends here -->
+
+		<div class="centerl_container maxw1216">
+		
+		<div class="centerl_containerContent">
+			<div class="containerLeft">
+				<h1>Welcome! Student Grind wants to empower Enterprises!</h1>
+				<form class="registrationForm" id="registrationForm" enctype="multipart/form-data"  name="registrationForm" method="POST">
+					
+					<input type="hidden" name ="type" value="{{userType}}">
+					
+					<div class="formRow_01">
+					
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" name="name" value="Enterprise Name" onfocus="if(this.value=='Enterprise Name'){this.value=''};" onblur="if(this.value==''){this.value='Enterprise Name'};" /><span class="inputRightCorner"></span>	
+						</div>
+						
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" name="emailId" value="Create your Grinder User Name" onfocus="if(this.value=='Create your Grinder User Name'){this.value=''};" onblur="if(this.value==''){this.value='Create your Grinder User Name'};" /><span class="inputRightCorner"></span>	
+						</div>
+						
+		
+					</div>
+					
+					<div class="formRow_01">
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="password" name="password" value="Password" onfocus="if(this.value=='Password'){this.value=''};" onblur="if(this.value==''){this.value='Password'};" /><span class="inputRightCorner"></span>	
+						</div>
+						
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="password" value="Confirm Password" name="cnfpassword" onfocus="if(this.value=='Confirm Password'){this.value=''};" onblur="if(this.value==''){this.value='Confirm Password'};" /><span class="inputRightCorner"></span>	
+						</div>
+
+					</div>
+					
+
+					<div class="formRow_01">
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" name="website" value="Website" onfocus="if(this.value=='Website'){this.value=''};" onblur="if(this.value==''){this.value='Website'};" /><span class="inputRightCorner"></span>	
+						</div>
+						
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" name="contact" value="Enterprise Representative/Contact" onfocus="if(this.value=='Enterprise Representative/Contact'){this.value=''};" onblur="if(this.value==''){this.value='Enterprise Representative/Contact'};" /><span class="inputRightCorner"></span>	
+						</div>
+					</div>
+					
+					<div class="formRow_01">
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" name="contactPhone" value="Contact Phone" onfocus="if(this.value=='Contact Phone'){this.value=''};" onblur="if(this.value==''){this.value='Contact Phone'};" /><span class="inputRightCorner"></span>	
+						</div>
+						
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" name="contactEmailAddress" class="validemail" value="Contact Email Address" onfocus="if(this.value=='Contact Email Address'){this.value=''};" onblur="if(this.value==''){this.value='Contact Email Address'};" /><span class="inputRightCorner"></span>	
+						</div>
+					</div>
+					
+					<div class="formRow_01">
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" name="linkedIn" value="LinkedIn Profile(optional)" onfocus="if(this.value=='LinkedIn Profile(optional)'){this.value=''};" onblur="if(this.value==''){this.value='LinkedIn Profile(optional)'};" /><span class="inputRightCorner"></span>	
+						</div>
+						
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" name="facebook" value="Facebook Profile(optional)" onfocus="if(this.value=='Facebook Profile(optional)'){this.value=''};" onblur="if(this.value==''){this.value='Facebook Profile(optional)'};" /><span class="inputRightCorner"></span>	
+						</div>
+					</div>	
+					<!--div class="formRow_01">
+						<div class="textInputHolder">Upload Image:
+						<span class="inputLeftCorner"></span><input type="file" name="image"><span class="inputRightCorner"></span>	
+						</div>
+						
+						
+					</div-->	
+					
+					
+					<div class="btnHolder_01">
+						<input type="submit" class="signUpBtn" value="" onclick="return validateForm(); " />
+					</div>
+					
+				</form>
+			</div>
+			<div class="containerRight">
+				<p>How student Grind Works?</p>
+				<div class="videoPlayerHolder">
+					<img width="490px" height="286px" src="{% static 'images/video_player_mockup_image.jpg' %}">
+				</div>
+			</div>
+			</div>
+						
+		</div>
+{% endblock %}

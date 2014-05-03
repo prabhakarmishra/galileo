@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Sg</title>
+<meta charset="UTF-8">
+<!--Bhawana-->
+<link href="css/stye.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script src="js/lib.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+$(function () {
+	$("#selectPayment, #expiration").selectbox();
+});
+</script>
+
+<script>
+	$(document).ready(function(){
+	
+	var selectExpiryYear = $('.expiration').next('div');
+	selectExpiryYear.css('width','80px');
+	selectExpiryYear.find('.sbOptions').css('width','80px');
+	selectExpiryYear.find('.sbOptions li').css('background','#FFFFFF url("images/selectOptions_02_bg_li.png") repeat-y left bottom');
+	
+	var selectPayment = $('.selectPayment').next('div');
+	selectPayment.css('margin-right','28px');
+
+	});
+</script>
+</head>
+	<body>
+<header>
+	<a href="index.html"><img src="images/sg-logo.png" width="62" height="60" border=0 alt="Student Grid" class="logo" /></a>
+	<div class="topnav">
+		<form method=post action="" name="logbox" id="logbox" class="logbox">
+			<a href="http://www.studentgrind.co/">Logout</a>
+		</form>
+		<div class="sharebox"><a class="icon_fb" href="https://www.facebook.com">&nbsp;</a><a class="icon_in" href="https://www.linkedin.com">&nbsp;</a><a href="https://www.twitter.com" class="icon_twitter">&nbsp;</a></div>
+		<div class="menu">
+			<a href="#">Home</a>&nbsp; | &nbsp;<a href="http://www.studentgrind.co/about">What is Student Grind</a> | <a href="http://www.studentgrind.co/instalum">Alumni or Institution</a>
+		</div>
+	</div>
+</header>
+		
+		<div class="centerl_container maxw1216">
+		
+		<div class="centerl_containerContent w820">
+			<div class="containerCenter">
+				<h1 class="videoDialogH1">Add or Change Payment Information</h1>
+				<form class="registrationForm">
+				
+				<div class="formRow_07">			
+					<h3 value="">Select Payment</h3>
+					<h3 value="">Expiration</h3>
+				</div>
+					
+					
+					<div class="formRow_07 selectformRow">			
+					<select class="selectPayment" id="selectPayment">
+						<option value="">1111 5956 4948 7780</option>
+						<option value="">5748 5849 4002 8765</option>
+						<option value="">Add New Payment</option>
+					</select>
+					
+					
+					<div class="textInputHolder_05">
+						<span class="inputLeftCorner"></span><input type="text" value="0" /><span class="inputRightCorner"></span>	
+						</div>
+						
+					<div class="expiryDivHolder">
+						<select class="expiration" id="expiration">
+						<option value="">2013</option>
+						<option value="">2014</option>
+						<option value="">2015</option>
+						<option value="">2016</option>
+						</select>
+					</div>
+					
+					</div>
+					
+					
+				<div class="formRow_08">			
+					<h3 value="">Payment (Card) Number</h3>
+					<h3 value="">CVV Number</h3>
+				</div>
+				
+				<div class="formRow_09">
+					<div class="textInputHolder_03">
+					<span class="inputLeftCorner"></span><input type="text" value="9999 9999 9999 9999" onfocus="if(this.value=='9999 9999 9999 9999'){this.value=''};" onblur="if(this.value==''){this.value='9999 9999 9999 9999'};" /><span class="inputRightCorner"></span>	
+					</div>
+					
+					<div class="textInputHolder_04">
+					<span class="inputLeftCorner"></span><input type="text" value="123" onfocus="if(this.value=='123'){this.value=''};" onblur="if(this.value==''){this.value='123'};" /><span class="inputRightCorner"></span>	
+					</div>
+				</div>
+							
+				<div class="btnHolder_06">
+					<input type="button" class="updatepaymentBtn" value=""/>
+				</div>
+				
+				
+			</form>
+					
+			</div>		
+		</div>
+		</div>
+		<div class="clearfix"></div>
+		<footer>
+	Copyright 2013 Student Grind Inc
+</footer>
+
+		
+	</body>
+</html>

@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% load static %}
+		
+{% block full_container %}
+	
+		<div class="centerl_container maxw1216">
+		
+		<div class="centerl_containerContent">
+			<div class="containerLeft">
+				<h1>Welcome! Its great to be an Alumni!</h1>
+				<form class="registrationForm" id ="registrationForm">
+					<input type="hidden" name ="fName" value="Rahul">
+					<input type="hidden" name ="lName" value="Kumar">
+					<input type="hidden" name ="type" value="{{userType}}">
+					<input type="hidden" name ="dob" value="2012-07-01">
+					<input type="hidden" name ="contactPhone" value="7836873551">
+					<input type="hidden" name ="gender" value="Male">
+
+					<div class="formRow">
+
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" value="Your Name" /><span class="inputRightCorner"></span>	
+						</div>
+						
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" name="emailId" value="Create ypur Grinder User Name" /><span class="inputRightCorner"></span>	
+						</div>
+						
+		
+					</div>
+					
+					<div class="formRow">
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" name="password" value="Password" /><span class="inputRightCorner"></span>	
+						</div>
+						
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" value="Confirm Password" /><span class="inputRightCorner"></span>	
+						</div>
+					</div>
+					
+					<div class="formRow selectformRow">
+					
+					<select id="chooseCollegeUniversity" name="collegeName">
+						<option value="">Choose your university/college</option>
+						<option value="Stanford University">Stanford University</option>
+						<option value="University of California Berkeley">University of California Berkeley</option>
+						<option value="Indian institute of Technology">Indian institute of Technology</option>
+						<option value="Coimbatore institute of Technology">Coimbatore institute of Technology</option>
+					</select>
+					
+					<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" name="linkedIn" value="Linkedin Profile(optional)" /><span class="inputRightCorner"></span>	
+						</div>
+						
+					</div>
+					
+					<div class="formRow">
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" name="facebook" value="Facebook Profile(optional)" /><span class="inputRightCorner"></span>	
+						</div>
+						
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" name="github" value="GitHub Login(optional)" /><span class="inputRightCorner"></span>	
+						</div>
+					</div>
+					
+					<div class="formRow">
+					
+					
+					<div class="checkboxHolder">
+					<label class="label_check" for="individualMentorship">
+						<input name="individualMentorship" id="individualMentorship" value="Individual" type="checkbox" />
+						Accept Individual Mentorship
+					</label>
+					</div>
+					
+					<div class="checkboxHolder">
+					<label class="label_check" for="groupMentorship">
+						<input name="groupMentorship" id="groupMentorship" value="Group" type="checkbox" />
+						Accept Group Mentorship
+					</label>
+					</div>
+					
+					</div>
+					
+					<div class="formRow">
+					
+					<div class="checkboxHolder">
+					<label class="label_check" for="noMentorship">
+						<input name="noMentorship" id="noMentorship" value="NO" type="checkbox" />
+						No Mentorship
+					</label>
+					</div>
+					
+					</div>
+					
+					<div class="formRow emailgroupsInfo">
+						<span>Subscribed Email groups (for Alumni emails)</span>
+						<span>Eg. cit87@yahoogroups.com</span>
+					</div>
+					
+					<div class="btnHolder">
+						<input type="submit" class="signUpBtn" value=""/>
+					</div>
+					
+				</form>
+			</div>
+			<div class="containerRight">
+				<p>How student Grind Works?</p>
+				<div class="videoPlayerHolder">
+					<img width="490px" height="286px" src="{% static 'images/video_player_mockup_image.jpg' %}">
+				</div>
+			</div>
+			</div>
+		</div>
+		
+		<div class="clearfix"></div>		
+{% endblock %}

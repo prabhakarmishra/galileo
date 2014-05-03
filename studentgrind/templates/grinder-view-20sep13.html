@@ -1,0 +1,241 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block full_container %}
+<script type="text/javascript">
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.imageform.id_img.value == "")
+   {
+     checkvalidate =  false;
+     alert( "Please Select image first !" );
+     
+	 return false;
+   }
+   return checkvalidate ;
+}
+</script>		
+		<div class="centerl_container maxw1200">
+			<div class="centerl_containerContent">
+			<!-- FIRST COLUMN -->
+				<div class="ppbox">
+					{{user.fName}}&nbsp;{{user.lName}}
+					
+					<form method="POST" enctype="multipart/form-data" name="imageform" id="imageform" action="/student/upload-image/">
+					<input type="hidden" name="ct_id" value="{{student.userId}}">
+					{% if student.photo %}
+					
+						<!-- <object data="/media/{{student.photo}}" width="107" height="90">
+							<img src="/static/images/poster-liz-chang.jpg" width="107" height="90" border=0 alt="">
+							
+						</object> -->
+						<img src="/media/{{student.photo}}" width="107" height="90" border=0 alt="">
+						<div class="addPrjctImgHolder invisible"><input type="file" name="img" id="id_img"></div>
+					{% else %}
+					<img src="{% static 'images/poster-liz-chang.jpg' %}" width="107" height="90" border=0 alt="">
+					<div class="addPrjctImgHolder invisible"><input type="file" name="img" id="id_img"></div>
+					{% endif %}
+					
+					<button type="submit" class="btnchangephoto" style="margin-top:30px;" onclick="return validateForm()">&nbsp;</button>
+					</form>
+					<!--div style="margin-top:50px;"></div>
+					<div class="knowmore">
+						Know more<br>
+						<img src="{% static 'images/knowmore.gif' %}" width="119" height="112" border=0 alt="">
+					</div>
+					<div class="knowmorecontrol">
+						<div class="stop"></div>
+						<div class="prev"></div>
+						<div class="play"></div>
+						<div class="next"></div>
+					</div-->
+
+			<div class="scorecard">
+				<div class="color1"><img src="{% static 'images/talentometer.png' %}" width="108" height="34" border=0 alt=""><!-- <span>912</span>Grind Score --></div>
+				<div class="color2"><img src="{% static 'images/perfometer.png' %}" width="108" height="35" border=0 alt=""><!-- <span>178</span>Academics --></div>
+				<div class="color2"><img src="{% static 'images/acadometer.png' %}" width="108" height="33" border=0 alt=""><!-- <span>714</span>Performances --></div>
+			</div>
+
+					<!-- THIRD COLUMN -->
+
+			<!-- FORTH COLUMN -->
+			<div class="pedigree">
+				<!-- <div>Pedigree</div>
+				<div>Archetype</div> -->
+			</div>
+
+				</div>
+
+				
+			<!-- SECOND COLUMN -->
+				<div class="thumbchartgrp">
+					
+
+
+					<h4>Explore me <a href="/student/add_performance/" class="addBtn_04" onclick="showpop(this.href); return false;"><span>Add</span></a></h4>
+					<div class="carouse_box">
+						<div class="btn_prev"></div>
+						<div class="btn_next"></div>
+						<div class="carouse_thumbs"><div class="thumbchartgrps">
+						{% if performance_list %}
+							{% for project in performance_list %}
+							<div class="thumbchart"><a href="/student/edit_performance/?perf_id={{project.performanceId}}" onclick="showpop(this.href); return false;">
+								<img {% if project.image %}src="/media/{{project.image}}"{% else %}src="{% static 'images/spacer.gif' %}" {% endif %} width="172px" height="112px" border=0 alt="" class="thumbposter">
+								<p>
+									<span>{{project.name}}</span>
+									{{project.description}}
+								</p>
+								<div class="thumbchart_days">{{value.diff}} <br/>DAYS</div>
+								<div class="thumbchart_submited">{{value.submission_count}}<br/>SUBMITTED </div>
+								<div class="thumbchart_win">0 <br/>WINNER</div>
+								<div class="thumbchart_dollar">{{project.project_value}}<br/>{{project.currency}}</div>
+								</a>
+								<div class="accesslinkmenu">&nbsp;
+									<div>
+										<a href="/student/edit_performance/?perf_id={{project.performanceId}}" class="menu_open" onclick="showpop(this.href); return false;">Open</a>
+										<a href="/student/performance/verify/?pro_id={{project.performanceId}}" class="menu_verify" onclick="showpop(this.href); return false;">Verify</a>
+										<a href="/student/performance/assess/?perf_id={{project.performanceId}}" class="menu_access" onclick="showpop(this.href); return false;">Assess</a>
+									</div>
+								</div>
+							</div>
+
+							{% endfor %}
+						{% else %}
+
+							
+							<div style="color:#0000FF">
+								Please click add to add to My Performances.
+							</div> 
+
+						{% endif %}
+
+							
+						<!-- Carrousel end -->
+						</div></div>
+					</div>
+
+				</div>
+
+
+			
+			
+			
+			<!-- THIRD COLUMN -->
+			<div class="thirdcol ptop7">
+				<div class="skillsWrapper">
+					<h4 class="active">Skills <a href="/student/skill/add/" class="addBtn_03" onclick="showpop(this.href); return false;">+</a><span>&nbsp;</span></h4>
+					<div class="skillsContainer">
+					{% if skill_list %}
+					{% for skill in skill_list %}
+						<div class="skillsInnerContainer"><span>{{skill.description}}</span>
+						<a href="/student/skill/delete/?skill_id={{skill.skillId}}" onclick="return false;"class="cancelbtnx">x</a> <a href="/student/skill/verify/?skill_id={{skill.skillId}}" class="verifyBtn_01" onclick="showpop(this.href); return false;"></a></div>
+					{% endfor %}
+					{% else %}
+					Please click add to add to Certifications/Associations.
+					{% endif %}
+					</div>
+				</div>
+
+			<form method=post action="" name="academicform" id="academicform">
+			
+			<div class="academicBackground">
+				<h4>Academic <a href="/student/academic/add/" class="addBtn_03" onclick="showpop(this.href); return false;">+</a><span>&nbsp;</span></h4>
+				<div class="clearfix"></div>
+				
+				<ul class="academicBackgroundUl noshow">
+					{% if academic_list %}
+					{% for ace in academic_list %}
+					<li>
+					<span href="#" class="qualification">{{ace.degree}}</span>
+					<input type="text" name="grade" value="{{ace.graduationScore}}">
+					<a href="/student/academic/delete/?ace_id={{ace.academicId}}" onclick="return false;" class="cancelbtnx">x</a> 
+					<a href="/student/academic/verify/?ace_id={{ace.academicId}}" class="verifyBtn_02" onclick="showpop(this.href); return false;"></a>
+					</li>
+					{% endfor %}
+					{% else %}
+					Please click add to add to Academic Information.
+					{% endif %}
+					
+				</ul>
+			</div>
+			</form>
+
+				<div class="skillsWrapper">
+					<h4>Associations / Certifications <a href="/student/certification/add/" class="addBtn_03" onclick="showpop(this.href); return false;">+</a><span>&nbsp;</span></h4>
+					<div class="skillsContainer noshow">
+					{% if certification_list %}
+					{% for cert in certification_list %}
+						<div class="skillsInnerContainer"><span>{{cert.description}}</span>
+						<a href="/student/certification/delete/?cert_id={{cert.membershipId}}" onclick="return false;" class="cancelbtnx">x</a> 
+						<a href="/student/certification/verify/?cert_id={{cert.membershipId}}" class="verifyBtn_01" onclick="showpop(this.href); return false;"></a></div>
+					{% endfor %}
+					{% else %}
+					Please click add to add to Certifications/Associations.
+					{% endif %}
+					</div>
+				</div>
+
+
+
+				
+
+
+
+				<div class="skillsWrapper">
+					<h4>Volunteer <a href="/student/volunteer/add/" class="addBtn_03" onclick="showpop(this.href); return false;">+</a><span>&nbsp;</span></h4>
+					<div class="skillsContainer noshow">
+					{% if volunteer_list %}
+					{% for volunteer in volunteer_list %}
+						<div class="skillsInnerContainer"><span>{{volunteer.name}}</span>
+						<a href="/student/volunteer/delete/?vol_id={{volunteer.volunteerId}}" onclick="return false;" class="cancelbtnx">x</a> 
+						<a href="/student/volunteer/verify/?vol_id={{volunteer.volunteerId}}" class="verifyBtn_01" onclick="showpop(this.href); return false;"></a></div>
+					{% endfor %}
+					{% else %}
+					Please click add to add to Volunteer.
+					{% endif %}
+					</div>
+				</div>
+
+
+
+				<div class="skillsWrapper">
+					<h4>Honors/Awards <a href="/student/honor/add/" class="addBtn_03" onclick="showpop(this.href); return false;">+</a><span>&nbsp;</span></h4>
+					<div class="skillsContainer noshow">
+					{% if honor_list %}
+					{% for honor in honor_list %}
+						<div class="skillsInnerContainer"><span>{{honor.honor}}</span>
+						<a href="/student/honor/delete/?hon_id={{honor.honorId}}" onclick="return false;" class="cancelbtnx">x</a> 
+						<a href="/student/honor/verify/?hon_id={{honor.honorId}}" class="verifyBtn_01" onclick="showpop(this.href); return false;"></a></div>
+					{% endfor %}
+					{% else %}
+					Please click add to add to Honors/Awards.
+					{% endif %}
+					</div>
+				</div>
+
+
+
+				<div class="skillsWrapper">
+					<h4>Languages <a href="/student/language/add/" class="addBtn_03" onclick="showpop(this.href); return false;">+</a><span>&nbsp;</span></h4>
+					<div class="skillsContainer noshow">
+					{% if language_list %}
+					{% for lang in language_list %}
+						<div class="skillsInnerContainer"><span>{{lang.name}}</span>
+						<a href="/student/language/delete/?lang_id={{lang.languageId}}" onclick="return false;" class="cancelbtnx">x</a> 
+						<a href="/student/language/verify/?lang_id={{lang.languageId}}" class="verifyBtn_01" onclick="showpop(this.href); return false;"></a></div>
+					{% endfor %}
+					{% else %}
+					Please click add to add to Language.
+					{% endif %}
+					</div>
+				</div>
+			
+			</div>
+			<!-- End THIRD COLUMN -->
+
+
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	{% endblock %}

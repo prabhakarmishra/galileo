@@ -1,0 +1,65 @@
+<div class="heading">ADD ACADEMIC</div>	
+
+	<!-- Javascript or form validation -->
+<script type="text/javascript">
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.addprojform.id_degree.value == "" || document.addprojform.id_degree.value == "Enter the Degree" )
+   {
+     checkvalidate =  false;
+     alert( "Please enter the degree." );
+     document.addprojform.id_degree.focus() ;
+	 return false;
+   }
+   if( document.addprojform.id_graduationScore.value == "" || document.addprojform.id_graduationScore.value == "Enter the Score" )
+   {
+     checkvalidate =  false;
+     alert( "Please enter the score." );
+     document.addprojform.id_graduationScore.focus() ;
+	 return false;
+   }
+	var Score = document.addprojform.id_graduationScore.value;
+	var ScoreRule = "^[0-9]+(\.[0-9]{1,2})?$";
+	var matchScore = Score.match(ScoreRule);
+	if (matchScore == null) 
+	{
+	alert("Enter valid score in decimal format.");
+	document.addprojform.id_graduationScore.focus();
+	return false;
+	}
+
+
+   return checkvalidate ;
+}
+</script>
+
+<!-- Forms validation Ends here -->
+
+<form id="addprojform" name="addprojform" action="/student/academic/add/" method="POST" enctype="multipart/form-data">
+<div class="centerl_container maxw1216">
+
+
+<div class="containerRight">
+
+	<div class="formRow_03">
+		<div class="textInputHolder">
+		<span class="inputLeftCorner"></span><input id="id_degree" type="text" name="degree" maxlength="140" value="Enter the Degree"  onfocus="if(this.value=='Enter the Degree'){this.value=''};" onblur="if(this.value==''){this.value='Enter the Degree'};" /><span class="inputRightCorner"></span>	
+		</div>
+	</div>
+	<div class="formRow_03">
+		<div class="textInputHolder">
+		<span class="inputLeftCorner"></span><input id="id_graduationScore" type="text" name="graduationScore" maxlength="140" value="Enter the Score"  onfocus="if(this.value=='Enter the Score'){this.value=''};" onblur="if(this.value==''){this.value='Enter the Score'};" /><span class="inputRightCorner"></span>	
+		</div>
+	</div>				
+					
+	
+	<div class="btnHolder_05">
+						<a href="#" class="closepop"><input type="button"  class="cancelButton" value=""></a>
+						<input type="submit" class="projectupdate" value="" onclick="return validateForm()" />
+						
+	</div>
+
+	</div>
+</div>
+</form>

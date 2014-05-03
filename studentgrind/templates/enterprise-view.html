@@ -1,0 +1,168 @@
+    {% extends "base.html" %}
+{% load static %}
+
+{% block full_container %}
+<script type="text/javascript">
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.imageform.id_img.value == "")
+   {
+     checkvalidate =  false;
+     alert( "Please select image first" );
+     
+	 return false;
+   }
+   return checkvalidate ;
+}
+</script>
+<script type="text/javascript">
+function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#preview')
+                    .attr('src', e.target.result)
+                    .width(150)
+                    .height(200);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+		
+		<div class="centerl_container maxw1200">
+			<div class="centerl_containerContent">
+				<div class="companyposter">
+					{{enterprise.name}}<br/>
+					<form method="POST" enctype="multipart/form-data" name="imageform" id="imageform" action="/enterprise/upload-image/">
+					<input type="hidden" name="ct_id" value="{{enterprise.userId}}">
+					{% if enterprise.image %}
+					
+						<object data="/media/{{enterprise.image}}" width="118" height="102">
+							<img src="/static/images/add-yourcompany.jpg" width="118" height="102" border=0 alt="">
+							
+						</object>
+						<div class="addPrjctImgHolder invisible"><input type="file" name="img" id="id_img"></div>
+						<!--img id="preview" src="#" alt="" /-->
+					{% else %}
+					<img src="{% static 'images/add-yourcompany.jpg' %}" width="118" height="102" border=0 alt="">
+					<div class="addPrjctImgHolder invisible"><input type="file" name="img" id="id_img"></div>
+					<!--img id="preview" src="#" alt="" /-->
+					{% endif %}
+					
+					<button type="submit" style="margin-top:30px; border:0px; background:transparent;" onclick="return validateForm()"><img src="{% static 'images/btn-changephoto.png' %}" width="109" height="34" border=0 alt=""></button>
+					</form>
+				</div>
+				
+				<div class="addpostergrp">
+				
+				{% if project1 %}
+				<div class="addposter">
+					<a id = "{{project1.projectId}}" href="#" onclick="deleteFunction({{project1.projectId}})" class="deleteenterprise">X</a>
+					<a href="/enterprise/view-project/?pro_id={{project1.projectId}}">
+					<object {% if project1.img %}data="/media/{{project1.img}}" {% else %} data="" {% endif %} height="239" width = "198">
+						
+					</object>
+					</a></div>
+				
+				{% else %}
+					<a href="/enterprise/add_project/?ent_id={{enterprise.userId}}"><div class="addposter"></div></a>
+				{% endif %}	
+				{% if project2 %}
+				<div class="addposter">
+					<a  id = "{{project2.projectId}}" href="#" onclick="deleteFunction({{project2.projectId}})" class="deleteenterprise">X</a>
+					<a href="/enterprise/view-project/?pro_id={{project2.projectId}}">
+					<object {% if project2.img %}data="/media/{{project2.img}}" {% else %} data="" {% endif %} height="239" width = "198">
+						
+					</object>
+					</a></div>
+					
+				{% else %}
+					<a href="/enterprise/add_project/?ent_id={{enterprise.userId}}"><div class="addposter"></div></a>
+				{% endif %}	
+				{% if project3 %}
+				<div class="addposter">
+					<a  id = "{{project3.projectId}}" href="#" onclick="deleteFunction({{project3.projectId}})" class="deleteenterprise">X</a>
+					<a href="/enterprise/view-project/?pro_id={{project3.projectId}}">
+					<object {% if project3.img %}data="/media/{{project3.img}}" {% else %} data="" {% endif %} height="239" width = "198">
+						
+					</object>
+					</a></div>
+					
+				{% else %}
+					<a href="/enterprise/add_project/?ent_id={{enterprise.userId}}"><div class="addposter"></div></a>
+				{% endif %}
+				{% if project4 %}
+				<div class="addposter">
+					<a  id = "{{project4.projectId}}" href="#" onclick="deleteFunction({{project4.projectId}})" class="deleteenterprise">X</a>
+					<a href="/enterprise/view-project/?pro_id={{project4.projectId}}">
+					<object {% if project4.img %}data="/media/{{project4.img}}" {% else %} data="" {% endif %} height="239" width = "198">
+						<!--img src="/static/images/Project.jpg" height="239" width = "198" alt="Just testing."-->
+						
+					</object>
+					</a>
+				</div>
+				
+				{% else %}
+					<a href="/enterprise/add_project/?ent_id={{enterprise.userId}}"><div class="addposter"></div></a>
+				{% endif %}
+				{% if project5 %}
+				<div class="addposter">
+					<a  id = "{{project5.projectId}}" href="#" onclick="deleteFunction({{project5.projectId}})" class="deleteenterprise">X</a>
+					<a href="/enterprise/view-project/?pro_id={{project5.projectId}}">
+					<object {% if project5.img %}data="/media/{{project5.img}}" {% else %} data="" {% endif %} height="239" width = "198">
+						
+					</object>
+					</a></div>
+					
+				{% else %}
+					<a href="/enterprise/add_project/?ent_id={{enterprise.userId}}"><div class="addposter"></div></a>
+				{% endif %}
+				{% if project6 %}
+				<div class="addposter">
+					<a  id = "{{project6.projectId}}" href="#" onclick="deleteFunction({{project6.projectId}})" class="deleteenterprise">X</a>
+					<a href="/enterprise/view-project/?pro_id={{project6.projectId}}">
+					<object {% if project6.img %}data="/media/{{project6.img}}" {% else %} data="" {% endif %} height="239" width = "198">
+						
+					</object>
+					</a>
+					</div>
+					<input type="hidden" id = "project_id" value="{{project6.projectId}}">
+				{% else %}
+					<a href="/enterprise/add_project/?ent_id={{enterprise.userId}}"><div class="addposter"></div></a>
+				{% endif %}
+				{% if project7 %}
+				<div class="addposter">
+					<a id = "{{project7.projectId}}" href="#" onclick="deleteFunction({{project7.projectId}})" class="deleteenterprise">X</a>
+					<a href="/enterprise/view-project/?pro_id={{project7.projectId}}">
+					<object {% if project7.img %}data="/media/{{project7.img}}" {% else %} data="" {% endif %} height="239" width = "198">
+						
+					</object>
+					</a>
+				</div>
+				
+				{% else %}
+					<a href="/enterprise/add_project/?ent_id={{enterprise.userId}}"><div class="addposter"></div></a>
+				{% endif %}
+				{% if project8 %}
+				<div class="addposter">
+					<a id = "{{project8.projectId}}" href="#" onclick="deleteFunction({{project8.projectId}})" class="deleteenterprise">X</a>
+					<a href="/enterprise/view-project/?pro_id={{project8.projectId}}">
+					<object {% if project8.img %}data="/media/{{project8.img}}" {% else %} data="" {% endif %} height="239" width = "198">
+						
+					</object>
+					</a>
+				</div>
+				
+				{% else %}
+					<a href="/enterprise/add_project/?ent_id={{enterprise.userId}}"><div class="addposter"></div></a>
+				{% endif %}
+					
+				</div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+{% endblock %}

@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+{% block full_container %}
+<!-- Javascript or form validation -->
+<script type="text/javascript">
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.registrationForm.fName.value == "" || document.registrationForm.fName.value == "First Name" )
+   {
+     checkvalidate =  false;
+     alert( "Please provide your first name." );
+     document.registrationForm.fName.focus() ;
+	 return false;
+   }
+   if( document.registrationForm.lName.value == "" || document.registrationForm.lName.value == "Last Name" )
+   {
+     checkvalidate =  false;
+     alert( "Please provide your last name." );
+     document.registrationForm.lName.focus() ;
+	 return false;
+   }
+   if( document.registrationForm.emailId.value == "" || document.registrationForm.emailId.value == "Email" )
+   {
+     checkvalidate =  false;
+     alert( "Please provide your email." );
+     document.registrationForm.emailId.focus() ;
+	 return false;
+   }
+   if( document.registrationForm.uName.value == "" || document.registrationForm.uName.value == "Create your Grinder User Name" )
+   {
+     checkvalidate =  false;
+     alert( "Please enter your grinder user name." );
+     document.registrationForm.uName.focus() ;
+     return false;
+   }
+   if( document.registrationForm.password.value == "" || document.registrationForm.password.value == "Password" )
+   {
+     checkvalidate =  false;
+     alert( "Please provide your password." );
+     document.registrationForm.password.focus() ;
+     return false;
+   }
+   if( document.registrationForm.cnfpassword.value != document.registrationForm.password.value)
+   {
+     checkvalidate =  false;
+     alert( "Please enter confirm password again." );
+     document.registrationForm.cnfpassword.focus() ;
+     return false;
+   }
+   if( document.registrationForm.collegeName.value == "")
+   {
+     checkvalidate =  false;
+     alert( "Please select your college." );
+     document.registrationForm.collegeName.focus() ;
+     return false;
+   }
+   
+
+	$('input[name=linkedIn], input[name=facebook], input[name=github]').attr('onblur','');
+   if( document.registrationForm.linkedIn.value == "Linkedin Profile(optional)")
+		document.registrationForm.linkedIn.value = '';
+   if( document.registrationForm.facebook.value == "Facebook Profile(optional)")
+		document.registrationForm.facebook.value = '';
+   if( document.registrationForm.github.value == "GitHub Login(optional)")
+		document.registrationForm.github.value = '';
+
+   return checkvalidate ;
+}
+</script>
+
+<!-- Forms validation Ends here -->
+
+		<div class="centerl_container maxw1216">
+		
+		<div class="centerl_containerContent">
+			<div class="containerLeft">
+				<h1>Welcome! Its great to be an Grinder!</h1>
+				<form class="registrationForm" name="registrationForm" id="registrationForm"  method="POST">
+					<input type="hidden" name ="type" value="{{userType}}">
+					<div class="formRow">
+					
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" value="First Name" name="fName" onfocus="if(this.value=='First Name'){this.value=''};" onblur="if(this.value==''){this.value='First Name'};" /><span class="inputRightCorner"></span>	
+						</div>
+						
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" value="Last Name" name="lName" onfocus="if(this.value=='Last Name'){this.value=''};" onblur="if(this.value==''){this.value='Last Name'};" /><span class="inputRightCorner"></span>	
+						</div>
+						
+		
+					</div>
+
+					
+					
+					<div class="formRow">
+					
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" value="Email" name="emailId" class="validemail" onfocus="if(this.value=='Email'){this.value=''};" onblur="if(this.value==''){this.value='Email'};" /><span class="inputRightCorner"></span>	
+						</div>
+						
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" name="uName" value="Create your Grinder User Name" onfocus="if(this.value=='Create your Grinder User Name'){this.value=''};" onblur="if(this.value==''){this.value='Create your Grinder User Name'};" /><span class="inputRightCorner"></span>	
+						</div>
+						
+		
+					</div>
+					
+					<div class="formRow">
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="Password" value="Password" name="password"  onfocus="if(this.value=='Password'){this.value=''};" onblur="if(this.value==''){this.value='Password'};" /><span class="inputRightCorner"></span>	
+						</div>
+						
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="password" value="Confirm Password" name="cnfpassword" onfocus="if(this.value=='Confirm Password'){this.value=''};" onblur="if(this.value==''){this.value='Confirm Password'};" /><span class="inputRightCorner"></span>	
+						</div>
+					</div>
+					
+					<div class="formRow selectformRow">
+					
+					<select id="chooseCollegeUniversity" name="collegeName">
+						<option value="" >Choose your university/college</option>
+						<option value="Stanford">Stanford University</option>
+						<option value="Berkeley">University of California Berkeley</option>
+						<option value="IIT">Indian institute of Technology</option>
+						<option value="CIT">Coimbatore institute of Technology</option>
+					</select>
+					
+					<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" value="Linkedin Profile(optional)" name="linkedIn" onfocus="if(this.value=='Linkedin Profile(optional)'){this.value=''};" onblur="if(this.value==''){this.value='Linkedin Profile(optional)'};" /><span class="inputRightCorner"></span>	
+						</div>
+						
+					</div>
+					
+					<div class="formRow">
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" value="Facebook Profile(optional)" name="facebook"  onfocus="if(this.value=='Facebook Profile(optional)'){this.value=''};" onblur="if(this.value==''){this.value='Facebook Profile(optional)'};" /><span class="inputRightCorner"></span>	
+						</div>
+						
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" value="GitHub Login(optional)" name="github" onfocus="if(this.value=='GitHub Login(optional)'){this.value=''};" onblur="if(this.value==''){this.value='GitHub Login(optional)'};" /><span class="inputRightCorner"></span>	
+						</div>
+					</div>
+					<!--div class="formRow_01">
+						<div class="textInputHolder">Upload Image:
+						<span class="inputLeftCorner"></span><input type="file" name="image"><span class="inputRightCorner"></span>	
+						</div>
+						
+						
+					</div-->	
+					
+					<div class="formRow">
+					
+					
+					
+					
+					</div>
+					
+
+					
+					
+					<div class="btnHolder_02">
+
+						<input type="submit" class="signUpBtn_01" value=""  onclick="return validateForm(); "/>
+					</div>
+					
+				</form>
+			</div>
+			<div class="containerRight">
+				<p>How student Grind Works?</p>
+				<div class="videoPlayerHolder">
+					<img width="490px" height="286px" src="{% static 'images/video_player_mockup_image.jpg' %}">
+				</div>
+			</div>
+			</div>
+			
+			
+		</div>
+{% endblock %}

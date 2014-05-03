@@ -1,0 +1,82 @@
+
+{% load static %}
+
+		
+			<!-- SECOND COLUMN -->
+				<form method="POST" action="/student/save_response/?assess_id={{assess_id}}" name="assessment">
+				{% if user.type == "Enterprise" %}
+					<a href="/enterprise/add_question/?assess_id={{assess_id}}" class="menu_open" onclick="showpop(this.href); return false;" ><input type="image" src="{% static 'images/btn-add-question.png' %}" alt="Add Question" class="btnaddquestion"></a>
+				 {% else %}
+					<div class="timer">
+						<span>{{assessmentObj.assessTime}}</span>&nbsp;&nbsp;minutes left
+					</div>
+				 {% endif %}
+
+					<p><span>Id:</span> {{assess_id}} </p><p> <span>Date:</span> {{assessmentObj.dueDate}}</p>
+					<p><span>Status:</span> {{assessmentObj.status}}</p><p> <span>Verified For:</span> TEST </p>
+					<div class="clearfix"></div>
+					<p class="far_r"><span>Assessment Name:</span>{{assessmentObj.name}}</p>
+					<p><span>Category:</span> {{assessmentObj.category}}
+					</p>
+					
+					<div class="clearfix"></div>
+				<!-- QUESTION BOX -->
+				<div class="box-wrap antiscroll-wrap">
+					<div class="questionlist questionscroll">
+					  <div class="antiscroll-inner">
+					{% for quest,answerList in questAnswerDict.items %}
+					<!-- Question section -->
+					{% if user.type == "Enterprise" %}
+					<div class="questgrp threecol">
+					<a href="javascript:void(0)" rev="/enterprise/delete_question/?quest_id={{quest.questionId}}&assess_id={{assess_id}}" class="cancelbtnx"><img src="{% static 'images/deleteButton.png' %}" width="40" height="27" border=0 alt="x"></a> 
+					 {% else %}
+					<div class="questgrp">
+					{% endif %}
+						<div class="questsno">{{forloop.counter}}</div>
+						<input type="hidden" value="{{quest.questionId}}" name="question">
+						<div class="questcol1">
+							{{quest.detail}}<br/>
+						</div>
+						{% if quest.type == "Descriptive" %}
+						<div class="anscol2">
+							<input type="text" name="answer{{quest.questionId}}" value=""> <br/>
+						</div>
+						{% else %}
+						<div class="anscol2">
+						{% for answer in answerList%}
+							<input type="radio" name="answer{{quest.questionId}}" value="{{answer.answerId}}"> {{answer.detail}}<br/>
+						{% endfor %}
+						</div>
+						{% endif %}
+						<div class="anscol3">
+						{% if user.type == "Enterprise" %}
+							<p><span>Weightage:</span><input type="text" name="weightage" value="{{quest.weightage}}">
+							</p>
+							<p><span>Points:</span> <input type="text" name="points" value="{{quest.points}}">
+							</p>
+							<p><span>Correct Answer:</span> <input type="text" name="answerId" value="{{quest.answerId}}">
+							</p>
+						{% endif %}
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					{% endfor %}
+					
+					
+				<div class="btngrp">
+				 <!--a href="/assessment-view/" ><input type="button"  class="cancelButton" value=""></a -->
+				 {% if user.type == "Enterprise" %}
+				 {% else %}
+					<input type="submit" class="btncompleteverify" value="" />
+				 {% endif %}
+				</div>
+
+				</div>
+				</div>
+				</div>
+				
+				
+
+
+				</form>				
+		<div class="clearfix"></div>

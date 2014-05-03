@@ -1,0 +1,108 @@
+<div class="heading">{% if goal %}UPDATE GOAL{% else %}ADD GOAL{% endif %}</div>	
+
+	<!-- Javascript or form validation -->
+<script type="text/javascript">
+function validategoalForm()
+{
+  var checkvalidate = true;
+  if( document.addprojform.goals.value == "" || document.addprojform.goals.value == "Goal Criteria" )
+   {
+     checkvalidate =  false;
+     alert( "Please enter the Goal Criteria." );
+     document.addprojform.goals.focus() ;
+	 return false;
+   }
+
+   if( $('#importance').val() == "" ){
+     checkvalidate =  false;
+     alert( "Please select importance" );
+	 return false;
+   }
+
+   if( $('#whengoal').val() == "" ){
+     checkvalidate =  false;
+     alert( "Please select When" );
+	 return false;
+   }
+
+   return checkvalidate ;
+}
+
+
+</script>
+
+<!-- Forms validation Ends here -->
+
+<form id="addprojform" name="addprojform" {% if goal %}action="/student/update-goals/?goal_id={{goal.goalId}}"{% else %} action="/student/add-goals/" {% endif %} method="POST" enctype="multipart/form-data">
+<div class="centerl_container maxw1216">
+
+
+
+							<div class="hiregrp goalgrp">
+								<span class="w20per">Goal Criteria</span><span class="w15per">% Met</span><span class="w15per">Importance</span><span class="w15per">When</span>
+									<div class="clearfix"></div>
+								<div class="fields">
+								<input type="text" name="goals" class="w20per" {% if goal.goalCriteria %} value="{{goal.goalCriteria}}"  {% else %} value="Goal Criteria" {% endif %}onfocus="if(this.value=='Goal Criteria'){this.value=''};" onblur="if(this.value==''){this.value='Goal Criteria'};">
+								<div class="rangebar ">
+									<input type="range" name="range_rate" id="range_rate0" min="0" max="100" step="1" {% if goal.percentMet %}value="{{goal.percentMet}}"  {% else %}value="0"{% endif %} class="rangefield">
+								</div>
+								<select name="importance" id="importance">
+									<option value="">select</option>
+									<option {% if goal.importance == "1" %}selected {% endif %}value="1">1</option>
+									<option {% if goal.importance == "2" %}selected {% endif %}value="2">2</option>
+									<option {% if goal.importance == "3" %}selected {% endif %}value="3">3</option>
+									<option {% if goal.importance == "4" %}selected {% endif %}value="4">4</option>
+									<option {% if goal.importance == "5" %}selected {% endif %}value="5">5</option>
+									<option {% if goal.importance == "6" %}selected {% endif %}value="6">6</option>
+									<option {% if goal.importance == "7" %}selected {% endif %}value="7">7</option>
+									<option {% if goal.importance == "8" %}selected {% endif %}value="8">8</option>
+									<option {% if goal.importance == "9" %}selected {% endif %}value="9">9</option>
+									<option {% if goal.importance == "10" %}selected {% endif %}value="10">10</option>
+								</select>
+								<select name="whengoal" id="whengoal">
+									<option value="">select</option>
+									<option {% if goal.when == "120 days" %}selected {% endif %}value="120 days">120 days</option>
+									<option {% if goal.when == "180 days" %}selected {% endif %}value="180 days">180 days</option>
+									<option {% if goal.when == "1 years" %}selected {% endif %}value="1 years">1 years</option>
+									<option {% if goal.when == "2 years" %}selected {% endif %}value="2 years">2 years</option>
+									<option {% if goal.when == "5 years" %}selected {% endif %}value="5 years">5 years</option>
+								</select>
+
+								
+								</div>
+								<div class="clearfix"><br></div>
+
+	<div class="formRow_03">
+		<label>Description</label><div class="clearfix"></div>
+		<textarea id="id_description" name="description" value=""  onfocus="if(this.value=='Description'){this.value=''};" onblur="if(this.value==''){this.value='Description'};">{% if goal.description %} {{goal.description}} {% else %} Description {% endif %}</textarea>
+
+	</div>
+	
+	
+	<div class="btnHolder_05">
+						<a href="#" class="closepop"><input type="button"  class="cancelButton" value=""></a>
+						<input type="submit" class="projectupdate" value="" onclick="return validategoalForm()" />
+						
+	</div>
+
+	</div>
+</div>
+</form>
+	<script>
+	$(function() {
+
+	$("input[type=range]").slider({
+	   create: function(event, ui) { 
+			getval = ($(this).val())
+			$(this).parent().find('.ui-btn-text').html(getval+"%");
+		}
+	});
+
+	$('.rangefield').change(function() {
+		getval = ( $(this).val() );
+		$(this).parent().find('.ui-btn-text').html(getval+"%");
+    });
+
+		
+	});
+	</script>

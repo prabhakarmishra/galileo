@@ -1,0 +1,63 @@
+
+<script type="text/javascript">
+
+
+function validateExtension(v)
+{
+ var allowedExtensions = new Array("xls","xlsx");
+ for(var ct=0;ct<allowedExtensions.length;ct++)
+ {
+  sample = v.lastIndexOf(allowedExtensions[ct]);
+  if(sample != -1){return true;}
+  }
+ return false;
+ }
+
+
+function validateForm()
+{
+  var checkvalidate = true;
+
+   if( document.addprojform.excel_file.value == "")
+   {
+     checkvalidate =  false;
+     alert( "Please upload a excel file." );
+     document.addprojform.excel_file.focus() ;
+     return false;
+   }
+	
+ var ext = document.addprojform.excel_file.value;
+ if(validateExtension(ext) == false || ext=='' )
+ {
+		alert("Upload only .xls or .xlsx format of excel ");
+		document.addprojform.excel_file.focus();
+		return false;
+  }
+
+	
+   return checkvalidate ;
+}
+
+
+function getfiles(gotval){
+	$('.uploadgrp span').html(gotval);
+
+}
+</script>
+<div class="heading">ADD</div>	
+
+	<form id="addprojform" name="addprojform" enctype="multipart/form-data" action="/enterprise/import_assessment/?assess_id={{assess_id}}" method="post">
+	<div class="centerl_container maxw1216">
+
+	<div class="container480">
+		<div class="uploadgrp">
+		<input type="file" name="excel_file" multiple  onchange="getfiles(this.value)">
+		<img src="/static/images/btn-doc.png" width="85" height="28" border=0 alt=""> <span>Click here to Upload Excel File.</span>
+		</div>
+		<div class="btnHolder_05">
+			<input type="submit"  class="addbtn"  value="" onclick="return validateForm()"  />
+			<a href="#" class="closepop"><input type="button"  class="cancelButton" value=""></a>
+		</div>
+		</div>
+	</div>
+	</form>

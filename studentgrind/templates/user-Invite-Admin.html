@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block full_container %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript">
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.imageform.id_img.value == "")
+   {
+     checkvalidate =  false;
+     alert( "Please Select image first !" );
+     
+	 return false;
+   }
+   return checkvalidate ;
+}
+</script>
+
+<script type="text/javascript">
+	$(function(){
+		$('.rejectButton').click(function(){
+			is_checked = $('input[type=checkbox][name=verification]').is(":checked");
+			
+			if(!is_checked){
+				alert('Please select Invite');
+			} else {
+				data = {};
+				count = 0;
+				$('input[type=checkbox]').each(function(){
+					if ($(this).is(':checked')){
+						count ++;
+						data['verification_'+String(count)] = $(this).val();
+						data['ver_notes_'+String(count)] = $('input[name=addnotes-'+$(this).val()+']').val();
+					}
+					
+				});
+				data['action'] = "Rejection";
+				data['csrfmiddlewaretoken'] = $('input[name=csrfmiddlewaretoken]').val();
+
+				$.ajax({
+					url:"/authorize_invite/",
+					type:"post",
+					dataType:"json",
+					data : data,
+					success : function(data){
+						if (data.success){
+							alert('Thank you. Rejection is successfull..!!');
+						} else {
+							alert('Error Occured. Please try after sometime')
+						};
+						window.location.reload();
+					}
+				});
+			}
+		});
+		
+		
+		$('.authorizeButton').click(function(){
+			is_checked = $('input[type=checkbox][name=verification]').is(":checked");
+			
+			if(!is_checked){
+				alert('Please select Invite');
+			} else {
+				data = {};
+				count = 0;
+				$('input[type=checkbox]').each(function(){
+					if ($(this).is(':checked')){
+						count ++;
+						data['verification_'+String(count)] = $(this).val();
+						data['ver_notes_'+String(count)] = $('input[name=addnotes-'+$(this).val()+']').val();
+					}
+					
+				});
+				
+				data['action'] = "Authorization";
+				data['csrfmiddlewaretoken'] = $('input[name=csrfmiddlewaretoken]').val();
+				//alert(JSON.stringify(data));
+				$.ajax({
+					url:"/authorize_invite/",
+					type:"post",
+					dataType:"json",
+					data : data,
+					success : function(data){
+						//alert(JSON.stringify(data));
+						if (data.success){
+							alert('Thank you. Authorization is successfull..!!');
+						} else {
+							alert('Error Occured. Please try after sometime')
+						};
+						window.location.reload();
+					}
+				});
+			}
+		});
+		
+	});
+</script>
+
+
+		
+<div class="full_container bgwhite_main">
+    
+	<div class="wrapper">
+	<form id="searchform" name="searchform" action="/invite-assign-admin/" method="GET">
+				<input type="text" onfocus="if(this.value=='Search for Invite Request'){this.value=''};" onblur="if(this.value==''){this.value='Search for Invite Request'};" value="Search for Invite Request" name="searchkeyword" id="searchkeyword"><input type="submit" value="" name="btn_search">
+	</form>
+	<h2>Authentication Authorization</h2>
+
+<form method=post action="#" name="verification_auth" id="verification_auth">{% csrf_token %}
+					{% if searched_verification_list %}
+					<div class="contentbox">
+							<div class="grid_heading3">This Week</div>
+							<div class="contentlist3">
+								{% for rv in searched_verification_list %}
+									<div>
+									{% if rv.authorize_action %}
+										  <div class="auth_grid_col1"><input type="checkbox" name="verification" value="{{ rv.id }}">{{ rv.emailId }}</div>
+										  <div class="auth_grid_col2">{{ rv.requestedOn|timesince }}</div>
+										  <!--div class="auth_grid_col3">{% if rv.get_verifier.emailId %}{{ rv.get_verifier.emailId }}{% else %}{% endif %}</div-->
+										  <div class="auth_grid_col3">{% if rv.authorized %}Authorized{% else %}Rejected{% endif %}</div>
+										  <div class="auth_grid_col3">{% if rv.authorize_notes %}{{ rv.authorize_notes }}{% endif %}</div>
+										  
+										  
+									  {% else %}
+										  <div class="auth_grid_col1"><input type="checkbox" name="verification" value="{{ rv.id }}">{{ rv.emailId }}</div>
+										  <div class="auth_grid_col2">{{ rv.requestedOn|timesince }}</div>
+										  <!--div class="auth_grid_col3">{% if rv.get_verifier.emailId %}{{ rv.get_verifier.emailId }}{% else %}{% endif %}</div-->
+										  <div class="auth_grid_col4"><input type="text" placeholder="Add Notes for Authorization or Rejection" name="addnotes-{{ rv.Id }}"></div>
+										  <div class="auth_grid_col5"></div>
+									  {% endif %}
+									  <div class="clearfix"></div>
+									</div>
+								{% endfor %}
+							</div>
+						</div>
+					{% else %}
+
+						<!-- VERIFICATION 1 -->
+					{% if this_week_rv %}
+						<div class="contentbox">
+							<div class="grid_heading3">This Week</div>
+							<div class="contentlist3">
+								{% for rv in this_week_rv %}
+									<div>
+									{% if rv.authorize_action %}
+										<div class="auth_grid_col1"><input type="checkbox" name="verification" value="{{ rv.id }}">{{ rv.emailId }}</div>
+										  <div class="auth_grid_col2">{{ rv.requestedOn|timesince }}</div>
+										  <!--div class="auth_grid_col3">{% if rv.get_verifier.emailId %}{{ rv.get_verifier.emailId }}{% else %}{% endif %}</div-->
+										  <div class="auth_grid_col3">{% if rv.authorized %}Authorized{% else %}Rejected{% endif %}</div>
+										  <div class="auth_grid_col3">{% if rv.authorize_notes %}{{ rv.authorize_notes }}{% endif %}</div>
+										  
+										  
+									  {% else %}
+										  <div class="auth_grid_col1"><input type="checkbox" name="verification" value="{{ rv.id }}">{{ rv.emailId }}</div>
+										  <div class="auth_grid_col2">{{ rv.requestedOn|timesince }}</div>
+										  <!--div class="auth_grid_col3">{% if rv.get_verifier.emailId %}{{ rv.get_verifier.emailId }}{% else %}{% endif %}</div-->
+										  <div class="auth_grid_col4"><input type="text" placeholder="Add Notes for Authorization or Rejection" name="addnotes-{{ rv.Id }}"></div>
+										  <div class="auth_grid_col5"></div>
+									  {% endif %}
+									  <div class="clearfix"></div>
+									</div>
+								{% endfor %}
+							</div>
+						</div>
+					{% endif %}
+						<!-- END VERIFICATION 1 -->
+
+					{% if last_week_rv %}
+						<!-- VERIFICATION 2 -->
+					
+						<div class="contentbox">
+							  <div class="grid_heading3">Last Week</div>
+							<div class="contentlist3">
+								{% for rv in last_week_rv %}
+									<div>
+									{% if rv.authorize_action %}
+										  <div class="auth_grid_col1"><input type="checkbox" name="verification" value="{{ rv.id }}">{{ rv.emailId }}</div>
+										  <div class="auth_grid_col2">{{ rv.requestedOn|timesince }}</div>
+										  <!--div class="auth_grid_col3">{% if rv.get_verifier.emailId %}{{ rv.get_verifier.emailId }}{% else %}{% endif %}</div-->
+										  <div class="auth_grid_col3">{% if rv.authorized %}Authorized{% else %}Rejected{% endif %}</div>
+										  <div class="auth_grid_col3">{% if rv.authorize_notes %}{{ rv.authorize_notes }}{% endif %}</div>
+										  
+									  {% else %}
+										  <div class="auth_grid_col1"><input type="checkbox" name="verification" value="{{ rv.id }}">{{ rv.emailId }}</div>
+										  <div class="auth_grid_col2">{{ rv.requestedOn|timesince }}</div>
+										  <!--div class="auth_grid_col3">{% if rv.get_verifier.emailId %}{{ rv.get_verifier.emailId }}{% else %}{% endif %}</div-->
+										  <div class="auth_grid_col4"><input type="text" placeholder="Add Notes for Authorization or Rejection" name="addnotes-{{ rv.Id }}"></div>
+										  <div class="auth_grid_col5"></div>
+									  {% endif %}
+									  <div class="clearfix"></div>
+									</div>
+								{% endfor %}
+
+							</div>
+						</div>
+					{% endif %}
+						<!-- END VERIFICATION 2 -->
+
+						<!-- VERIFICATION 3 -->
+					{% if beyond_rv %}
+						<div class="contentbox">
+							  <div class="grid_heading3">Beyond</div>
+							<div class="contentlist3">
+								{% for rv in beyond_rv %}
+									<div>
+									{% if rv.authorize_action %}
+										  <div class="auth_grid_col1"><input type="checkbox" name="verification" value="{{ rv.id }}">{{ rv.emailId }}</div>
+										  <div class="auth_grid_col2">{{ rv.requestedOn|timesince }}</div>
+										  <!--div class="auth_grid_col3">{% if rv.get_verifier.emailId %}{{ rv.get_verifier.emailId }}{% else %}{% endif %}</div-->
+										  <div class="auth_grid_col3">{% if rv.authorized %}Authorized{% else %}Rejected{% endif %}</div>
+										  <div class="auth_grid_col3">{% if rv.authorize_notes %}{{ rv.authorize_notes }}{% endif %}</div>
+										  
+									  {% else %}
+										  <div class="auth_grid_col1"><input type="checkbox" name="verification" value="{{ rv.id }}">{{ rv.emailId }}</div>
+										  <div class="auth_grid_col2">{{ rv.requestedOn|timesince }}</div>
+										  <!--div class="auth_grid_col3">{% if rv.get_verifier.emailId %}{{ rv.get_verifier.emailId }}{% else %}{% endif %}</div-->
+										  <div class="auth_grid_col4"><input type="text" placeholder="Add Notes for Authorization or Rejection" name="addnotes-{{ rv.Id }}"></div>
+										  <div class="auth_grid_col5"></div>
+									  {% endif %}
+									  <div class="clearfix"></div>
+									</div>
+								{% endfor %}
+							</div>
+						</div>
+					{% endif %}
+						<!-- END VERIFICATION 3 -->
+					{% if not this_week_rv and not last_week_rv and not beyond_rv %}
+						<div class="btnbox">
+							<p>No Records</p>
+						</div>
+					{% else %}
+						<div class="btnbox">
+							<input type="button" value="" name="submit_reject" class="rejectButton">
+							<input type="button" value="" name="submit_authorize" class="authorizeButton">
+						</div>
+					{% endif %}
+				{% endif %}
+</form>
+<div class="clearfix"></div>
+</div>
+</div>
+<div class="clearfix"></div>
+	{% endblock %}

@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block full_container %}
+<script type="text/javascript">
+
+  $(function () {
+	scroller = $('.box-wrap').antiscroll().data('antiscroll');
+	scroller2 = $('.box-wrap2').antiscroll().data('antiscroll');
+  });
+
+
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.imageform.id_img.value == "")
+   {
+     checkvalidate =  false;
+     alert( "Please select image first." );
+     
+	 return false;
+   }
+   return checkvalidate ;
+}
+</script>	
+<script>
+$(document).ready(function(){
+  $("#AddQuest").click(function(){
+    $.ajax({url:"/enterprise/add_question/?assess_id={{assess_id}}",success:function(result){
+      $("#QuestionForm").html(result);
+    }});
+  });
+});
+</script>	
+<div class="full_container assessmentpg bgwhite_main">
+			<input type="hidden" name="msg" id="msg" value="{{msg}}">
+			{% if msg %}
+			<script>
+			alert( "You have successfully added an assessment.  You can now assign newly added assessments to candidates." );
+			</script>
+			{% endif %}
+			<!-- FIRST COLUMN -->
+				<div class="verificationlist w600">
+				{% if user.type == "Enterprise" %}
+					<!-- <a href="/enterprise/create_assessment/" class="menu_open" onclick="showpop(this.href); return false;"><input type="image" src="{% static 'images/btn-create-new-assessment.png' %}" alt="Create Assessment"></a>
+					<a href="/enterprise/view-assigned-assessment/" class="menu_open" ><input type="image" src="{% static 'images/view-assignAssessmentButton.png' %}" alt="View Assigned Assessment"></a>
+
+					<a href="/assessment-assign-enterprise/" class="menu_open"><input type="image" src="{% static 'images/assignAssessmentButton.png' %}" alt="Assign Assessment"></a> -->
+				{% else %}
+					<!-- <a href="/assessment-assign-candidate/" class="menu_open"><input type="image" src="{% static 'images/assignAssessmentButton.png' %}" alt="Assign Assessment"></a> -->
+				{% endif %}
+				<div class="verificationgrp"><h4>Completed Assessments</h4>
+				  <div class="box-wrap antiscroll-wrap">
+					<div class="box">
+					  <div class="antiscroll-inner">
+
+						{% for key,value in completed_assessmentDict.items %}
+						<div class="list {% if key.testId == assess_id %} active {% endif %}" >{% if user.type == "Enterprise" %}<a href="/assessment-view/?test_id={{key.testId}}">{% else %}<a href="/assessment-view/?assess_id={{key.testId}}">{% endif %}
+							<p><span>Assessed For:</span> {{value.assessed_for.fName}} {{value.assessed_for.lName}}</p>
+							<p class="w53"><span>Id:</span> {{key.testId}}</p>
+							<div class="clearfix"></div>
+							<p class="w53"><span>Status:</span> Closed</p>
+						</a></div>
+						{% endfor %}
+						
+
+					  </div>
+					</div>
+				  </div>
+
+				</div>
+
+
+
+				<div class="verificationgrp"><h4>Pending Assessments</h4>
+				  <div class="box-wrap2 antiscroll-wrap">
+					<div class="box">
+					  <div class="antiscroll-inner">
+						{% for key,value in pending_assessmentDict.items %}
+						<div class="list {% if key.testId == assess_id %} active {% endif %}">{% if user.type == "Enterprise" %}<a href="/assessment-view/?test_id={{key.testId}}">{% else %}<a href="/assessment-view/?assess_id={{key.testId}}">{% endif %}
+							<p><span>Assessed For:</span> {{value.assessed_for.fName}} {{value.assessed_for.lName}}</p>
+							<p class="w53"><span>Id:</span> {{key.testId}}</p>
+							<div class="clearfix"></div>
+							<p class="w53"><span>Status:</span> {{key.status}}</p>
+						</a></div>
+						{% endfor %}
+						
+					  </div>
+					</div>
+				  </div>
+
+					</div>
+
+
+				</div>
+
+				
+			<!-- SECOND COLUMN -->
+
+				
+			<div id="QuestionForm">
+				<div class="verification_col2">
+				
+				
+			
+			{% if key == "Create" and user.type == "Enterprise" %}
+				<div class="question_message">
+			
+			<h1 style="color:#000000;">How would you like to create Your Assessment?</h1>
+			<div class="btngrp">
+			<input type="button" rev="/enterprise/assessment-view/?assess_id={{assess_id}}" class="btn_keyinassessment" value="" alt="Key In Assessment" > 
+			<a href="/enterprise/import_assessment/?assess_id={{assess_id}}" class="ancbtn_importexcel" onclick="showpop(this.href); return false;" >
+			<input type="button" class="btn_importexcecl" value=""></a>
+			<a href="/enterprise/delete_assessment/?assess_id={{assess_id}}" class="ancbtn_delassessment">
+			<input type="button" class="btn_del_ass" value=""></a>
+			</div>
+			{% endif %}
+			{% if assessObj and user.type == "Student" %}
+
+				{% if completed_assessment %}
+					<p>You have already completed {{assessObj.name}}. Your Score is {{completed_assessment.points_collected}}.!</p>
+				{% else %}
+					<p>Do you want to start your assessment now? If you start, you will not be able to take a break or stop the assessment.</p>
+					<div class="btngrp">
+						<!--a href="/assessment-view/" ><input type="button"  class="cancelButton" value=""></a-->
+						<input type="button" rev="/student/assessment-view/?assess_id={{assess_id}}" class="startButton" value="">
+					</div>
+				{% endif %}
+
+			{% endif %}
+
+	
+	<!--View Assigned or Completed Assessment Details with Candidate List -->		
+			
+			{% if test_id and user.type == "Enterprise" %}
+
+
+
+				<div class="questionform show">
+				<form method=post action="" name="assessment">
+				
+					<p><span>Id:</span> {{testData.testId}} </p><p> <span>Date:</span> {{testData.createdDate}}</p>
+					<p><span>Status:</span> {{testData.status}} </p><p> <span>Verified For:</span> {{testData.assessmentBy}}</p>
+					<div class="clearfix"></div>
+					<p class="far_r"><span>Assessment Name:</span> {{testData.name}}</p>
+					<p><span>Category:</span> {{testData.category}}
+					</p>
+
+						<div class="clearfix"></div>
+						<div class="contentbox2 h120 w635">
+							<div class="grid_heading4">Candidates Assigned</div>
+							<div class="contentlist4">
+								{% for userObj in AssessmentUserList %}
+								  <div class="assess_grid_col1">{{userObj.fName}}&nbsp;{{userObj.lName}}</div>
+								{% endfor %}
+							</div>
+						</div>
+
+
+				</form>	
+				{% endif %}
+				
+				</div>
+ <!-- END QUESTION FORM -->
+				
+
+				</div>
+			<!-- End SECOND COLUMN -->
+				
+				
+			</div>
+
+
+		</div>
+		<div class="clearfix"></div>
+
+	{% endblock %}

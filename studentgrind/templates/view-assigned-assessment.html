@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block full_container %}
+
+<div class="full_container bgwhite_main">
+    
+
+
+
+	<div class="wrapper_col2" >
+	<h2>Assign Assessments to Candidates</h2>
+	<p>Using Assignments or candidate names, look up the assignments that has been assigned to candidates</p>
+
+	<form method=post action="#" name="formassign" id="formassign">
+
+				<div class="searchfilter">Search By &nbsp; &nbsp; <a href="javascript:void(0)" class="active">Assessment</a><a href="javascript:void(0)">Candidate</a></div>
+				<div class="clearfix"></div>
+				<select name="assesssmentlist" id="assesssmentlist">
+					{% for assess in all_assessmentList %}
+					<option name ="assessment" value="{{assess.testId}}">{{assess.name}}</option>
+					{% endfor %}
+				</select>
+				<select name="candidatelist" id="candidatelist" class="noshow">
+				{% for user in all_userList %}
+					<option value="{{user.userId}}">{{user.fName}}&nbsp;{{user.lName}}</option>
+				{% endfor %}
+					
+				</select>
+				<div class="clearfix"></div>
+						<div class="contentbox2 h120">
+							<div class="grid_heading4">Candidate Assigned</div>
+							<div class="contentlist4">
+								{% for user in all_userList %}
+								  <div class="assess_grid_col1">{{user.fName}}&nbsp;{{user.lName}}</div>
+								{% endfor %}
+							</div>
+						</div>
+					
+					
+	</form>
+			<div class="btnHolder_05">
+				<a href="/assessment-view/" class="closepop"><input type="button"  class="cancelButton" value=""></a>
+			</div>
+
+	<div class="clearfix"></div>
+</div>
+
+
+
+</div>
+<div class="clearfix"></div>
+	{% endblock %}

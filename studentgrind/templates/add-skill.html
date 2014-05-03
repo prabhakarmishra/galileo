@@ -1,0 +1,45 @@
+<div class="heading">ADD SKILLS</div>	
+
+	<!-- Javascript or form validation -->
+<script type="text/javascript">
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.addprojform.description.value == "" || document.addprojform.description.value == "Enter the Skill Name" )
+   {
+     checkvalidate =  false;
+     alert( "Please enter skill name" );
+     document.addprojform.description.focus() ;
+	 return false;
+   }
+ 
+
+   return checkvalidate ;
+}
+</script>
+
+<!-- Forms validation Ends here -->
+
+<form id="addprojform" name="addprojform" action="/student/skill/add/" method="POST" enctype="multipart/form-data">
+<div class="centerl_container maxw1216">
+
+
+<div class="containerRight">
+
+	<div class="formRow_03">
+		<div class="textInputHolder">
+		<span class="inputLeftCorner"></span><input id="id_description" type="text" name="description" maxlength="140" value="Enter the Skill Name"  onfocus="if(this.value=='Enter the Skill Name'){this.value=''};" onblur="if(this.value==''){this.value='Enter the Skill Name'};" /><span class="inputRightCorner"></span>	
+		</div>
+	</div>
+					
+					
+	
+	<div class="btnHolder_05">
+						<a href="#" class="closepop"><input type="button"  class="cancelButton" value=""></a>
+						<input type="submit" class="projectupdate" value="" onclick="return validateForm()" />
+						
+	</div>
+
+	</div>
+</div>
+</form>

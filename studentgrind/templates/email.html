@@ -1,0 +1,12 @@
+<p>Hello {{first_name}} {{last_name}},</p>
+ <p>This is {{user.fName}}&nbsp;{{user.lName}}.  I would like to request you to provide verification for my skills or performance in the initiative detailed above.  Thanks in advance.</p>
+<br/>
+Link:http://www.studentgrind.co/verify-view/?ver_id={{verificationId}}
+ <br/>
+ {% if new_userEmail %}
+ <p>You have been registered in Our System. Kindly use the below Credential for Login.</p><br/>
+ User Name: {{new_userEmail}}<br/>
+ Password: {{new_userPwd}}<br/>
+ {% endif %}
+ <br/><br/>
+{{user.fName}}&nbsp;{{user.lName}}

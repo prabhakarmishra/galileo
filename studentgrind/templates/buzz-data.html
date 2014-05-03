@@ -1,0 +1,16 @@
+{% if buzz_userList %}
+
+{% for user in buzz_userList %}
+  <div class="assess_grid_col1">{{user.fName}}&nbsp;{{user.lName}}</div>
+{% endfor %}
+
+{% endif %}
+
+
+{% if user_buzzList %}
+
+{% for buzz in user_buzzList %}
+  <div class="assess_grid_col1">{{buzz.headline}}</div>
+{% endfor %}
+
+{% endif %}

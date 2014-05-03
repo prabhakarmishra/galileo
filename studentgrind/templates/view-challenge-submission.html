@@ -1,0 +1,101 @@
+
+<div class="heading">View Submission</div>	
+	<form id="addprojform" name="addprojform" method="POST" action="/enterprise/save-challenge-feedback/?sub_id={{submissionObj.submissionId}}">
+	<div class="centerl_container maxw1216">
+
+	<div class="container480 fleft">
+		<div class="formRow_03">
+			<label>Solution Details</label><div class="clearfix"></div>
+			<textarea id="id_description" name="description" value="{{submissionObj.solutionDetails}}"  onfocus="if(this.value=='Solution Details'){this.value=''};" onblur="if(this.value==''){this.value='Solution Details'};" readonly>{{submissionObj.solutionDetails}}</textarea>
+			
+				
+			
+			
+		</div>
+		<div class="formRow_03">
+			<label>Project/Web page URL</label><div class="clearfix"></div>
+			<span class="inputLeftCorner"></span><input type="text" name="url" id="id_url" value="{{submissionObj.projectUrl}}"  onfocus="if(this.value=='Project/Web page URL'){this.value=''};" onblur="if(this.value==''){this.value='Project/Web page URL'};" / readonly><span class="inputRightCorner">{{submissionObj.projectUrl}}</span>	
+		</div>
+		<div class="formRow_03" style="font-size:14px;">
+		<b>Attached Documents:</b> <br/><br/>
+		<ul>
+		{% for doc in projectDocs %}
+		 
+		 <li>{{doc.filename}}</li> <br/> 
+		{% endfor %}
+		</ul>
+		</div>
+		</div>
+
+		<div class="rightcol_rate">
+			<h4>Rate this Challenge</h4>
+
+			<div class="rateit"><span>Quality of work</span> <p class="rate2"><input type="text" name="rate_quality" value="2"><span class="r1">&nbsp;</span><span class="r2">&nbsp;</span><span class="r3">&nbsp;</span><span class="r4">&nbsp;</span><span class="r5">&nbsp;</span></p></div>
+			<div class="rateit"><span>Creativity</span> <p class="rate3"><input type="text" name="rate_creativity" value="3"><span class="r1">&nbsp;</span><span class="r2">&nbsp;</span><span class="r3">&nbsp;</span><span class="r4">&nbsp;</span><span class="r5">&nbsp;</span></p></div>
+			<div class="rateit"><span>Ability to Innovate</span> <p class="rate4"><input type="text" name="rate_innovate" value="4"><span class="r1">&nbsp;</span><span class="r2">&nbsp;</span><span class="r3">&nbsp;</span><span class="r4">&nbsp;</span><span class="r5">&nbsp;</span></p></div>
+			<div class="rateit"><span>Ability to work in a team</span> <p class="rate1"><input type="text" name="rate_team" value="1"><span class="r1">&nbsp;</span><span class="r2">&nbsp;</span><span class="r3">&nbsp;</span><span class="r4">&nbsp;</span><span class="r5">&nbsp;</span></p></div>
+			<div class="rateit"><span>Ability to address problem</span> <p class="rate5"><input type="text" name="rate_addressproblem" value="5"><span class="r1">&nbsp;</span><span class="r2">&nbsp;</span><span class="r3">&nbsp;</span><span class="r4">&nbsp;</span><span class="r5">&nbsp;</span></p></div>
+			<div class="rateit"><span>Domain Expertise</span> <p class="rate2"><input type="text" name="rate_domainexpertise" value="2"><span class="r1">&nbsp;</span><span class="r2">&nbsp;</span><span class="r3">&nbsp;</span><span class="r4">&nbsp;</span><span class="r5">&nbsp;</span></p></div>
+			<div class="rateit"><span>Technical Expertise</span> <p class="rate2"><input type="text" name="rate_technicalexpertise" value="2"><span class="r1">&nbsp;</span><span class="r2">&nbsp;</span><span class="r3">&nbsp;</span><span class="r4">&nbsp;</span><span class="r5">&nbsp;</span></p></div>
+			<div class="rateit"><span>Solution Presentation</span> <p class="rate1"><input type="text" name="rate_solutionpresentation" value="1"><span class="r1">&nbsp;</span><span class="r2">&nbsp;</span><span class="r3">&nbsp;</span><span class="r4">&nbsp;</span><span class="r5">&nbsp;</span></p></div>
+			<div class="rateit"><span>Ownership</span> <p class="rate3"><input type="text" name="rate_ownership" value="3"><span class="r1">&nbsp;</span><span class="r2">&nbsp;</span><span class="r3">&nbsp;</span><span class="r4">&nbsp;</span><span class="r5">&nbsp;</span></p></div>
+
+			<div class="clearfix"></div>
+			
+			<div class="winnerbox"><span>Winner: </span>
+			<input type="radio" name="winner" value="yes" id="winner_yes"><label for="winner_yes">Yes</label> 
+			<input type="radio" name="winner" value="no" id="winner_no" checked><label for="winner_no">No</label>
+			</div>
+			<div class="clearfix"></div>
+			<label>Detailed Feedback</label><div class="clearfix"></div>
+			<textarea name="detail_feedback" rows="5" cols=""  onfocus="if(this.value=='Detailed Feedback on Challenge Submission'){this.value=''};" onblur="if(this.value==''){this.value='Detailed Feedback on Challenge Submission'};" >Detailed Feedback on Challenge Submission</textarea>
+
+			<div class="btnHolder_05">
+				<input type="button"  class="closepop cancelButton" value="">
+				<input type="submit" class="projectupdate" value=""  />
+			</div>
+
+		</div>
+
+
+
+	</div>
+	</form>
+
+
+<script type="text/javascript">
+	
+  $(function () {
+	
+	$('.rateit p span').hover(function(){
+		if ( $(this).hasClass('disabled')==false){
+			$('.rateit p span').removeClass('active');
+			getid = $(this).parent().find('span').index( $(this) );
+			for(i=0;i<=getid;i++)
+				$(this).parent().find('span').eq(i).addClass('active');
+		}
+
+	},function(){
+		if ( $(this).hasClass('disabled')==false)
+			$('.rateit p span').removeClass('active');
+	})
+
+
+
+	$('.rateit p span').bind(eventbtn,function(){
+		if ( $(this).hasClass('disabled')==false){
+			getid = $(this).parent().find('span').index( $(this) );
+			getid++;
+			$(this).parent().find('input[type=text]').val(getid);
+			$(this).parent().attr('class','rate'+getid);
+		}
+	});	  
+
+
+
+  });
+
+
+
+
+</script>		

@@ -1,0 +1,117 @@
+<div class="heading">ADD</div>	
+
+	<script>
+	$(function() {
+		$( "#id_dueDate" ).datepicker({
+			showOn: "both",
+			dateFormat: "mm-dd-yy",
+			buttonImage: "/static/images/calender.png",
+			buttonImageOnly: true
+		});
+
+		
+	});
+	</script>
+
+	<!-- Javascript or form validation -->
+<script type="text/javascript">
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.addprojform.name.value == "" || document.addprojform.name.value == "Enter the Assessment Name" )
+   {
+     checkvalidate =  false;
+     alert( "Please Enter the Assessment Name!" );
+     document.addprojform.name.focus() ;
+	 return false;
+   }
+   if( document.addprojform.id_dueDate.value == "" || document.addprojform.id_dueDate.value == "MM-DD-YYYY" )
+   {
+     checkvalidate =  false;
+     alert( "Please select Due date!" );
+     document.addprojform.id_dueDate.focus() ;
+     return false;
+   }
+   if( document.addprojform.id_category.value == "")
+   {
+     checkvalidate =  false;
+     alert( "Please select Category!" );
+     document.addprojform.id_category.focus() ;
+     return false;
+   }
+   if( document.addprojform.id_assessTime.value == "" || document.addprojform.id_assessTime.value == "MINUTES")
+   {
+     checkvalidate =  false;
+     alert( "Please enter Assess Time!" );
+     document.addprojform.id_assessTime.focus() ;
+     return false;
+   }
+	
+
+
+   return checkvalidate ;
+}
+</script>
+
+<!-- Forms validation Ends here -->
+
+<form id="addprojform" name="addprojform" action="/enterprise/update_assessment/?assess_id={{assess_id}}" method="POST" enctype="multipart/form-data">
+<div class="centerl_container maxw1216">
+
+<div class="containerRight">
+
+	<div class="formRow_03">
+		<div class="textInputHolder">
+		<span class="inputLeftCorner"></span><input id="id_name" type="text" name="name" maxlength="140" value="{{instance.name}}"  onfocus="if(this.value=='Enter the Assessment Name'){this.value=''};" onblur="if(this.value==''){this.value='Enter the Assessment Name'};" /><span class="inputRightCorner"></span>	
+		</div>
+	</div>
+					
+					
+	<div class="formRow">
+		<div class="selectDate">
+
+		<label class="label_txtInput" for="projectDeadline">
+			Assessment Due Date
+		</label>
+		<span class="inputLeftCorner"></span><input type="text" name="dueDate" id="id_dueDate" value="{{instance.dueDate|date:'m-d-Y'}}" onfocus="if(this.value=='MM-DD-YYYY'){this.value=''};" onblur="if(this.value==''){this.value='MM-DD-YYYY'};" /><span class="inputRightCorner"></span>	
+	
+		</div>
+	</div>
+	<div class="formRow_03">
+		<h3>Select Category</h3>
+		<select name="category" id="id_category">
+			<option value="">--------------</option>
+			<option value="Mobile Development">Mobile Development</option>
+			<option value="PHP Development">PHP Development</option>
+			<option value="JAVA/JEE Development">JAVA/JEE Development</option>
+			<option value=".NET Development">.NET Development</option>
+			<option value="Python Development">Python Development</option>
+			<option value="Database Development">Database Development</option>
+			<option value="Database Administration">Database Administration</option>
+			<option value="Web Server Administration and Configuration">Web Server Administration and Configuration</option>
+			<option value="Application Server Administration and Configuration">Application Server Administration and Configuration</option>		
+			<option value="Business Analysis">Business Analysis</option>
+			<option value="Project Management">Project Management</option>
+			<option value="Other categories to come">Other categories to come</option>
+		</select>
+	</div>
+	<div class="formRow">
+		<div class="selectDate">
+
+		<label class="label_txtInput" for="projectDeadline">
+			Assessment Time
+		</label>
+		<span class="inputLeftCorner"></span><input type="text" name="assessTime" id="id_assessTime" value="{{instance.assessTime}}" onfocus="if(this.value=='MINUTES'){this.value=''};" onblur="if(this.value==''){this.value='MINUTES'};" /><span class="inputRightCorner"></span>	
+	
+		</div>
+	</div>
+	
+	<div class="btnHolder_05">
+						<a href="#" class="closepop"><input type="button"  class="cancelButton" value=""></a>
+						<input type="submit" class="projectupdate" value="" onclick="return validateForm()" />
+						
+	</div>
+
+	</div>
+</div>
+</form>

@@ -1,0 +1,74 @@
+<div class="heading">ADD LANGUAGES</div>	
+
+	<!-- Javascript or form validation -->
+<script type="text/javascript">
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.addprojform.name.value == ""  )
+   {
+     checkvalidate =  false;
+     alert( "Please pick a language." );
+     document.addprojform.name.focus() ;
+	 return false;
+   }else if ( document.addprojform.name.value == "Other"&& document.addprojform.otherlang.value == "Language"  )
+   {
+     checkvalidate =  false;
+     alert( "Please enter other language." );
+     document.addprojform.otherlang.focus() ;
+	 return false;
+   }
+
+   return checkvalidate ;
+}
+
+$(function() {
+	$('#id_name').change(function(){
+		var getval = $(this).val();
+		if (getval=="Other"){
+			$('.languagefield').show();
+		}else{
+			$('.languagefield').hide();
+		}
+	});
+});
+
+</script>
+
+<!-- Forms validation Ends here -->
+
+<form id="addprojform" name="addprojform" action="/student/language/add/" method="POST" enctype="multipart/form-data">
+<div class="centerl_container maxw1216">
+
+
+<div class="containerRight">
+
+	<div class="formRow_03">
+		<h3>Select Language</h3>
+		<select name="name" id="id_name">
+			<option value="">--------------</option>
+			<option value="English">English</option>
+			<option value="German">German</option>
+			<option value="Dutch">Dutch</option>
+			<option value="Spanish">Spanish</option>
+			<option value="Russian">Russian</option>
+			<option value="French">French</option>
+			<option value="Japanese">Japanese</option>
+			<option value="Hindi">Hindi</option>
+			<option value="Chinese">Chinese</option>		
+			<option value="Other">Other</option>		
+		</select>
+	</div>
+	<div class="formRow_03 noshow languagefield">
+		<h3>Other Language</h3>
+		<span class="inputLeftCorner"></span><input type="text" name="otherlang" id="id_otherlang" value="Language" onfocus="if(this.value=='Language'){this.value=''};" onblur="if(this.value==''){this.value='Language'};" /><span class="inputRightCorner"></span>			
+	</div>
+	
+	<div class="btnHolder_05">
+		<a href="#" class="closepop"><input type="button"  class="cancelButton" value=""></a>
+		<input type="submit" class="projectupdate" value="" onclick="return validateForm()" />
+	</div>
+
+	</div>
+</div>
+</form>

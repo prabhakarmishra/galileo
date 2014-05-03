@@ -1,0 +1,355 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block full_container %}
+<script type="text/javascript">
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.imageform.id_img.value == "")
+   {
+     checkvalidate =  false;
+     alert( "Please Select image first !" );
+     
+	 return false;
+   }
+   return checkvalidate ;
+}
+
+  $(function () {
+	createGauges();
+	setTimeout(updateGauges, 5000);
+
+	$('.rangeperc, #chartproj1, #chartproj2, #chartproj3, #chartproj4, #chartproj5').click(function(){
+		$('.overlay').fadeIn();
+		$(this).parent().find('.tabcontentpop').fadeIn();
+	});
+  });
+
+</script>		
+
+		<script type="text/javascript" src="{% static 'js/d3.js' %}"></script>
+		<script type="text/javascript" src="{% static 'js/gauge.js' %}"></script>
+
+		<script>
+						
+				
+			var gauges = [];
+			var projpie = [];
+
+			function createprojectchart(name,col1,col2,perc){
+				var config = 
+				{
+					size: 200,
+					col1: col1,
+					col2: col2,
+					max: perc
+				}
+				projpie[name] = new projectpie(name, config);
+				projpie[name].render();
+			}
+			
+			function createGauge(name, label,bordercolor, min, max)
+			{
+				var config = 
+				{
+					size: 300,
+					label: label,
+					min: undefined != min ? min : 0,
+					max: undefined != max ? max : 90,
+					minorTicks: 5,
+					bordercol: bordercolor
+				}
+				
+				var range = config.max - config.min;
+				//config.yellowZones = [{ from: config.min + range*0.75, to: config.min + range*0.9 }];
+				config.redZones = [{ from: config.min, to: config.max }];
+				
+				gauges[name] = new Gauge(name + "GaugeContainer", config);
+				gauges[name].render();
+			}
+			
+			function createGauges()
+			{
+
+				//<!-- Top 3 Challenge Graph -->
+				{% for challenge in StudentChallengeList %}
+				{% if forloop.counter == 1 %}
+				createGauge("challenge{{challenge.project.projectId}}", "{{challenge.project.name}}", 'rgb(3,116,197)');
+				{% endif %}
+				{% if forloop.counter == 2 %}
+				createGauge("challenge{{challenge.project.projectId}}", "{{challenge.project.name}}", 'rgb(205,6,6)');
+				{% endif %}
+				{% if forloop.counter == 3 %}
+				createGauge("challenge{{challenge.project.projectId}}", "{{challenge.project.name}}",'rgb(94,147,25)');
+				{% endif %}
+				{% endfor %}
+				//createGauge("intelligent", "INTELLIGENT SPRINKLERS", 'rgb(205,6,6)');
+				//createGauge("mobile", "MOBILE SINGLE CREDIT CARD", 'rgb(94,147,25)');
+
+				// Top 5 Dashboard graph
+				{% for ver in StudentPerformanceList %}
+				{% if forloop.counter|divisibleby:"2" %}
+				createprojectchart('chartproj{{forloop.counter}}','rgb(70,99,17)','rgb(135,193,41)',{{ver.Score}});
+				{% else %}
+				createprojectchart('chartproj{{forloop.counter}}','rgb(255,192,0)','rgb(155,96,9)',{{ver.Score}});
+				{% endif %}
+				{% endfor %}
+				//createprojectchart('chartproj3','rgb(255,192,0)','rgb(155,96,9)',70);
+				//createprojectchart('chartproj4','rgb(70,99,17)','rgb(135,193,41)',25);
+				//createprojectchart('chartproj5','rgb(255,192,0)','rgb(155,96,9)',75);
+				{% for ver in StudentPerformanceList %}
+				$('#chartproj{{forloop.counter}}').append('<br>{{ver.performance}}');
+				{% endfor %}
+				//$('#chartproj2').append('<br>Facebook Consumer App');
+				//$('#chartproj3').append('<br>Consumer Analytics Platform');
+				//$('#chartproj4').append('<br>Design of Twitter website');
+				//$('#chartproj5').append('<br>Vine Consumer App');
+				// END Top 5 Dashboard graph
+
+				$(".rangeperc").each( function(){
+					var getperc = $(this).find('div span').html();
+					getperc = getperc.replace('%','');
+					totalrange = 300*(getperc/100);
+					$(this).find('div span').width(totalrange);
+
+				})
+			
+			}
+
+			
+			function updateGauges()
+			{
+				// Top 5 Dashboard graph perc
+				{% for challenge in StudentChallengeList %}
+					gauges["challenge{{challenge.project.projectId}}"].redraw({{challenge.score}});
+				{% endfor %}
+					//gauges["intelligent"].redraw(60);
+					//gauges["mobile"].redraw(70);
+			}
+			
+			
+		</script>
+		
+
+			<!-- THIRD COLUMN -->
+
+
+			<!-- End THIRD COLUMN -->
+
+		<div class="centerl_container maxw1200">
+			<div class="centerl_containerContent">
+
+
+			<!-- FIRST COLUMN -->
+				<!-- <div class="ppbox">
+					{{user.fName}}&nbsp;{{user.lName}} 
+					
+					<form method="POST" enctype="multipart/form-data" name="imageform" id="imageform" action="/student/upload-image/">
+					<input type="hidden" name="ct_id" value="{{student.userId}}">
+					{% if student.image %}
+						<img src="/media/{{student.image}}" width="107" height="90" border=0 alt="">
+						<div class="addPrjctImgHolder invisible"><input type="file" name="img" id="id_img"></div>
+					{% else %}
+					<img src="{% static 'images/poster-liz-chang.jpg' %}" width="107" height="90" border=0 alt="">
+					<div class="addPrjctImgHolder invisible"><input type="file" name="img" id="id_img"></div>
+					{% endif %}
+					
+					<button type="submit" class="btnchangephoto" style="margin-top:30px;" onclick="return validateForm()">&nbsp;</button>
+					</form>
+
+			<div class="scorecard">
+				<div class="color1"><img src="{% static 'images/talentometer.png' %}" width="108" height="34" border=0 alt=""> <span>912</span>Grind Score </div>
+				<div class="color2"><img src="{% static 'images/perfometer.png' %}" width="108" height="35" border=0 alt=""> <span>178</span>Academics </div>
+				<div class="color2"><img src="{% static 'images/acadometer.png' %}" width="108" height="33" border=0 alt=""> <span>714</span>Performances </div>
+			</div>
+
+					<div class="knowmore">
+						<a href="javascript:void(0)" class="showchangepwd">Change Password</a>
+						{% if pass_status == "FAIL"%}
+							<script>
+							alert("Incorrect Current Password! Please Try Again.");	
+							</script>
+							
+						{% endif %}
+					</div>
+					
+				</div>  -->
+
+				
+			<!-- SECOND COLUMN -->
+				<div class="thumbchartgrp">
+					
+
+
+					<h4>Explore My Performances <a href="/student/add_performance/" class="addBtn_04 exploreme" onclick="showpop(this.href); return false;"><span>Add</span></a></h4>
+					<div class="carouse_box">
+						<div class="btn_prev"></div>
+						<div class="btn_next"></div>
+						<div class="carouse_thumbs"><div class="thumbchartgrps">
+						{% if performance_list %}
+							{% for project in performance_list %}
+							<div class="thumbchart"><a href="/student/edit_performance/?perf_id={{project.performanceId}}" onclick="showpop(this.href); return false;">
+								<img {% if project.image %}src="/media/{{project.image}}"{% else %}src="{% static 'images/spacer.gif' %}" {% endif %} width="172px" height="112px" border=0 alt="" class="thumbposter">
+								<p>
+									<span>{{project.name}}</span>
+									{{project.description}}
+								</p>
+								<div class="thumbchart_days">&nbsp; <br/></div>
+								<div class="thumbchart_submited">&nbsp;<br/> </div>
+								<div class="thumbchart_win"> <br/>&nbsp;</div>
+								<div class="thumbchart_dollar">&nbsp;<br/></div>
+								</a>
+								<div class="accesslinkmenu">&nbsp;
+									<div>
+										<a href="/student/edit_performance/?perf_id={{project.performanceId}}" class="menu_open" onclick="showpop(this.href); return false;">Open</a>
+										<a href="/student/performance/verify/?pro_id={{project.performanceId}}" class="menu_verify" onclick="showpop(this.href); return false;">Verify</a>
+										<a href="/student/performance/assess/?perf_id={{project.performanceId}}" class="menu_access" onclick="showpop(this.href); return false;">Assess</a>
+									</div>
+								</div>
+							</div>
+
+							{% endfor %}
+						{% else %}
+
+							
+							<div style="color:#0000FF">
+								Please click add to add to My Performances.
+							</div> 
+
+						{% endif %}
+
+							
+						<!-- Carrousel end -->
+						</div></div>
+					</div>
+
+				</div>
+			
+			
+
+
+				<!-- Start 2 TABS -->
+				<div id="tabouter">
+						<ul class="tabsav">
+							<li class="active">Assessment</li>
+							<li>Verification</li>
+							<li>Strength Dashboard</li>
+							<li>Challenge Dashboard</li>
+						</ul>
+
+
+						<!-- ASSESSMENT TAB -->
+						<div class="tabcontent active fullborder grey">
+
+							<!-- Assessment Graph -->
+							<!-- <div class="rangeperc green"><span>Mobile </span><div><span>90%</span></div></div> -->
+							{% for assess in  assessmentDict_list %}
+								{% if forloop.counter|divisibleby:"2"  %}
+								<div class="rangeperc blue"><span>{{assess.assessment_name}} </span><div><span>{{assess.score}}%</span></div></div>
+								{% else %}
+								<div class="rangeperc green"><span>{{assess.assessment_name}} </span><div><span>{{assess.score}}%</span></div></div>
+								{% endif %}
+							{% endfor %}
+							
+							<!-- END Assessment Graph -->
+
+							<div class="tabcontentpop"><div class="pop_close"></div>
+							 <div class="grid_headingdiv">
+							  <div class="a_grid_col1_h grid_heading">Assessment Name</div>
+							  <div class="a_grid_col2_h grid_heading disable">Category</div>
+							  <div class="a_grid_col3_h grid_heading">Recency (Days)</div>
+							  <div class="a_grid_col4_h grid_heading">Score</div>
+							  <div class="clearfix"></div>
+							</div>
+							<div id="contentlist">
+							{% for assessment in assessmentDict_list %}
+								<div>
+								  <div class="a_grid_col1">{{assessment.assessment_name}}&nbsp;</div>
+								  <div class="a_grid_col2">{{assessment.category}}&nbsp;</div>
+								  <div class="a_grid_col3">{% if assessment.days_passed > 0 %}{{assessment.days_passed}} {% else %} 0 {% endif %} &nbsp;</div>
+								  <div class="a_grid_col4">{{assessment.score}}&nbsp;</div>
+								  <div class="clearfix"></div>
+								</div>
+							{% endfor %}
+								
+
+							</div>
+							</div>
+						</div>
+						<!-- END ASSESSMENT TAB -->
+						
+						
+						<!-- VERIFICATION TAB -->
+						<div class="tabcontent fullborder">
+							<!-- // Top 5 Dashboard graph -->
+							{% for ver in StudentPerformanceList %}
+							<span id="chartproj{{forloop.counter}}"></span>
+							{% endfor %}
+							<!--span id="chartproj2"></span>
+							<span id="chartproj3"></span>
+							<span id="chartproj4"></span>
+							<span id="chartproj5"></span-->
+							<!-- // END Top 5 Dashboard graph -->
+
+							<div class="tabcontentpop"><div class="pop_close"></div>
+							<div class="grid_headingdiv">
+							  <div class="v_grid_col1_h grid_heading2">Verification For</div>
+							  <div class="v_grid_col2_h grid_heading2 disable">Verified By</div>
+							  <div class="v_grid_col3_h grid_heading2">Recency (Days)</div>
+							  <div class="clearfix"></div>
+							</div>
+							<div id="contentlist2">
+								{% for verObj in verificationDict_list %}
+								<div>
+								  <div class="v_grid_col1">{{verObj.verification_for.name}}&nbsp;</div>
+								  <div class="v_grid_col2">{{verObj.verified_by.fName}} &nbsp; {{verObj.verified_by.lName}}&nbsp;</div>
+								  <div class="v_grid_col3"> {% if verObj.days_passed > 0 %} {{verObj.days_passed}} {% else %} 0 {% endif %} &nbsp;</div>
+								  <div class="clearfix"></div>
+								</div>
+								{% endfor %}
+								
+
+							</div>
+							</div>
+						</div>
+						<!-- END VERIFICATION TAB -->
+						
+						<!-- STRENGTH DASHBOARD TAB -->
+						<div class="tabcontent fullborder">
+							<div class="strengthchart"><img src="{% static 'images/Strengths_bargraph_blue.png' %}" width="38" height="141" border=0 alt=""><br>INDIVIDUALIZATION</div>
+							<div class="strengthchart"><img src="{% static 'images/Strengths_bargraph_green.png' %}" width="38" height="140" border=0 alt="" ><br>ACTIVATOR</div>
+							<div class="strengthchart"><img src="{% static 'images/Strengths_bargraph_gold.png' %}" width="38" height="140" border=0 alt=""><br>ANALYTICAL</div>
+							<div class="strengthchart"><img src="{% static 'images/Strengths_bargraph_brown.png' %}" width="37" height="140" border=0 alt=""><br>FOCUS</div>
+							<div class="strengthchart"><img src="{% static 'images/Strengths_bargraph_red.png' %}" width="37" height="141" border=0 alt=""><br>LEADER</div>
+
+						</div>
+						<!-- END STRENGTH DASHBOARD TAB -->
+						
+						
+						<!-- CHALLENGE DASHBOARD TAB -->
+						<div class="tabcontent fullborder">
+
+							<!-- Top 3 Challenge Graph -->
+							{% for challenge in StudentChallengeList %}
+							<span id="challenge{{challenge.project.projectId}}GaugeContainer"></span>
+							{% endfor %}
+							<!--span id="intelligentGaugeContainer"></span>
+							<span id="mobileGaugeContainer"></span-->
+							<!-- END Top 3 Challenge Graph -->
+							
+						</div>
+						<!-- END CHALLENGE DASHBOARD TAB -->
+						
+
+				</div>
+				<!-- END 2 TABS -->
+			
+			
+			
+
+
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	{% endblock %}

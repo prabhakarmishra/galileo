@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block full_container %}
+
+<div class="full_container bgwhite_main">
+    
+	<div class="wrapper_col1">
+	
+	<h2>Assign Buzz to Candidates</h2>
+	<p>Select Buzz and candidate, then click ASSIGN button</p>
+
+	<form method=post action="/admin/assign-buzz/" name="formassign" id="formassign">
+
+						<div class="contentbox2">
+							<div class="grid_heading4">
+								<div class="searchgrp">
+									<input type="text" onfocus="if(this.value=='Search for Buzz'){this.value=''};" onblur="if(this.value==''){this.value='Search for Buzz'};" value="Search for Buzz" name="searchBuzz" id="searchkeyword"><input type="submit" value="" name="btn_search"> 
+								</div>Select Buzz 
+							</div>
+							<div class="contentlist4">
+								{% if searched_buzzList %}
+									{% for buzz in searched_buzzList %}
+									  <div class="assess_grid_col1"><input type="checkbox" name="buzz" value="{{buzz.buzzId}}"> {{buzz.headline}}</div>
+									{% endfor %}
+								{% else %}
+									{% for buzz in buzzList %}
+									  <div class="assess_grid_col1"><input type="checkbox" name="buzz" value="{{buzz.buzzId}}"> {{buzz.headline}}</div>
+									{% endfor %}
+								{% endif %}
+							</div>
+						</div>
+
+						<div class="contentbox2">
+							<div class="grid_heading4">
+								<div class="searchgrp">
+									<input type="text" onfocus="if(this.value=='Search for Candidates'){this.value=''};" onblur="if(this.value==''){this.value='Search for Candidates'};" value="Search for Candidates" name="searchStudent" id="searchkeyword"><input type="submit" value="" name="btn_search"> 
+								</div> Assign To
+							</div>
+							<div class="contentlist4">
+							{% if searched_studentList %}
+								{% for user in searched_studentList %}
+								  <div class="assess_grid_col1"><input type="checkbox" name="assessment_assign" value="{{user.userId}}"> {{user.fName}}&nbsp;{{user.lName}}</div>
+								{% endfor %}
+							{% else %}
+								{% for user in studentList %}
+								  <div class="assess_grid_col1"><input type="checkbox" name="assessment_assign" value="{{user.userId}}"> {{user.fName}}&nbsp;{{user.lName}}</div>
+								{% endfor %}
+							{% endif %}
+							</div>
+						</div>
+					
+					
+					<div class="btnbox">
+						<input type="submit" value="" name="submit_assign" class="assignButton">
+					</div>
+	</form> 
+	<div class="clearfix"></div>
+</div> 
+
+
+	<div class="wrapper_col2 fright" >
+	<h2>Assign Buzz to Candidates</h2>
+	<p>Using Assignments or candidate names, look up the buzzs that has been assigned to candidates</p>
+
+	<form method=post action="#" name="formassign" id="formassign">
+
+				<div class="searchfilter">Search By &nbsp; &nbsp; <a href="javascript:void(0)" class="active">Buzz</a><a href="javascript:void(0)">Candidate</a></div>
+				<div class="clearfix"></div>
+				<select name="buzzlist" id="buzzlist">
+					{% for buzz in buzzList %}
+					<option name ="buzz" value="{{buzz.buzzId}}">{{buzz.headline}}</option>
+					{% endfor %}
+				</select>
+				<select name="candidatelist" id="candidatelist2" class="noshow">
+				{% for user in studentList %}
+					<option value="{{user.userId}}">{{user.fName}}&nbsp;{{user.lName}}</option>
+				{% endfor %}
+					
+				</select>
+				<div class="clearfix"></div>
+						<div class="contentbox2 h192">
+							<div class="grid_heading4">Candidate Assigned</div>
+							<div class="contentlist4">
+								{% for user in studentList %}
+								  <div class="assess_grid_col1">{{user.fName}}&nbsp;{{user.lName}}</div>
+								{% endfor %}
+							</div>
+						</div>
+					
+					
+	</form>
+			<div class="btnHolder_05">
+				<a href="/landing_page/" class="closepop"><input type="button"  class="cancelButton" value=""></a>
+			</div>
+
+	<div class="clearfix"></div>
+</div>
+
+
+
+</div>
+<div class="clearfix"></div>
+
+<script type="text/javascript">
+
+  $(function () {
+		$('.searchfilter a').unbind('click')
+		$('.searchfilter a').on('click', function () {
+			if ( $(this).hasClass('active')==false){
+				$('.searchfilter a').removeClass('active');
+				$(this).addClass('active');
+				if ( $(this).html()=='Buzz'){
+					$('#buzzlist').next().show();
+					$('#candidatelist2').next().hide();
+					$('.wrapper_col2 .contentbox2 .grid_heading4').html('Candidate Assigned');
+				}
+				if ( $(this).html()=='Candidate'){
+					$('#buzzlist').next().hide();
+					$('#candidatelist2').next().show();
+					$('.wrapper_col2 .contentbox2 .grid_heading4').html('Buzz Assigned');
+				}
+			}
+		});
+  });
+
+
+
+</script>		
+
+	{% endblock %}

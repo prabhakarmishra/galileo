@@ -1,0 +1,87 @@
+172.31.33.31
+
+
+
+18th Dec-chetu@1234
+
+Amit(LIC):7428790014
+
+
+54.218.113.201
+
+
+8743044402
+
+9810691695
+123456
+D19223
+
+
+
+4731001500012947
+
+
+
+Dady Bank Details:
+ Sidharth Mishra
+ a.c- 31775993494
+ forest park bbsr.
+
+nileshkumar190@gmail.com
+9934917372@
+
+
+
+
+Q: What is difference between '==' and 'is'?
+
+Q: Write a program using decorator?
+
+Q: What is the difference between python 2.7 and python 2.6?
+
+Q: Multiple Inheritance in Python
+
+Q: Implement a sorting algorithm using python without using any built-in functions
+
+Q: Life cycle of HTTP Request
+
+Q: Have you used any google api?
+
+Q: Difference between iterator and generator
+
+Q: Fibonaci series using generator
+
+Q: Implement switch case
+
+Q: Difference between mutable and immutable objects
+
+Q: Some sorting and searching algorithm (quick sort)
+
+Q: [1,(1,2),[3,4],{5:6}], write a programm that will make the element of these element as a key and 
+
+position of these elements as a value
+
+Q: What is decorator?
+
+Q: Difference between relational and non-relational database?
+
+GET and POST
+BUTTON vs SUBMIT
+CSS? BoxModel?
+DIV vs SPAN
+What is DHTML?
+How web/browser works?
+What is statelessness nature of HTTP protocol
+What is AJAX?
+What is MVC?
+
+Couple more questions for you
+
+1. What ajax? Write ajax syntax in javascript. How do you pass/post values from a webpage to server?
+
+2. What is JSON? Is JSON a object?
+
+3. Find the words count by reading a file containing one word in each line. Words can be repititive. And the resul should be in tuple format like (word, word_count).
+
+4. Lets say there are three ajax calls in a page. Print "HELLO! Ajax calls are completed" in the javascript console after getting the response from all the 3 ajax
+calls. How are you going to solve/implement.

@@ -1,0 +1,149 @@
+<div class="heading">AUTHENTICATE</div>	
+
+<script>
+	$(function() {
+		var dateToday = new Date();
+		$( "#id_when" ).datepicker({
+			showOn: "both",
+			dateFormat: "mm-dd-yy",
+			buttonImage: "/static/images/calender.png",
+			minDate: 0,
+			buttonImageOnly: true
+		});
+
+		
+	});
+</script>
+
+	<!-- Javascript or form validation -->
+<script type="text/javascript">
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.addprojform.first_name.value == "" || document.addprojform.first_name.value == "First Name" )
+   {
+     checkvalidate =  false;
+     alert( "Please enter the first name." );
+     document.addprojform.first_name.focus() ;
+	 return false;
+   } else if ( /^[a-z ]+$/i.test( document.addprojform.first_name.value )== false ) {
+            alert( "First name must contain only letters.");
+			 document.addprojform.first_name.focus() ;
+			 return false;
+        }
+   if( document.addprojform.last_name.value == "" || document.addprojform.last_name.value == "Last Name" )
+   {
+     checkvalidate =  false;
+     alert( "Please enter the last name." );
+     document.addprojform.last_name.focus() ;
+	 return false;
+   } else if ( /^[a-z ]+$/i.test( document.addprojform.last_name.value )== false ) {
+            alert( "Last name must contain only letters.");
+			 document.addprojform.last_name.focus() ;
+			 return false;
+        }
+
+   var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,5})+$/;
+   if (!filter.test( $('input[name=email]').val() )) {
+     checkvalidate =  false;
+     alert( "Please provide a valid email id" );
+     document.addprojform.email.focus() ;
+     return false;
+	}
+
+
+   if( document.addprojform.verificationDescription.value == "" || document.addprojform.verificationDescription.value == "Additional Feedback")
+   {
+     checkvalidate =  false;
+     alert( "Please additional feedback." );
+     document.addprojform.verificationDescription.focus() ;
+     return false;
+   }
+	if( document.addprojform.company.value == "" || document.addprojform.company.value == "Project Name")
+   {
+     checkvalidate =  false;
+     alert( "Please enter project name." );
+     document.addprojform.company.focus() ;
+     return false;
+   }
+   if( document.addprojform.when.value == "" || document.addprojform.when.value == "When")
+   {
+     checkvalidate =  false;
+     alert( "Please enter when." );
+     document.addprojform.when.focus() ;
+     return false;
+   }
+
+ 
+
+
+   return checkvalidate ;
+}
+</script>
+<form id="addprojform" name="addprojform" {% if pro_id %}action="/student/performance/verify/"{% endif %} {% if skill_id %}action="/student/skill/verify/"{% endif %} {% if ace_id %}action="/student/academic/verify/"{% endif %} {% if cert_id %}action="/student/certification/verify/"{% endif %} {% if vol_id %}action="/student/volunteer/verify/"{% endif %} {% if lang_id %}action="/student/language/verify/"{% endif %} {% if hon_id %}action="/student/honor/verify/"{% endif %} method="POST" enctype="multipart/form-data">
+<input type="hidden" name="pro_id" value="{{pro_id}}">
+<input type="hidden" name="skill_id" value="{{skill_id}}">
+<input type="hidden" name="ace_id" value="{{ace_id}}">
+<input type="hidden" name="cert_id" value="{{cert_id}}">
+<input type="hidden" name="vol_id" value="{{vol_id}}">
+<input type="hidden" name="lang_id" value="{{lang_id}}">
+<input type="hidden" name="hon_id" value="{{hon_id}}">
+<div class="centerl_container maxw1216">
+
+<div class="containerRight">
+
+	<!-- <div class="formRow_03">
+		<label>Project Description</label><div class="clearfix"></div>
+		<textarea id="id_projectDescription" name="projectDescription" onfocus="if(this.value=='Project Description Example: Architected and developed IRIS application on Android. Developed common framework components for mobile apps'){this.value=''};" onblur="if(this.value==''){this.value='Project Description Example: Architected and developed IRIS application on Android. Developed common framework components for mobile apps'};">Project Description Example: Architected and developed IRIS application on Android. Developed common framework components for mobile apps</textarea>
+	</div> -->
+	<div class="formRow_03">
+		<label><strong>Send Authentication Request to</strong></label><div class="clearfix"></div>
+	</div>
+	<div class="formRow_03">
+		<label>First Name</label><div class="clearfix"></div>
+		<input id="id_first_name" type="text" name="first_name" maxlength="140" value="First Name"  onfocus="if(this.value=='First Name'){this.value=''};" onblur="if(this.value==''){this.value='First Name'};" />
+	</div>
+	<div class="formRow_03">
+		<label>Last Name</label><div class="clearfix"></div>
+		<input id="id_last_name" type="text" name="last_name" maxlength="140" value="Last Name"  onfocus="if(this.value=='Last Name'){this.value=''};" onblur="if(this.value==''){this.value='Last Name'};" />
+	</div>
+					
+					
+		
+	
+	<div class="formRow_04">
+		<label>Email</label><div class="clearfix"></div>
+		<div class="textInputHolder">
+		<span class="inputLeftCorner"></span><input type="text" name="email" id="id_email" value="Email" onfocus="if(this.value=='Email'){this.value=''};" onblur="if(this.value==''){this.value='Email'};" class="validemail" /><span class="inputRightCorner"></span>	
+		</div>
+	</div>
+
+	<div class="formRow_03">
+		<label>Project Name</label><div class="clearfix"></div>
+		<div class="textInputHolder">
+		<span class="inputLeftCorner"></span><input id="id_company" type="text" name="company" maxlength="140" value="Project Name"  onfocus="if(this.value=='Project Name'){this.value=''};" onblur="if(this.value==''){this.value='Project Name'};" /><span class="inputRightCorner"></span>	
+		</div>
+	</div>
+	<div class="formRow_03">
+		<label>When</label><div class="clearfix"></div>
+		<div class="textInputHolder">
+		<span class="inputLeftCorner"></span><input id="id_when" type="text" name="when" maxlength="140" value="When"  onfocus="if(this.value=='When'){this.value=''};" onblur="if(this.value==''){this.value='When'};" /><span class="inputRightCorner"></span>	
+		</div>
+	</div>
+	
+	<div class="formRow_03">
+		<label>Additional Feedback</label><div class="clearfix"></div>
+		<textarea id="id_verificationDescription" name="verificationDescription" onfocus="if(this.value=='Additional Feedback'){this.value=''};" onblur="if(this.value==''){this.value='Additional Feedback'};">Additional Feedback</textarea>
+		
+					
+		
+	</div>
+	<div class="btnHolder_05">
+		<a href="#" class="closepop"><input type="button"  class="cancelButton" value=""></a>
+		<input type="submit" class="verifyBtn_03" value="" onclick="return validateForm()" />
+						
+	</div>
+
+	</div>
+</div>
+</form>

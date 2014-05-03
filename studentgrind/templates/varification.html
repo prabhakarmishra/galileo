@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block full_container %}
+<script type="text/javascript">
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.imageform.id_img.value == "")
+   {
+     checkvalidate =  false;
+     alert( "Please select image first" );
+     
+	 return false;
+   }
+   return checkvalidate ;
+}
+
+  $(function () {
+	scroller = $('.box-wrap').antiscroll().data('antiscroll');
+	scroller2 = $('.box-wrap2').antiscroll().data('antiscroll');
+  });
+
+</script>		
+<div class="full_container bgddd">
+			<!-- FIRST COLUMN -->
+				<div class="verificationlist">
+				<!-- <a href="/view-verification-enterprise/" class="menu_open" ><input type="image" src="{% static 'images/btn-create-new-assessment.png' %}" alt="VIEW VERIFICATIONS REQUESTED"></a>
+				<a href="/create-verification-enterprise/" class="menu_open" ><input type="image" src="{% static 'images/btn-create-new-assessment.png' %}" alt="CREATE NEW VERIFICATION REQUEST"></a> -->
+
+				<div class="verificationgrp"><h4>Complete Authentications</h4>
+				  <div class="box-wrap antiscroll-wrap">
+					<div class="box">
+					  <div class="antiscroll-inner">
+					{% for key,value in completed_verificationDict.items %}
+						<div class="list {% if verification_id == key.verificationId %} active {% endif %}" ><a href="/verify-view/?ver_id={{key.verificationId}}">
+							<p><span>Verified For:</span> {{value.verified_for.fName}} {{value.verified_for.lName}}</p>
+							<p class="w53"><span>Id:</span> {{key.verificationId}}</p>
+							<div class="clearfix"></div>
+							<p><span>Verified By:</span> {{value.verified_by.fName}} {{value.verified_by.lName}}</p>
+							<p class="w53"><span>Status:</span> {{key.status}}</p>
+						</a></div>
+					{% endfor %}
+						
+					  </div>
+					</div>
+				  </div>
+				</div>
+
+
+
+				<div class="verificationgrp"><h4>Pending Authentications</h4>
+				  <div class="box-wrap2 antiscroll-wrap">
+					<div class="box">
+					  <div class="antiscroll-inner">
+					
+					{% for key,value in pending_verificationDict.items %}
+						<div class="list {% if verification_id == key.verificationId %} active {% endif %}"><a href="/verify-view/?ver_id={{key.verificationId}}">
+							<p><span>Verified For:</span> {{value.verified_for.fName}} {{value.verified_for.lName}}</p>
+							<p class="w53"><span>Id:</span>{{key.verificationId}}</p>
+							<div class="clearfix"></div>
+							<p><span>Verified By:</span> {{value.verified_by.fName}} {{value.verified_by.lName}}</p>
+							<p class="w53"><span>Status:</span> {{key.status}}</p>
+						</a></div>
+					{% endfor %}
+						
+					  </div>
+					</div>
+				  </div>
+				</div>
+
+
+				</div>
+
+		
+			<!-- SECOND COLUMN -->
+				<div class="verification_col2">
+				{% if verification %}	
+				<form method="POST" action="/student/save-verification/?ver_id={{verification.verification.verificationId}}" name="verifications">
+				
+					<h2>Authentication Details</h2>
+						<p class="far_r"><span>Id:</span> {{verification.verification.verificationId}}</p>
+						<p><span>Verified For:</span> {{verification.verified_for.fName}} {{verification.verified_for.lName}}</p>
+						<div class="clearfix"></div>
+						<p class="far_r"><span>Date:</span> {{verification.verification.when}}</p>
+						<p><span>Status:</span> 
+						{{verification.verification.status}}
+						<!--
+						{% if verification.verification.status == 'Completed' %}
+								<select name="status" disabled>
+							{% else %}
+								<select name="status">
+							{% endif %}
+						
+							{% if verification.verification.status == 'Requested' %}
+								<option value="Requested" selected="True">Requested</option>
+							{% else %}
+								<option value="Requested">Requested</option>
+							{% endif %}
+							{% if verification.verification.status == 'Accepted' %}
+								<option value="Accepted" selected="True">Accepted</option>
+							{% else %}
+								<option value="Accepted">Accepted</option>
+							{% endif %}
+							{% if verification.verification.status == 'Completed' %}
+								<option value="Completed" selected="True">Completed</option>
+							{% else %}
+								<option value="Completed">Completed</option>
+							{% endif %}
+						</select>
+						-->
+						</p>
+
+					<div class="clearfix"></div>
+					<h2>Authentication Feedback</h2>
+
+					<div class="rateit"><span>Quality of work</span> <p class="rate{{verification.verification.workQuality}}"><input type="text" name="rate_quality" value="{{verification.verification.workQuality}}"><span class="r1">&nbsp;</span><span class="r2">&nbsp;</span><span class="r3">&nbsp;</span><span class="r4">&nbsp;</span><span class="r5">&nbsp;</span></p></div>
+					<div class="rateit"><span>Communication</span> <p class="rate{{verification.verification.communication}}"><input type="text" name="rate_communication" value="{{verification.verification.communication}}"><span class="r1">&nbsp;</span><span class="r2">&nbsp;</span><span class="r3">&nbsp;</span><span class="r4">&nbsp;</span><span class="r5">&nbsp;</span></p></div>
+					<div class="rateit"><span>Expertise</span> <p class="rate{{verification.verification.expertise}}"><input type="text" name="rate_expertise" value="{{verification.verification.expertise}}"><span class="r1">&nbsp;</span><span class="r2">&nbsp;</span><span class="r3">&nbsp;</span><span class="r4">&nbsp;</span><span class="r5">&nbsp;</span></p></div>
+					<div class="rateit"><span>On Time</span> <p class="rate{{verification.verification.onTime}}"><input type="text" name="rate_ontime" value="{{verification.verification.onTime}}"><span class="r1">&nbsp;</span><span class="r2">&nbsp;</span><span class="r3">&nbsp;</span><span class="r4">&nbsp;</span><span class="r5">&nbsp;</span></p></div>
+					<div class="rateit"><span>Responsiveness</span> <p class="rate{{verification.verification.responsiveness}}"><input type="text" name="rate_responsive" value="{{verification.verification.responsiveness}}"><span class="r1">&nbsp;</span><span class="r2">&nbsp;</span><span class="r3">&nbsp;</span><span class="r4">&nbsp;</span><span class="r5">&nbsp;</span></p></div>
+					<div class="rateit"><span>Within Budget</span> <p class="rate{{verification.verification.withinBudget}}"><input type="text" name="rate_budget" value="{{verification.verification.withinBudget}}"><span class="r1">&nbsp;</span><span class="r2">&nbsp;</span><span class="r3">&nbsp;</span><span class="r4">&nbsp;</span><span class="r5">&nbsp;</span></p></div>
+					<div class="rateit"><span>Ownership</span> <p class="rate{{verification.verification.ownerShip}}"><input type="text" name="rate_ownership" value="{{verification.verification.ownerShip}}"><span class="r1">&nbsp;</span><span class="r2">&nbsp;</span><span class="r3">&nbsp;</span><span class="r4">&nbsp;</span><span class="r5">&nbsp;</span></p></div>
+					<div class="rateit"><span>Professionalism</span> <p class="rate{{verification.verification.professionalism}}"><input type="text" name="rate_professionalism" value="{{verification.verification.professionalism}}"><span class="r1">&nbsp;</span><span class="r2">&nbsp;</span><span class="r3">&nbsp;</span><span class="r4">&nbsp;</span><span class="r5">&nbsp;</span></p></div>
+					<div class="rateit"><span>Would Hire Again</span> <p class="rate{{verification.verification.wouldHireAgain}}"><input type="text" name="rate_hire" value="{{verification.verification.wouldHireAgain}}"><span class="r1">&nbsp;</span><span class="r2">&nbsp;</span><span class="r3">&nbsp;</span><span class="r4">&nbsp;</span><span class="r5">&nbsp;</span></p></div>
+
+					<div class="clearfix"></div>
+					<textarea name="additional_comments" rows="5" cols=""  onfocus="if(this.value=='Additional Comments'){this.value=''};" onblur="if(this.value==''){this.value='Additional Comments'};" >{% if verification.verification.comments %} {{verification.verification.comments}} {% else %} Additional Comments {% endif %}</textarea>
+					
+
+					<div class="btngrp">
+						
+						{% if user.type == "Student" or user.type == "Candidate" %}
+						{% else %}
+						<input type="submit" class="btncompleteverify" value="" />
+						<a href="/verify-view/?ver_id={{verification.verification.verificationId}}" ><input type="button"  class="cancelButton" value=""></a>
+						{% endif %}
+					</div>
+
+					</form>				
+					{% endif %}
+					<!--For Displaying Verification Requests -->
+					{% if verification_requestList %}
+					<form method="" name="verifications">
+					<h2>View Authentications Requested for Students</h2>
+					<p>Using candidate's name, look up the authentications that has been requested for candidate</p>
+					<select name="candidatelist" id="candidatelist" class="noshow">
+					{% for user in all_userList %}
+						<option value="{{user.userId}}">{{user.fName}}&nbsp;{{user.lName}}</option>
+					{% endfor %}
+					
+					</select>
+					<div class="clearfix"></div>
+						<div class="contentbox2 h120">
+							<div class="grid_heading4">Authentication Requested</div>
+							<div class="contentlist4">
+								{% for verify in verificationList %}
+								  <div class="assess_grid_col1">Authentication{{verify.verificationId}}</div>
+								{% endfor %}
+							</div>
+						</div>
+					</form>	
+					{% endif %}
+				</div>
+
+			<!-- End SECOND COLUMN -->
+
+
+		</div>
+		<div class="clearfix"></div>
+	{% endblock %}

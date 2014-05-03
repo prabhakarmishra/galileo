@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block full_container %}
+<script type="text/javascript">
+function validatebuzzForm()
+{
+  var checkvalidate = true;
+  if( document.addprojform.describe.value == "" || document.addprojform.describe.value == "Describe yourself in 1 word?" )
+   {
+     checkvalidate =  false;
+     alert( "Please describe yourself in 1 word?" );
+     document.addprojform.describe.focus() ;
+	 return false;
+   }
+
+
+   return checkvalidate ;
+}
+
+
+</script>
+
+<div class="full_container bgwhite_main buzz">
+	<div class="wrapper"><br>
+	
+	<!--a href="#" class="addProject">&nbsp;</a-->
+
+
+	{% for buzz in assigned_userBuzzList %}
+	<form id="addprojform" name="addprojform" action="/candidate/save-buzzResponse/?buzz_id={{buzz.userResponse.buzzAssignId}}" method="POST" enctype="multipart/form-data">
+
+	<div class="formRow_03 areabox">
+		<label>{{buzz.buzz.headline}}</label><div class="clearfix"></div>
+		<textarea id="id_Describe" name="describe" value="" onfocus="if(this.value=='Describe yourself in 1 word?'){this.value=''};" onblur="if(this.value==''){this.value='Describe yourself in 1 word?'};">Describe yourself in 1 word?</textarea>
+		<div class="clearfix"></div>
+		<input type="submit" class="submitbutton" value="" onclick="return validatebuzzForm()" />
+	</div>
+	</form>
+	{% endfor %}
+	<div class="clearfix"></div>
+	{% for buzz in user_answered_buzzList %}
+	<div class="formRow_03 areabox">
+		<h4>{{buzz.category}}</h4>
+
+		<span>{% if buzz.userResponse.status == 'Answered' %}ANSWER {% else %} Unanswered {% endif  %}</span>
+		<label>{{buzz.buzz.headline}}</label><div class="clearfix"></div>
+		<p>{{buzz.userResponse.response}}</p>
+	</div>
+	{% endfor %}
+
+
+
+	</div>
+</div>
+
+{% endblock %}

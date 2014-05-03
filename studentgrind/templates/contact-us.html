@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block full_container %}
+
+<div class="full_container bgwhite_main">
+	<div class="wrapper900">
+
+	<div class="heading">CONTACT US</div>	
+	<div class="contact_col1">
+	We are excited to hear from you. If you have any question as to how u will use Talentomi, <br>how it can help you or what you want to see in Talentomi, please write to us. <br>We work hard to get back to you within 24 hours.
+
+
+	<form name="contactform" id="contactform" method=post action="/contact-us/">
+		<div class="formRow_03">
+		<div class="textInputHolder">
+		<span class="inputLeftCorner"></span><input id="id_name" type="text" name="name" maxlength="140" value="Name"  onfocus="if(this.value=='Name'){this.value=''};" onblur="if(this.value==''){this.value='Name'};" /><span class="inputRightCorner"></span>	
+		</div>
+		</div>
+
+		<div class="formRow_03">
+		<div class="textInputHolder">
+		<span class="inputLeftCorner"></span><input id="id_email" type="text" name="email" maxlength="140" value="Email"  onfocus="if(this.value=='Email'){this.value=''};" onblur="if(this.value==''){this.value='Email'};" /><span class="inputRightCorner"></span>	
+		</div>
+		</div>
+
+		<div class="formRow_03">
+		<div class="textInputHolder">
+		<span class="inputLeftCorner"></span><input id="id_subject" type="text" name="subject" maxlength="140" value="Subject"  onfocus="if(this.value=='Subject'){this.value=''};" onblur="if(this.value==''){this.value='Subject'};" /><span class="inputRightCorner"></span>	
+		</div>
+		</div>
+	
+	<div class="formRow_03">
+		<textarea name="message" id="id_message" onfocus="if(this.value=='Message'){this.value=''};" onblur="if(this.value==''){this.value='Message'};">Message</textarea>
+	</div>
+
+	<div class="formRow_03">
+			<div class="btnHolder_05">
+			<input type="submit" class="submitbutton" value="" onclick="return validateForm()" />
+			<a href="/" class="closepop"><input type="button"  class="cancelButton2" value=""></a>
+			</div>
+	</div>
+
+
+
+	</form>
+	
+	</div>
+
+	<div class="contact_col2">
+		Contact Us at<br><br>
+		<a href="mailto:admin@talentomi.com">admin@talentomi.com</a><br>
+		<a href="http://twitter.com/talentomi" target="_blank">twitter.com/talentomi</a><br><br>
+		7616 Balmoral Way,<br>
+		San Ramon CA 94582<br>
+	</div>
+
+	</div>
+</div>
+
+	<!-- Javascript or form validation -->
+<script type="text/javascript">
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.contactform.name.value == "" || document.contactform.name.value == "Name" )
+   {
+     checkvalidate =  false;
+     alert( "Please Enter the Name!" );
+     document.contactform.name.focus() ;
+	 return false;
+   } else if ( /^[a-z ]+$/i.test( document.contactform.name.value )== false ) {
+            alert( "Name must contain only letters.");
+			 document.contactform.name.focus() ;
+			 return false;
+        }
+   if( document.contactform.subject.value == "" || document.contactform.subject.value == "Subject" )
+   {
+     checkvalidate =  false;
+     alert( "Please Enter the Subject!" );
+     document.contactform.subject.focus() ;
+	 return false;
+   } 
+
+   var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,5})+$/;
+   if (!filter.test( $('input[name=email]').val() )) {
+     checkvalidate =  false;
+     alert( "Please provide a valid email id." );
+     document.contactform.email.focus() ;
+     return false;
+	}
+
+
+   if( document.contactform.message.value == "" || document.contactform.message.value == "Message.")
+   {
+     checkvalidate =  false;
+     alert( "Please enter Message." );
+     document.contactform.message.focus() ;
+     return false;
+   }
+ 
+
+
+   return checkvalidate ;
+}
+</script>
+
+{% endblock %}

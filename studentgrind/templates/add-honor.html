@@ -1,0 +1,45 @@
+<div class="heading">ADD HONORS</div>	
+
+	<!-- Javascript or form validation -->
+<script type="text/javascript">
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.addprojform.honor.value == "" || document.addprojform.honor.value == "Enter the Honor/Awards" )
+   {
+     checkvalidate =  false;
+     alert( "Please enter the honor/awards." );
+     document.addprojform.honor.focus() ;
+	 return false;
+   }
+ 
+
+   return checkvalidate ;
+}
+</script>
+
+<!-- Forms validation Ends here -->
+
+<form id="addprojform" name="addprojform" action="/student/honor/add/" method="POST" enctype="multipart/form-data">
+<div class="centerl_container maxw1216">
+
+
+<div class="containerRight">
+
+	<div class="formRow_03">
+		<div class="textInputHolder">
+		<span class="inputLeftCorner"></span><input id="id_honor" type="text" name="honor" maxlength="140" value="Enter the Honor/Awards"  onfocus="if(this.value=='Enter the Honor/Awards'){this.value=''};" onblur="if(this.value==''){this.value='Enter the Honor/Awards'};" /><span class="inputRightCorner"></span>	
+		</div>
+	</div>
+					
+					
+	
+	<div class="btnHolder_05">
+						<a href="#" class="closepop"><input type="button"  class="cancelButton" value=""></a>
+						<input type="submit" class="projectupdate" value="" onclick="return validateForm()" />
+						
+	</div>
+
+	</div>
+</div>
+</form>

@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block full_container %}
+<script type="text/javascript">
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.imageform.id_img.value == "")
+   {
+     checkvalidate =  false;
+     alert( "Please Select image first !" );
+     
+	 return false;
+   }
+   return checkvalidate ;
+}
+
+  $(function () {
+	scroller = $('.box-wrap').antiscroll().data('antiscroll');
+	scroller2 = $('.box-wrap2').antiscroll().data('antiscroll');
+  });
+
+</script>		
+
+			<!-- FIRST COLUMN -->
+				
+		
+			<!-- SECOND COLUMN -->
+								<div class="Questionform">
+				<form method=post action="" name="assessment">
+					<div class="timer">
+						<span>{{assessmentObj.assessTime}}</span>&nbsp;&nbsp;minutes left
+					</div>
+
+					<p><span>Id:</span> {{assess_id}} </p><p> <span>Date:</span> {{assessmentObj.dueDate}}</p>
+					<p><span>Status:</span> {{assessmentObj.status}}</p><p> <span>Verified For:</span> TEST </p>
+					<div class="clearfix"></div>
+					<p class="far_r"><span>Assessment Name:</span>{{assessmentObj.name}}</p>
+					<p><span>Category:</span> {{assessmentObj.category}}
+					</p>
+					
+					<div class="clearfix"></div>
+				{% if user.type == "Enterprise" %}
+				<a href="#" ><input type="image" src="{% static 'images/btn-add-question.png' %}" alt="Add Question"></a>
+				{% endif %}
+				<!-- QUESTION BOX -->
+				<div class="questionlist">
+					{% for quest,answerList in questAnswerDict.items %}
+					<!-- Question section -->
+					<div class="questgrp">
+						<div class="questsno">{{quest.questionId}}</div>
+						<div class="questcol1">
+							{{quest.detail}}<br/>
+						</div>
+						{% if user.type == "Enterprise" %}
+							<p><span>Weightage:</span><input type="text" name="weightage" value="{{quest.weightage}}">
+							</p>
+							<p><span>Points:</span> <input type="text" name="points" value="{{quest.points}}">
+							</p>
+							<p><span>Correct Answer:</span> <input type="text" name="answerId" value="{{quest.answerId}}">
+							</p>
+						{% endif %}
+						{% for answer in answerList%}
+						<div class="anscol2">
+							<input type="checkbox" name="q{{answer.answerId}}" value="ans{{answer.answerId}}"> {{answer.detail}}<br/>
+							
+						</div>
+						{% endfor %}
+						<div class="clearfix"></div>
+					</div>
+					{% endfor %}
+					
+					
+				</div>
+				
+				
+
+				<div class="btngrp">
+				 <a href="/assessment-view/" ><input type="button"  class="cancelButton" value=""></a>
+					<input type="submit" class="btncompleteverify" value="" />
+				</div>
+
+				</form>				
+				</div> <!-- END QUESTION FORM -->
+				
+
+				</div>
+
+			<!-- End SECOND COLUMN -->
+
+
+		</div>
+			<!-- End SECOND COLUMN -->
+
+
+		
+		<div class="clearfix"></div>
+	{% endblock %}

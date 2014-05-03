@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block full_container %}
+<script type="text/javascript">
+function validatebuzzForm()
+{
+  var checkvalidate = true;
+  if( document.addprojform.buzzname.value == "" || document.addprojform.buzzname.value == "Category Name" )
+   {
+     checkvalidate =  false;
+     alert( "Please enter the buzz." );
+     document.addprojform.goals.focus() ;
+	 return false;
+   }
+
+    if( $('#category').val() == "" ){
+     checkvalidate =  false;
+     alert( "Please select category" );
+	 return false;
+   }
+
+   return checkvalidate ;
+}
+
+
+</script>
+
+<div class="full_container bgwhite_main buzz">
+	<div class="wrapper"><br>
+	
+	<!--a href="#" class="addProject">&nbsp;</a-->
+	<div class="clearfix"></div>
+
+
+<form id="addprojform" name="addprojform" action="/candidate/add-buzz/" method="POST" enctype="multipart/form-data">
+
+	<div class="formRow_03">
+		<label>Buzz</label><div class="clearfix"></div>
+		<input type="text" name="buzzname" class="w20per"  value="" >
+	</div>
+
+	<div class="formRow_03">
+		<label>Category</label><div class="clearfix"></div>
+		<select name="category" id="category">
+			<option value="">select</option>
+			{% for cat in categoryList %}
+			<option value="{{cat.categoryId}}">{{cat.categoryName}}</option>
+			{% endfor %}
+		</select>
+	</div>
+
+	<div class="clearfix"></div>
+
+<div class="btnHolder_05">
+<!-- <a href="#" class="closepop"><input type="button"  class="cancelButton" value=""></a> -->
+<input type="submit" class="submitbutton" value="" onclick="return validatebuzzForm()" />
+						
+</div>
+</form>
+
+	</div>
+</div>
+
+{% endblock %}

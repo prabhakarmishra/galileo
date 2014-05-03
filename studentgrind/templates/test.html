@@ -1,0 +1,180 @@
+{% load static %}
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html class="no-js ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]>    <html class="no-js ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]>    <html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Talentomi</title>
+
+    <meta name="description" content="Student Grind">
+    <meta name="keywords" content="Student Grind">
+<meta name="viewport" content="initial-scale=0.7, maximum-scale=8.0" />
+
+
+<link href="{% static 'css/stye.css' %}" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="{% static 'js/jquery-1.8.3.min.js' %}"></script>
+<script src="{% static 'js/lib.js' %}" type="text/javascript"></script>
+<script type="text/javascript" src="{% static 'js/jquery-ui-1.10.3.custom.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/scripts.js' %}"></script>
+
+<!-- Bootstrap styles -->
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+<link rel="stylesheet" href="{% static 'css/jquery.fileupload.css' %}">
+
+</head>
+
+<body class="bgwhite">
+
+<header>
+	<a href="/"><img src="{% static 'images/talentomi_logo.png' %}" width="176" height="24" border=0 alt="Talentomi" class="logo" /></a>
+	<div class="topnav">
+
+
+	{% if request.session.validate_user  %}
+		<div class="loginbox">
+		<form method=post action="" name="logbox" id="logbox" class="logoutbox">
+			<a href="/user_logout/">LOGOUT</a>
+		</form>
+		</div>
+	{% else %}
+		<div class="loginbox"><span>SIGN UP</span>
+			<form method="POST"  name="registrationForm" id="registrationForm" class="logbox"><span>&nbsp;</span>
+				<input type="text"  value="Email"  name="emailId" id="emailId" class="validemail" onfocus="if(this.value=='Email'){this.value=''};" onblur="if(this.value==''){this.value='Email'};">
+				<input type="password" name="password" value="password" id="password" onfocus="if(this.value=='password'){this.value=''};" onblur="if(this.value==''){this.value='password'};">
+				<input type="text" name="linkedIn" value="Linkedin" id="linkedIn" onfocus="if(this.value=='Linkedin'){this.value=''};" onblur="if(this.value==''){this.value='Linkedin'};" />
+				<input type="text"  value="First Name"  name="fName" id="fName" onfocus="if(this.value=='First Name'){this.value=''};" onblur="if(this.value==''){this.value='First Name'};">
+				<input type="text"  value="Last Name"  name="lName" id="lName" onfocus="if(this.value=='Last Name'){this.value=''};" onblur="if(this.value==''){this.value='Last Name'};">
+				<select name="type" id="type">
+					<option value="Student">Student</option>
+					<option value="Candidate">Candidate</option>
+					<option value="Enterprise">Enterprise</option>
+				</select>
+				<input type="text"  value="College Name"  name="collegeName" id="collegeName" onfocus="if(this.value=='College Name'){this.value=''};" onblur="if(this.value==''){this.value='College Name'};">
+				<input type="submit" name="submit_new" class="btn_signup2" value="" onclick="return validateForm(); ">
+			</form>
+		</div>
+		<div class="loginbox"><span>LOGIN</span>
+			<form method="post" action="/user_login/" name="logbox" id="logbox" class="logbox"><span>&nbsp;</span>
+				<input type="text"  value="Email"  name="emailid" class="validemail" onfocus="if(this.value=='Email'){this.value=''};" onblur="if(this.value==''){this.value='Email'};">
+				<input type="password" name="password" value="password" onfocus="if(this.value=='password'){this.value=''};" onblur="if(this.value==''){this.value='password'};">
+				<input type="submit" name="submit_log" class="btn_signin" value="" onclick="return validateForm();">
+			</form>
+		</div>
+	{% endif %}
+		<div class="menu">
+			{% if request.session.validate_user  %}<a href="/landing_page/">{% else %}<a href="/">{% endif %} {% if user.type == "Enterprise" %}HOME{% else %}PROFILE{% endif %}</a>&nbsp; &nbsp;<a href="/challenge/">CHALLENGES</a>{% if request.session.validate_user  %}&nbsp; &nbsp;<a href="/assessment-view/">ASSESSMENTS<em><img src="{% static 'images/comingsoon.png' %}" width="99" height="40" border=0 alt=""></em></a>&nbsp; &nbsp;<a href="/verify-view/">VERIFICATIONS<em><img src="{% static 'images/comingsoon.png' %}" width="99" height="40" border=0 alt=""></em></a>{% else %}{% endif %}&nbsp; &nbsp;<a href="/howitworks/">HOW IT WORKS</a>&nbsp; &nbsp;<a href="/talentomi/">WHY TALENTOMI</a> <!-- | <a href="#">Alumni or Institution</a> -->
+		</div>
+
+	
+	
+	</div>
+</header>
+
+
+<!-- Start Main -->
+<div class="full_container">
+  <div class="centerl_container mtop0">
+
+
+
+
+    <blockquote>
+        <p>File Upload widget with multiple file selection, drag&amp;drop support and progress bar for jQuery.<br>
+        Supports cross-domain, chunked and resumable file uploads.<br>
+        Works with any server-side platform (PHP, Python, Ruby on Rails, Java, Node.js, Go etc.) that supports standard HTML form file uploads.</p>
+    </blockquote>
+    <br>
+    <!-- The fileinput-button span is used to style the file input field as button -->
+    <span class="btn btn-success fileinput-button">
+        <i class="glyphicon glyphicon-plus"></i>
+        <span>Select files...</span>
+        <!-- The file input field used as target for the file upload widget -->
+        <input id="fileupload" type="file" name="files[]" multiple>
+    </span>
+    <br>
+    <br>
+    <!-- The global progress bar -->
+    <div id="progress" class="progress">
+        <div class="progress-bar progress-bar-success"></div>
+    </div>
+    <!-- The container for the uploaded files -->
+    <div id="files" class="files"></div>
+
+
+
+
+
+
+  </div>
+</div>
+<!-- END Main -->
+
+<footer>
+<div class="menubottom">
+	<a href="/about_us/">ABOUT</a>&nbsp; &nbsp;
+	<a href="#">CONTACT</a>&nbsp; &nbsp;
+</div>
+
+	Copyright Talentomi 2013
+		<div class="sharebox"><a class="icon_fb" href="https://www.facebook.com">&nbsp;</a><a class="icon_in" href="https://www.linkedin.com">&nbsp;</a><a href="https://www.twitter.com" class="icon_twitter">&nbsp;</a></div>
+
+</footer>
+
+
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="{% static 'js/jquery.iframe-transport.js' %}"></script>
+<!-- The basic File Upload plugin -->
+<script src="{% static 'js/jquery.fileupload.js' %}"></script>
+<!-- Bootstrap JS is not required, but included for the responsive demo navigation -->
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script>
+/*jslint unparam: true */
+/*global window, $ */
+$(function () {
+    'use strict';
+    // Change this to the location of your server-side upload handler:
+    var url = '/multi-file-upload/';
+    $('#fileupload').fileupload({
+        url: url,
+        dataType: 'json',
+        done: function (e, data) {
+            $.each(data.result, function (index, file) {
+				var textval = "<p>"+file.name+" <span class='delfile' rev='"+file.delete_url+"' style='cursor:pointer; color:#c00;'>DEL</span></p>";
+                $('#files').append(textval);
+            });
+        },
+        progressall: function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $('#progress .progress-bar').css(
+                'width',
+                progress + '%'
+            );
+        }
+    }).prop('disabled', !$.support.fileInput)
+        .parent().addClass($.support.fileInput ? undefined : 'disabled');
+
+
+	$(".delfile").live('click',function(){
+		var r=confirm("Are You Sure to Delete!");
+        var getfile = $(this).attr('rev');
+		if (r)
+		  {
+		  $(this).parent().slideUp();
+		  $.ajax({
+			type: 'post',
+			url:getfile,
+			success:function(result){
+			$(this).parent().remove();
+			  
+			}});
+		  }
+  });
+
+});
+</script>
+
+</body>
+</html>

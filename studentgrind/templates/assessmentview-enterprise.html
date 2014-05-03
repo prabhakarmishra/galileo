@@ -1,0 +1,250 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block full_container %}
+<script type="text/javascript">
+
+  $(function () {
+	scroller = $('.box-wrap').antiscroll().data('antiscroll');
+	scroller2 = $('.box-wrap2').antiscroll().data('antiscroll');
+  });
+
+
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.imageform.id_img.value == "")
+   {
+     checkvalidate =  false;
+     alert( "Please Select image first !" );
+     
+	 return false;
+   }
+   return checkvalidate ;
+}
+</script>		
+<div class="full_container assessmentpg">
+			<!-- FIRST COLUMN -->
+				<div class="verificationlist">
+
+				<div class="verificationgrp"><h4>Complete Assessments</h4>
+				  <div class="box-wrap antiscroll-wrap">
+					<div class="box">
+					  <div class="antiscroll-inner">
+
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> Andy Grover</p>
+							<p class="w53"><span>Id:</span> 123456</p>
+							<div class="clearfix"></div>
+							<p><span>Verified By:</span> Bill Cartweight</p>
+							<p class="w53"><span>Status:</span> Pending</p>
+						</a></div>
+						<div class="list active"><a href="#">
+							<p><span>Verified For:</span> TEST Grover</p>
+							<p class="w53"><span>Id:</span> 3232</p>
+							<div class="clearfix"></div>
+							<p><span>Verified By:</span> Stephanos</p>
+							<p class="w53"><span>Status:</span> Completed</p>
+						</a></div>
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> </p>
+							<p class="w53"><span>Id:</span> </p>
+							<div class="clearfix"></div>
+							<p><span>Verified By:</span> </p>
+							<p class="w53"><span>Status:</span> </p>
+						</a></div>
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> </p>
+							<p class="w53"><span>Id:</span> </p>
+							<div class="clearfix"></div>
+							<p><span>Verified By:</span> </p>
+							<p class="w53"><span>Status:</span> </p>
+						</a></div>
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> </p>
+							<p class="w53"><span>Id:</span> </p>
+							<div class="clearfix"></div>
+							<p><span>Verified By:</span> </p>
+							<p class="w53"><span>Status:</span> </p>
+						</a></div>
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> </p>
+							<p class="w53"><span>Id:</span> </p>
+							<div class="clearfix"></div>
+							<p><span>Verified By:</span> </p>
+							<p class="w53"><span>Status:</span> </p>
+						</a></div>
+
+					  </div>
+					</div>
+				  </div>
+
+				</div>
+
+
+
+					<div class="verificationgrp"><h4>Pending Assessments</h4>
+				  <div class="box-wrap2 antiscroll-wrap">
+					<div class="box">
+					  <div class="antiscroll-inner">
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> TEST Grover</p>
+							<p class="w53"><span>Id:</span> 4445</p>
+							<div class="clearfix"></div>
+							<p><span>Verified By:</span> Stephanos</p>
+							<p class="w53"><span>Status:</span> Completed</p>
+						</a></div>
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> </p>
+							<p class="w53"><span>Id:</span> </p>
+							<div class="clearfix"></div>
+							<p><span>Verified By:</span> </p>
+							<p class="w53"><span>Status:</span> </p>
+						</a></div>
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> </p>
+							<p class="w53"><span>Id:</span> </p>
+							<div class="clearfix"></div>
+							<p><span>Verified By:</span> </p>
+							<p class="w53"><span>Status:</span> </p>
+						</a></div>
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> </p>
+							<p class="w53"><span>Id:</span> </p>
+							<div class="clearfix"></div>
+							<p><span>Verified By:</span> </p>
+							<p class="w53"><span>Status:</span> </p>
+						</a></div>
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> </p>
+							<p class="w53"><span>Id:</span> </p>
+							<div class="clearfix"></div>
+							<p><span>Verified By:</span> </p>
+							<p class="w53"><span>Status:</span> </p>
+						</a></div>
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> </p>
+							<p class="w53"><span>Id:</span> </p>
+							<div class="clearfix"></div>
+							<p><span>Verified By:</span> </p>
+							<p class="w53"><span>Status:</span> </p>
+						</a></div>
+
+					  </div>
+					</div>
+				  </div>
+
+					</div>
+
+
+				</div>
+
+				
+			<!-- SECOND COLUMN -->
+				<div class="verification_col2">
+				
+				
+				
+
+				<div class="questionform">
+				<form method=post action="" name="assessment">
+				
+					<p><span>Id:</span> 3232 </p><p> <span>Date:</span> September 10, 2013</p>
+					<p><span>Status:</span> Open </p><p> <span>Verified For:</span> TEST Grover</p>
+					<div class="clearfix"></div>
+					<p class="far_r"><span>Assessment Name:</span> PHP Programming</p>
+					<p><span>Category:</span> Web Development
+					</p>
+
+						<div class="clearfix"></div>
+						<div class="contentbox2 h120">
+							<div class="grid_heading4">Candidate Assigned</div>
+							<div class="contentlist4">
+								
+								  <div class="assess_grid_col1">Pranav&nbsp;Vijay</div>
+								
+								  <div class="assess_grid_col1">Vijay&nbsp;V</div>
+								
+								  <div class="assess_grid_col1">Stephanos&nbsp;Sam</div>
+								
+								  <div class="assess_grid_col1">Stephanos&nbsp;Sam</div>
+								
+								  <div class="assess_grid_col1">Rahul&nbsp;Kumar</div>
+								
+								  <div class="assess_grid_col1">Test1&nbsp;test2</div>
+								
+								  <div class="assess_grid_col1">Jill&nbsp;Deck</div>
+								
+								  <div class="assess_grid_col1">bhawana&nbsp;mishra</div>
+								
+								  <div class="assess_grid_col1">test123&nbsp;test</div>
+								
+								  <div class="assess_grid_col1">Jeff&nbsp;Price</div>
+								
+								  <div class="assess_grid_col1">Rahul&nbsp;kumar</div>
+								
+								  <div class="assess_grid_col1">tested&nbsp;tested</div>
+								
+								  <div class="assess_grid_col1">James&nbsp;Bond</div>
+								
+								  <div class="assess_grid_col1">Rahul&nbsp;Kumar</div>
+								
+								  <div class="assess_grid_col1">Sid&nbsp;kumar</div>
+								
+								  <div class="assess_grid_col1">Gfkfkgy&nbsp;Vmgmgffg</div>
+								
+								  <div class="assess_grid_col1">Test &nbsp;1</div>
+								
+								  <div class="assess_grid_col1">Tester&nbsp;2</div>
+								
+								  <div class="assess_grid_col1">First Name&nbsp;Last Name</div>
+								
+								  <div class="assess_grid_col1">P&nbsp;V</div>
+								
+								  <div class="assess_grid_col1">Verifier&nbsp;1</div>
+								
+								  <div class="assess_grid_col1">P&nbsp;V</div>
+								
+								  <div class="assess_grid_col1">K&nbsp;P</div>
+								
+								  <div class="assess_grid_col1">Rahul&nbsp;Kumar</div>
+								
+								  <div class="assess_grid_col1">Prabhakar&nbsp;Mishra</div>
+								
+								  <div class="assess_grid_col1">sdf&nbsp;sdf</div>
+								
+								  <div class="assess_grid_col1">V&nbsp;VP</div>
+								
+								  <div class="assess_grid_col1">test&nbsp;test</div>
+								
+								  <div class="assess_grid_col1">Test&nbsp;user</div>
+								
+								  <div class="assess_grid_col1">test&nbsp;test</div>
+								
+								  <div class="assess_grid_col1">test&nbsp;user</div>
+								
+								  <div class="assess_grid_col1">f&nbsp;h</div>
+								
+								  <div class="assess_grid_col1">RAHUL&nbsp;KUMAR</div>
+								
+								  <div class="assess_grid_col1">gayathri&nbsp;m</div>
+								
+								  <div class="assess_grid_col1">Vijay&nbsp;viswanathan</div>
+								
+							</div>
+						</div>
+
+
+				</form>				
+				</div> <!-- END QUESTION FORM -->
+				
+
+				</div>
+
+			<!-- End SECOND COLUMN -->
+
+
+		</div>
+		<div class="clearfix"></div>
+
+	{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block full_container %}
+		
+<div class="full_container bgwhite_main">
+	<div class="wrapper900">
+
+		<div class="para">
+			<div class="imgbox"><img src="{% static 'images/icon-bulb.png' %}" width="114" height="113" border=0 alt=""></div>
+			<span>Its all about ideas!</span>
+			<p>Dont limit your challenges, challenge your limits! Challenge yourself, ideate, prototype, promote and succeed.  Talentomi provides the right platform for you to discover challenges from enterprises, execute and be rewarded for your achievements.   </p>
+		<div class="clearfix"></div>
+		</div>
+
+		<div class="para">
+			<div class="imgbox">&nbsp;</div>
+			<span>Revolutionize your professional branding.</span>
+			<p>Be unique!  Showcase your talents. 
+Your profile is no longer a long resume
+or a history of jobs, academics etc. 
+With Talentomi it is a platform that
+assesses your performances, skills
+and helps you build a complete 360
+degree view to market yourself. </p>
+		<div class="clearfix"></div>
+		</div>
+
+		<div class="para2">
+			<span>Verified by</span>
+			<p>Authenticate your performances, skills, honors, awards and accomplishments. Set yourself
+apart from the crowd with a "Verified by Talentomi" stamp.  No longer do you need
+to sell yourself the same way.  Talentomi will help you with the authoritative brand 
+for enterprises to attract the best talent like you.     </p>
+		<div class="clearfix"></div>
+		</div>
+
+		<div class="para">
+			<div class="imgbox"><img src="{% static 'images/icon-verysmart.png' %}" width="76" height="76" border=0 alt=""></div>
+			<span>Very smart; only you can come up with it.</span>
+			<p>Assess your technical, academic and career skills to help define where you are and how to achieve your
+career goals.  Empower yourself with proven assessments so that you are auto discovered.  </p>
+		<div class="clearfix"></div>
+		</div>
+
+		<div class="para">
+			<div class="imgbox">&nbsp;</div>
+			<span>There is much more to life than searching, applying for jobs</span>
+			<p>Ideate, authenticate, assess where you are to determine where your career needs to be and revolutionize your career
+and brand with Talentomi! </p>
+		<div class="clearfix"></div>
+		</div>
+	
+		<div class="para forcheckbox">
+		{% if request.session.validate_user or register_user %}<a href="/landing_page/" onclick="return checkagree();">{% else %}<a href="/" onclick="return checkagree();">{% endif %}<img src="{% static 'images/btn-continue.png' %}" width="103" height="32" border=0 alt=""></a>
+		<input type="checkbox" id="agree" name="agree" value=agree"><label for="agree">Check this box if you would like to continue to your dashboard directly.  
+		You can always view this information by clicking HOW IT WORKS on the top.</label>
+		<div class="clearfix"></div>
+		</div>
+	
+	</div>
+</div>
+<div class="clearfix"></div>
+	{% endblock %}

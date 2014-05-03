@@ -1,0 +1,330 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block full_container %}
+
+<div class="full_container bgwhite_main">
+<h2>CREATE NEW REQUISITION</h2>	
+
+	<script>
+	var goalsliderclone='';
+	$(function() {
+
+	goalsliderclone = $('.goalgrp').find('.fields:last').clone();
+		
+		$( "#dueby" ).datepicker({
+			dateFormat: "yy-mm-dd",
+			minDate: 0,
+		});
+
+	$("input[type=range]").slider({
+	   create: function(event, ui) { 
+			getval = ($(this).val())
+			$(this).parent().find('.ui-btn-text').html(getval+"%");
+		}
+	});
+
+	$('.rangefield').change(function() {
+		getval = ( $(this).val() );
+		$(this).parent().find('.ui-btn-text').html(getval+"%");
+    });
+
+		
+	});
+	</script>
+<script type="text/javascript">
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.imageform.id_img.value == "")
+   {
+     checkvalidate =  false;
+     alert( "Please Select image first !" );
+     
+	 return false;
+   }
+   return checkvalidate ;
+}
+
+  $(function () {
+	scroller = $('.box-wrap').antiscroll().data('antiscroll');
+	scroller2 = $('.box-wrap2').antiscroll().data('antiscroll');
+
+		$('.cancelButton2').click(function(){
+			//location.href = "/view-hire-manager/";
+		});
+		
+		$('.cancelbtnx2').unbind('click');
+		$('.cancelbtnx2').bind('click',function(){
+		  if (  $(this).parent().parent().find('input[type=text]').length>1){
+			gethref = $(this).attr('href');
+			var content = $(this).prev().val();
+			var result = confirm("Delete "+content);
+			if (result==true) {
+				$.get(gethref,function(data){
+					// callback deleted
+				})
+
+				$(this).parent().slideDown('fast',function(){
+					$(this).remove();
+				});
+			}
+			}
+		});
+
+		
+		$('.add2').click(function(){
+			var addtext = $(this).parent().find('input[type=text]:last').val();
+			var defval = $(this).parent().find('input[type=text]:last').attr('onfocus');
+			defval= defval.replace("if(this.value=='","") 
+			defval= defval.replace("'){this.value=''};","") 
+			//if (addtext!='') {
+				if ( $(this).parent().hasClass('goalgrp') ){
+					goalsliderclone.appendTo( $(this).parent() );
+					goalsliderclone = $('.goalgrp').find('.fields:last').clone();
+				}else{
+					$(this).parent().find('.fields:last').clone().appendTo( $(this).parent() );
+					$(this).parent().find('input[type=text]:last').val(defval);
+				}
+
+				$('.cancelbtnx2').unbind('click');
+				$('.cancelbtnx2').bind('click',function(){
+				  if (  $(this).parent().parent().find('input[type=text]').length>1){
+					gethref = $(this).attr('href');
+					var content = $(this).prev().val();
+					var result = confirm("Delete "+content);
+					if (result==true) {
+						$.get(gethref,function(data){
+							// callback deleted
+						})
+
+						$(this).parent().slideDown('fast',function(){
+							$(this).remove();
+						});
+					}
+					}
+				});
+			//}
+		});
+		
+  
+	$('ul.tabshire li').unbind('click');
+	$('ul.tabshire li').click(function(){
+		var getindex = $(this).parent().find('li').index( $(this) );
+		if ( $(this).parent().parent().find(".tabcontenthire").eq(getindex).hasClass('active')==false  ){
+			$(this).parent().parent().find(".tabcontenthire").removeClass('active');
+			$(this).parent().find('li').removeClass('active');
+			$(this).parent().parent().find(".tabcontenthire").eq(getindex).addClass('active');
+			$(this).addClass('active');
+		}
+	});
+
+
+  
+  });
+
+
+
+
+</script>		
+
+
+				<div class="verification_col2 hire w85"><br>
+									<div class="clearfix"></div>
+
+				<form method="POST" action="/create-requisition/" name="verifications">
+				
+					<h4>What is this about?</h4>
+						<label>Division/Department</label>
+						<label>Cost Center</label>
+						<label>Category</label>
+						<label>Salary Range</label>
+						<input type="text" name="division" value="Division/Department" onfocus="if(this.value=='Division/Department'){this.value=''};" onblur="if(this.value==''){this.value='Division/Department'};" >
+						<input type="text" name="costcenter" value="Cost Center" onfocus="if(this.value=='Cost Center'){this.value=''};" onblur="if(this.value==''){this.value='Cost Center'};" >
+						<input type="text" name="category" id="category" value="Category" onfocus="if(this.value=='Category'){this.value=''};" onblur="if(this.value==''){this.value='Category'};" >
+
+						<select name="salaryrange" id="salaryrange">
+							<option value="">Salary Range</option>
+							<option value="Under $50000">Under $50000</option>
+							<option value="$50000 to $75000">$50000 to $75000</option>
+							<option value="$75000 to $100000">$75000 to $100000</option>
+							<option value="$100000 to $150000">$100000 to $150000</option>
+							<option value="Over $150000">Over $150000</option>
+						</select>
+
+
+						<label>Location</label>
+						<label>Due By</label>
+						<label>Status</label>
+						<label>Duration</label>
+
+						<!--select name="location" id="location">
+							<option value="">Location</option>
+							<option value="Abc">Abc</option>
+						</select-->
+						<input type="text" name="location" id="location" value="Location" onfocus="if(this.value=='Location'){this.value=''};" onblur="if(this.value==''){this.value='Location'};" >
+
+						<input type="text" name="dueby" id="dueby" value="Due By" onfocus="if(this.value=='Due By'){this.value=''};" onblur="if(this.value==''){this.value='Due By'};" >
+						<select name="status" id="status">
+							
+							
+							<option value="Open">Open</option>
+							<option value="Updated">Updated</option>
+							<option value="Fulfilled">Fulfilled</option>
+							<option value="Closed">Closed</option>
+						</select>
+						<select name="duration" id="duration">
+							<option value="">Duration</option>
+							<option value="Full time">Full time</option>
+							<option value="Contract - 6 months">Contract - 6 months</option>
+							<option value="Contract - 12 months">Contract - 12 months</option>
+							<option value="Contract - 12+ months">Contract - 12+ months</option>
+						</select>
+
+					<div class="clearfix"><br><br></div>
+
+
+					<h4>What is the need?</h4>
+
+					<div class="clearfix">&nbsp;</div>
+
+
+					  <div id="tabouterhire">
+							<ul class='tabshire'>
+								<li  class="active">Skills</li>
+								<li class="">Experience</li>
+								<li class="">Initial set of Tasks</li>
+								<li class="">Team Needs</li>
+							</ul>
+							<div class="tabcontenthire active">
+							<!-- SKILLS -->
+								<div class="hiregrp">
+									<span>Skills</span><a href="javascript:void(0)" class="add2" ></a>
+									<div class="clearfix"></div>
+									<div class="fields"><input type="text" name="skills[]" value="Skills" onfocus="if(this.value=='Skills'){this.value=''};" onblur="if(this.value==''){this.value='Skills'};"> <a href="/hire/delete/?hire_id=555" onclick="return false;" class="cancelbtnx2"><img src="{% static 'images/btn-delete.png' %}" width="52" height="30" border=0 alt="x"></a></div>
+									<div class="clearfix"></div>
+								</div>
+							</div>
+							<div class="tabcontenthire">
+							<!-- EXPERIENCE -->
+								<div class="hiregrp">
+									<span>Experience</span><a href="javascript:void(0)" class="add2" ></a>
+									<div class="clearfix"></div>
+									<div class="fields"><input type="text" name="experience[]" value="Experience" onfocus="if(this.value=='Experience'){this.value=''};" onblur="if(this.value==''){this.value='Experience'};"> <a href="/hire/delete/?hire_id=555" onclick="return false;" class="cancelbtnx2"><img src="{% static 'images/btn-delete.png' %}" width="52" height="30" border=0 alt="x"></a></div>
+									<div class="clearfix"></div>
+								</div>
+							</div>
+
+							<div class="tabcontenthire">
+							<!-- INITIAL SET OF TASKS -->
+								<div class="hiregrp">
+									<span>Initial set of Tasks</span><a href="javascript:void(0)" class="add2" ></a>
+									<div class="clearfix"></div>
+									<div class="fields"><input type="text" name="tasks[]" value="Initial set of Task" onfocus="if(this.value=='Initial set of Task'){this.value=''};" onblur="if(this.value==''){this.value='Initial set of Task'};"> <a href="/hire/delete/?hire_id=555" onclick="return false;" class="cancelbtnx2"><img src="{% static 'images/btn-delete.png' %}" width="52" height="30" border=0 alt="x"></a></div>
+									<div class="clearfix"></div>
+								</div>
+							</div>
+
+							<div class="tabcontenthire">
+							<!-- TEAM NEEDS -->
+								<div class="hiregrp">
+									<span>Team Needs</span><a href="javascript:void(0)" class="add2" ></a>
+									<div class="clearfix"></div>
+									<div class="fields"><input type="text" name="team[]" value="Team Need" onfocus="if(this.value=='Team Need'){this.value=''};" onblur="if(this.value==''){this.value='Team Need'};"> <a href="/hire/delete/?hire_id=555" onclick="return false;" class="cancelbtnx2"><img src="{% static 'images/btn-delete.png' %}" width="52" height="30" border=0 alt="x"></a></div>
+									<div class="clearfix"></div>
+								</div>
+							</div>
+					</div>
+
+
+
+
+					<div class="clearfix"><br><br></div>
+					
+
+
+					<h4>What is the potential?</h4>
+
+					<div class="clearfix">&nbsp;</div>
+
+				  <div id="tabouterhire">
+						<ul class='tabshire'>
+							<li  class="active">First Year Goals</li>
+							<li class="">Growth Opportunities</li>
+							<li class="">Why this position?</li>
+						</ul>
+						<div class="tabcontenthire active nobg">
+						<!-- FIRST YOUR GOALS -->
+							<div class="hiregrp goalgrp">
+							<span class="w20per">GOALS</span><div class="clearfix"></div>
+								<span class="w20per">Goal Criteria</span><span class="w15per">%</span><span class="w15per">Importance</span><span class="w15per">When</span><a href="javascript:void(0)" class="add2" ></a>
+									<div class="clearfix"></div>
+								<div class="fields">
+								<input type="text" name="goals[]" class="w20per" value="Goal Criteria" onfocus="if(this.value=='Goal Criteria'){this.value=''};" onblur="if(this.value==''){this.value='Goal Criteria'};">
+								<div class="rangebar ">
+									<input type="range" name="range_rate[]" id="range_rate[]" min="0" max="100" step="1" value="0" class="rangefield">
+								</div>
+								<select name="importance[]" id="importance">
+									<option value="">select</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>
+								</select>
+								<select name="whengoal[]" id="whengoal">
+									<option value="">select</option>
+									<option value="120 days">120 days</option>
+									<option value="180 days">180 days</option>
+									<option value="1 years">1 years</option>
+									<option value="2 years">2 years</option>
+									<option value="5 years">5 years</option>
+								</select>
+
+								
+								<a href="/hire/delete/?hire_id=555" onclick="return false;" class="cancelbtnx2"><img src="{% static 'images/btn-delete.png' %}" width="52" height="30" border=0 alt="x"></a></div>
+									<div class="clearfix"></div>
+							</div>
+						</div>
+						<!-- GROWTH OPPORTUNITIES -->
+						<div class="tabcontenthire">
+							<div class="hiregrp">
+								<span>Growth Opportunities</span><a href="javascript:void(0)" class="add2" ></a>
+									<div class="clearfix"></div>
+								<div class="fields"><input type="text" name="growth[]" value="Growth Opportunities" onfocus="if(this.value=='Growth Opportunities'){this.value=''};" onblur="if(this.value==''){this.value='Growth Opportunities'};"> <a href="/hire/delete/?hire_id=555" onclick="return false;" class="cancelbtnx2"><img src="{% static 'images/btn-delete.png' %}" width="52" height="30" border=0 alt="x"></a></div>
+									<div class="clearfix"></div>
+							</div>
+						</div>
+
+						<div class="tabcontenthire">
+						<!-- WHY THIS POSITION? -->
+							<textarea name="why_position" rows="5" cols=""  onfocus="if(this.value=='Why this position?'){this.value=''};" onblur="if(this.value==''){this.value='Why this position?'};" >Why this position?</textarea>
+									<div class="clearfix"></div>
+						</div>
+				</div>
+
+
+
+					<div class="clearfix"><br><br></div>
+					
+						<div class="btnbox">
+							<input type="button" value="" name="submit_reject" class="cancelButton2 closepop">
+							<input type="button" value="" name="submit_save" class="savebutton">
+							<input type="submit" value="" name="submit_authorize" class="submitbutton">
+						</div>
+					
+
+					</form>				
+				</div>
+
+			<!-- End SECOND COLUMN -->
+
+
+		<div class="clearfix"></div>
+		
+	{% endblock %}

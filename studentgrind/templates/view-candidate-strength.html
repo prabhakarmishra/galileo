@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block full_container %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+
+<script type="text/javascript">
+	$(function(){
+
+
+		//$('.submitbutton').click(function(){
+		//	document.admin_strength.submit();
+		//});
+
+
+		
+	});
+</script>
+
+
+		
+<div class="full_container bgwhite_main stength">
+    
+	<div class="wrapper">
+	<form id="requestcodeform" name="requestcodeform" action="/request-strengthCode/" method="post">
+				<input type="submit" value="" name="requestcode">
+	</form>
+	<h2>Analyze your strengths. Maximize your potential!</h2>
+
+<form method=post action="#" name="admin_strength" id="admin_strength">
+					<div class="contentbox">
+							<div class="grid_heading3">Strengths</div>
+							<div class="contentlist3">
+									{% for strength in strengthList %}
+										<div> <div class="auth_grid_col1">{{strength.strengths}}</div> <div class="clearfix"></div> </div>
+									{% endfor %}
+
+							</div>
+						</div>
+
+
+					<div class="contentbox">
+							<div class="grid_heading3">Strengths Report</div>
+							<div class="contentlist3">
+								<div class="strengtthumb"><img src="{% static 'images/strength-thumb.png' %}" border=0 alt="x" /></div>
+
+							</div>
+						</div>
+
+
+						<div class="btnbox">
+							<input type="button" value="" name="submit_reject" class="cancelButton2">
+							<input type="submit" value="" name="submit_authorize" class="submitbutton">
+						</div>
+</form>
+<div class="clearfix"></div>
+</div>
+</div>
+<div class="clearfix"></div>
+	{% endblock %}

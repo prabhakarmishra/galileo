@@ -1,0 +1,993 @@
+/*Bhawana*/
+*
+{
+	margin: 0;
+	padding: 0;
+	font-family: Arial;
+	font-size: 12px;
+}
+
+ul
+{
+	list-style: none;
+}
+
+body {
+    background: url("../images/low_contrast_linen_2.png") repeat scroll center top transparent;
+    color: #DCDCDC;
+    font: 12px/16px 'TradeGothicLTStdRegular',arial;
+}
+
+#header
+{
+	color: #DCDCDC;
+    float: left;
+    height: 75px;
+    width: 100%;
+}
+
+.logo
+{
+	width: 62px;
+	height: 60px;
+	float: left;
+	margin: 16px 0 0 21px;
+	background: url(../images/Logo.png) no-repeat left top;
+}
+
+.headerRightContent {
+    overflow: hidden;
+}
+
+.headerRight
+{
+	float: right;
+}
+
+.headerNavigationContainer
+{
+	margin-top: 56px;
+}
+
+.logout
+{
+	color: #FFFFFF;
+    display: inline-block;
+    float: right;
+	margin: 14px 83px 0 0;
+    text-decoration: none;
+}
+
+.logout:hover
+{
+	text-decoration: underline;
+}
+/*Bhawana*/
+
+
+
+
+
+/*Already created used CSS-----start-------*/
+.sharebox {
+    float: right;
+    line-height: 28px;
+    padding: 0 20px;
+    width: 130px;
+}
+
+.sharebox .icon_fb
+{
+    background: url("../images/sprite-2.png") no-repeat scroll -4px -90px transparent;
+    height: 28px;
+    width: 28px;
+}
+
+.sharebox .icon_in
+{
+    background: url("../images/sprite-2.png") no-repeat scroll -44px -90px transparent;
+    height: 28px;
+    width: 28px;
+}
+
+
+.sharebox .icon_twitter, .sharebox .icon_twitter:hover {
+    background: url("../images/sprite-2.png") no-repeat scroll -85px -90px transparent;
+    height: 28px;
+    padding: 0 13px 0 0;
+    width: 28px;
+}
+
+
+.menu {
+    color: #000000;
+    float: right;
+    margin: 4px 0 0;
+    width: 295px;
+}
+
+.menu a {
+    color: #DCDCDC;
+}
+
+a:hover
+{
+	text-decoration: none;
+}
+
+.sharebox a, .sharebox a:hover {
+    cursor: pointer;
+    float: left;
+    font-family: arial;
+    line-height: 28px;
+    padding: 0 10px 0 0;
+    text-decoration: none;
+}
+
+.centerl_container {
+	clear: both;
+    margin: 0 auto;
+    max-width: 1200px;
+    min-width: 630px;
+    position: relative;
+	padding-top: 40px;
+    width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+.centerl_container_01
+{
+	clear: both;
+    margin: 0 auto;
+    max-width: 1345px;
+    min-width: 630px;
+    position: relative;
+	padding-top: 40px;
+    width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.centerl_containerContent_01
+{
+		padding-left: 25px;
+}
+
+/*Already created used CSS-----end-------*/
+
+
+/*Bhawana*/
+.centerl_container h1 {
+    color: #FEFEFC;
+    font-size: 24px;
+}
+
+.containerLeft
+{
+	float: left;
+}
+
+.registrationForm
+{
+	display: block;
+	padding-top: 30px;
+}
+
+.containerRight
+{
+	float: left;
+}
+
+.containerRight p
+{
+	margin-bottom: 20px;
+}
+
+.formRow
+{
+	display: block;
+	margin-bottom: 18px;
+	overflow: hidden;
+	/*clear: both;*/
+}
+
+.mainColumn3
+.formRow_02
+{
+	display: block;
+	margin-bottom: 18px;
+	overflow: hidden;
+	clear: both;
+}
+
+.formRow_02 textarea
+{
+	width: 231px;
+	min-width: 231px;
+	max-width: 231px;
+	height: 112px;
+	max-height: 112px;
+	min-height: 112px;
+	margin-bottom: 10px;
+	padding: 6px 0 0 6px;
+	background: url('../images/textarea_bg.png') no-repeat left top;
+	border: none;
+	overflow: hidden;
+}
+
+.lastFormRow
+{
+	overflow: auto;
+}
+
+.formRow_01
+{
+	display: block;
+	margin-bottom: 38px;
+	overflow: hidden;
+}
+
+.textInputHolder
+{
+	display: inline-block;
+	float: left;
+	margin-right: 40px;
+}
+
+.textInputHolder_01
+{
+	display: inline-block;
+	float: left;
+}
+
+.inputLeftCorner
+{
+	display: inline-block;
+	float: left;
+	background: url('../images/input_left_corner.png') no-repeat left top;
+	width: 3px;
+	height: 27px;
+}
+
+.inputRightCorner
+{	
+	display: inline-block;
+	background: url('../images/input_right_corner.png') no-repeat left top;
+	width: 4px;
+	height: 27px;
+}
+
+.formRow input[type="text"]
+{
+	background: url('../images/input_bg.png') repeat-x left top;
+	border: none;
+	padding: 6px 3px;
+	width: 300px;
+	float: left;
+}
+
+.formRow_02 input[type="text"]
+{
+	background: url('../images/input_bg.png') repeat-x left top;
+	border: none;
+	padding: 6px 3px;
+	width: 218px;
+	float: left;
+}
+
+.formRow_01 input[type="text"]
+{
+	background: url('../images/input_bg.png') repeat-x left top;
+	border: none;
+	padding: 6px 3px;
+	width: 300px;
+	float: left;
+}
+
+.checkboxHolder
+{
+	float: left;
+	*float: left;
+	display: inline-block;
+	width: 340px;
+}
+
+.checkboxHolder_01
+{
+	float: left;
+	*float: left;
+	display: inline-block;
+	width: 240px;
+}
+
+
+.checkboxHolder label
+{
+	display: inline-block;
+	float: left;
+	*margin-top: 3px;
+}
+
+.checkboxHolder_01 label
+{
+	display: inline-block;
+	float: left;
+	*margin-top: 3px;
+}
+
+.formRow input[type="checkbox"]
+{
+	float: left;
+	margin-right: 10px;
+}
+
+.formRow select
+{
+	float: left;
+	width: 313px;
+	margin-right: 40px;
+}
+
+.videoPlayerHolder
+{
+	overflow: hidden;
+}
+
+.emailgroupsInfo span
+{
+	display: block;
+	margin-bottom: 10px;
+}
+
+.selectformRow
+{
+	Height: 135px;
+}
+
+.selectformRow_01
+{
+	padding-bottom: 114px;
+	display: block;
+}
+
+
+.btnHolder
+{
+	bottom: 13px;
+    position: relative;
+    text-align: center;
+    width: 100%;
+   *width: 55%;
+	overflow: hidden;
+}
+
+.btnHolder_01
+{
+    position: relative;
+    text-align: center;
+    width: 100%;
+   *width: 55%;
+	overflow: hidden;
+	padding-top: 20px;
+	padding-top: 0\9;
+	bottom: 6px\9;
+	*bottom: 0;
+}
+
+.btnHolder_02
+{
+    position: relative;
+    text-align: center;
+    width: 100%;
+   *width: 55%;
+	overflow: hidden;
+	padding-top: 8px;
+	padding-top: 0\9;
+}
+
+.btnHolder_03
+{
+    position: absolute;
+    text-align: center;
+	bottom: 42px;
+	left: 562px;
+}
+
+.btnHolder_04
+{
+	bottom: -52px;
+	bottom: -52px\9;
+	*bottom: -7px;
+    position: relative;
+    text-align: center;
+    width: 100%;
+	overflow: hidden;
+}
+.signUpBtn
+{
+	background: url("../images/signup.png") no-repeat scroll left top transparent;
+    border: medium none;
+    color: #FFFFFF;
+    cursor: pointer;
+    height: 42px;
+    left: -20px;
+   *left: 275px; /* IE7 and below */  
+    position: relative;
+    width: 106px;
+}
+
+.signUpBtn_01
+{
+	background: url("../images/signup.png") no-repeat scroll left top transparent;
+    border: medium none;
+    color: #FFFFFF;
+    cursor: pointer;
+    height: 42px;
+    left: 130px;
+   *left: 430px; /* IE7 and below */
+    position: relative;
+    width: 106px;
+}
+
+.signUpBtn_02
+{
+	background: url("../images/signup.png") no-repeat scroll left top transparent;
+    border: medium none;
+    color: #FFFFFF;
+    cursor: pointer;
+    height: 42px;
+    left: 130px;
+   *left: 430px; /* IE7 and below */
+    width: 106px;
+	float: right;
+}
+
+.signUpBtn_03
+{
+	background: url("../images/signup.png") no-repeat scroll left top transparent;
+    border: medium none;
+    color: #FFFFFF;
+    cursor: pointer;
+    height: 42px;
+    width: 106px;
+}
+
+.signUpBtn_04
+{
+	background: url("../images/grindIt.png") no-repeat scroll left top transparent;
+    border: medium none;
+    color: #FFFFFF;
+    cursor: pointer;
+    height: 42px;
+    width: 160px;
+	font-weight: bold;
+	float: right;
+	margin-right: 27px;
+}
+
+.btnHolder_02.signUpBtn
+{
+	left: 140px;
+}
+
+#footer
+{
+	text-align: center;
+	display: block;
+	clear: both;
+	overflow: hidden;
+	position: absolute;
+	width: 100%;
+	padding-bottom: 15px;
+}
+
+
+
+
+.has-js .label_check,
+.has-js .label_radio { padding-left: 34px; }
+.has-js .label_radio { background: url(radio-off.png) no-repeat; }
+.has-js .label_check { background: url(../images/check-off.png) no-repeat; }
+.has-js label.c_on { background: url(../images/check-on.png) no-repeat; }
+.has-js label.r_on { background: url(radio-on.png) no-repeat; }
+.has-js .label_check input,
+.has-js .label_radio input { position: absolute; left: -9999px;} 
+
+
+.imageFrame
+{
+	background: url('../images/image_inset_bg.png') no-repeat left top;
+	width: 116px;
+	height: 100px;
+	display: block;
+}
+
+.imgHolder
+{
+	 margin-left: 19px;
+}
+
+.imageFrame img
+{
+	margin: 6px 0 0 5px;
+}
+
+
+.mainColumn1, .mainColumn2, .mainColumn3
+{
+	float: left;
+	
+}
+
+.mainColumn3
+{
+	width: 308px;
+	background: url("../images/mainColumn3_bg.png") no-repeat scroll left top transparent;
+    height: 476px;
+    overflow: hidden;
+    position: relative;
+    width: 278px;
+}
+
+.mainColumn3 form
+{
+	float: left;
+}
+
+.mainColumn3 input[type="button"]
+{
+	display: block;
+	background: url('../images/form_btn_01.png') no-repeat left top;
+	width: 237px;
+	height: 38px;
+	border: none;
+	cursor: pointer;
+	margin-bottom: 15px;
+	color: #fff;
+	font-weight: bold;
+}
+
+.titleMainColumn3
+{
+	font-weight: bold;
+	padding-bottom: 10px;
+	display: block;
+	color: #fff;
+}
+
+.mainColumn3TopBorder
+{
+	padding-top: 17px;
+	background: url('../images/mainColumn3_top_border.png') no-repeat left top;
+}
+
+.mainColumn3BottomBorder
+{
+	background: url("../images/mainColumn3_bottom_border.png") no-repeat scroll left top transparent;
+    bottom: 0;
+    display: block;
+    padding-top: 20px;
+    position: absolute;
+    width: 100%;
+}
+
+.mainColumn3Container
+{
+	background: url('../images/mainColumn3_middle_border.png') repeat-y left top;
+	height: 100%;
+	*height: 88%;
+	padding: 8px 18px 0;
+}
+
+.containerMainColumn1
+{
+	margin-bottom: 30px;
+}
+
+
+.containerMainColumn1 h3
+{
+	font-size: 16px;
+	font-weight: bold;
+	padding: 0 0 10px 38px;
+}
+
+.titleBold
+{
+	font-weight: bold;
+	display: block;
+	padding: 0 0 6px 6px;
+	color: #fcfcdd;
+}
+
+.knowMore
+{
+	padding-left: 20px;
+}
+
+.anchorHolder
+{
+	display: block;	
+	padding: 8px 0 0 10px;
+}
+
+.anchorHolder a 
+{
+	width: 30px;
+	height: 30px;
+	margin-right: 6px;
+	float: left;
+	display: block;
+}
+
+.anchorHolder a span
+{
+	display: none;
+}
+
+.record
+{
+	background: url('../images/record.png') no-repeat;
+}
+
+.backward
+{
+	background: url('../images/backward.png') no-repeat;
+}
+
+.play
+{
+	background: url('../images/play.png') no-repeat;
+}
+
+.foreward
+{
+	background: url('../images/foreward.png') no-repeat;
+}
+
+.mainColumn2
+{
+	display: block;
+    float: left;
+    width: 740px;
+	padding: 0 50px 0 45px;
+	*padding: 0 50px 0 35px;
+}
+
+.containerMainColumn2
+{
+	padding: 22px 30px 15px 0;
+	float: left;
+}
+
+.containerMainColumn2 ul.ulMainColumn2
+{
+	margin-top: 10px;
+	*margin-top: 18px;
+}
+
+.containerMainColumn2 ul li
+{
+	padding: 9px 0;
+	*padding: 0;
+	display: block;
+	width: 216px;
+}
+
+.ulHolderAssociations
+{
+	margin-top: 20px;
+}
+
+.ulAssociations
+{
+	margin-top: 0;
+}
+
+.imageMinusSign
+{
+	float: left;
+	display: inline-block;
+	width: 19px;
+	height: 17px;
+	margin-right: 15px;
+	background: url('../images/imageMinusSign.png') no-repeat;
+}
+
+.imagePlusSign
+{
+	float: right;
+	display: inline-block;
+	width: 18px;
+	height: 17px;
+	margin-left: 30px;
+	background: url('../images/imagePlusSign.png') no-repeat;
+	*bottom: 14px;
+	*position: relative;
+}
+
+.listItemName
+{
+	float: left;
+}
+/*Bhawana*/
+
+
+
+
+/*ENTERPRISE VIEW*/
+.companyposter{
+	float:left;
+	width:10%;
+	text-align:center;
+	font: bold 16px/22px 'TradeGothicLTStdRegular',arial;
+	color: #cccccc;
+
+}
+.companyposter img{
+	padding: 10px 0 0 0;
+}
+
+.addpostergrp{
+	float:left;
+	width:85%;
+	padding: 0 0 0 5%;
+}
+.addpostergrp .addposter{
+	float:left;
+	height:239px;
+	width:198px;
+	margin: 0 45px 17px 0;
+	cursor:pointer;
+	background: url(../images/poster-addyourproj.jpg) no-repeat left top;
+}
+
+.clearfix{
+	clear:both;
+}
+
+/*END ENTERPRISE VIEW*/
+
+
+/*Grind VIEW*/
+.ppbox{
+	float:left;
+	width:10%;
+	text-align:center;
+	font: bold 16px/22px 'TradeGothicLTStdRegular',arial;
+	color: #cccccc;
+	padding: 0 0 0 10px;
+}
+
+.pp_poster{
+	background: url(../images/poster-grinderview-bg.jpg) no-repeat left top;
+	height:101px;
+	width:118px;
+	padding: 6px 0 20px 5px;
+	text-align:left;
+}
+.knowmore{
+	text-align:left;
+}
+.knowmorecontrol{
+	position:relative;
+	width:115%;
+	margin-left:-2%;
+}
+.knowmorecontrol div{
+	cursor:pointer;
+    background: url("../images/sprite-2.png") no-repeat scroll -4px -90px transparent;
+	float:left;
+}
+.knowmorecontrol div.stop{ background-position: -14px -369px; height:32px; width:32px; }
+.knowmorecontrol div.prev{ background-position: -52px -369px; height:32px; width:32px; }
+.knowmorecontrol div.play{ background-position: -90px -366px; height:35px; width:35px; }
+.knowmorecontrol div.next{ background-position: -130px -368px; height:32px; width:32px; }
+.thumbchartgrp{
+	float:left;
+	width:62%;
+	padding: 0 0 0 5%;
+}
+.thumbchartgrp .thumbchart{
+	float:left;
+	height:240px;
+	width:197px;
+	margin: 0 45px 17px 0;
+	overflow:hidden;
+	background: url(../images/project-controlbox.png) no-repeat left top;
+}
+.thumbchartgrp .thumbposter{
+	padding: 10px  0 0 14px;
+}
+.thumbchartgrp p{
+	overflow:hidden;
+	width:177px;
+	height:74px;
+	color: #9d9a9b;
+	padding: 0 0 0 10px;
+	font: normal 11px/13px 'TradeGothicLTStdRegular',arial;
+}
+.thumbchartgrp p span{
+	color: #000000;
+	display:block;
+	padding: 7px 0;
+	font: bold 15px/16px 'TradeGothicLTStdRegular',arial;
+}
+
+.thumbchartgrp .thumbchart_days{
+	padding: 5px 0 0 10px;
+	color:#000000;
+	font: normal 10px/12px 'TradeGothicLTStdRegular',arial;
+	float:left;
+	text-align:center;
+	width:37px;
+	height: 31px;
+}
+.thumbchartgrp .thumbchart_submited{
+	padding: 5px 3px 0 3px;
+	color:#000000;
+	font: normal 10px/12px 'TradeGothicLTStdRegular',arial;
+	float:left;
+	text-align:center;
+	width:53px;
+	height: 31px;
+}
+.thumbchartgrp .thumbchart_win{
+	padding: 5px 0 0 0px;
+	color:#000000;
+	font: normal 10px/12px 'TradeGothicLTStdRegular',arial;
+	float:left;
+	text-align:center;
+	width:50px;
+	height: 31px;
+}
+.thumbchartgrp .thumbchart_dollar{
+	padding: 8px 0 0px 7px;
+	color:#000000;
+	font: normal 10px/12px 'TradeGothicLTStdRegular',arial;
+	float:left;
+	text-align:left;
+	width:30px;
+	height: 31px;
+}
+
+.scorecard{
+	float:left;
+	width:10%;
+	padding: 0 0 0 0;
+	font: normal 10px/12px 'TradeGothicLTStdRegular',arial;
+}
+.scorecard div{
+	text-align:center;
+	padding: 0;
+	width:101px;
+	height:44px;
+	color: #000;
+	margin: 0 0 7px;
+    background: url("../images/sprite-2.png") no-repeat scroll -4px -90px transparent;
+}
+.scorecard span{
+	font: normal 18px/24px 'TradeGothicLTStdRegular',arial;
+	display:block;
+}
+
+.scorecard div.color1{
+	background-position: -14px -428px;
+}
+.scorecard div.color2{
+	background-position: -14px -474px;
+}
+
+.pedigree{
+	float:left;
+	width:10%;
+	color: #cccbcb;
+	padding: 0 0 0 5px;
+	text-align:center;
+	font: bold 15px/12px 'TradeGothicLTStdRegular',arial;
+}
+.pedigree div{
+	width:131px;
+	height:63px;
+	padding: 10px 0 0;
+    background: url("../images/sprite-2.png") no-repeat scroll -147px -428px transparent;
+}
+/*END GRIND VIEW*/
+
+/*START INSTITUE VIEW*/
+#newsletter h1{
+	font: bold 23px/28px 'TradeGothicLTStdRegular',arial;
+	padding: 0 0 5px;
+}
+#newsletter{
+	position:relative;	
+	width:600px;
+	float:left;
+}
+#newsletter label.labelfield{
+	display: block;
+	padding: 15px 0 5px 0;
+}
+label.labelfield{
+	color: #ffffff;
+	font: bold 13px/18px 'TradeGothicLTStdRegular',arial;
+}
+
+.formRow input[name=camp_title]{
+	width: 500px;
+}
+.uploadfile{
+	position:relative;
+}
+.uploadfile input[type=file]{
+	opacity:0;
+	position:absolute;
+	left:0;
+	top:0;
+}
+.uploadfile div{
+	width:97px;
+	height:30px;
+	padding: 0px 20px 0 0;
+    background: url("../images/sprite-2.png") no-repeat scroll -18px -527px transparent;
+}
+
+.btn_grindit{
+	border:0px;
+	width:110px;
+	height:45px;
+	padding: 0px 0px 0 0;
+    background: url("../images/sprite-2.png") no-repeat scroll -157px -526px transparent;
+	cursor:pointer;
+}
+
+#newsletter .checkboxHolder, #newsletter .greytxt{
+	color: #989898;
+	font: bold 13px/18px 'TradeGothicLTStdRegular',arial;
+}
+#newsletter .btn_grindit{
+	float:right;
+}
+
+#newsletter .checkboxHolder{
+	float:none;
+}
+
+
+#institueform{
+	position:relative;
+	float:right;
+	background: #ccc;
+	width:245px;
+	padding: 15px 0 0 35px;
+	margin: 0 0 0 25px;
+}
+#institueform.formRow label.labelfield{
+	color: #000000;
+	padding: 10px 0 5px;
+	display:block;
+}
+
+
+#institueform.formRow .textInputHolder{
+	margin-right:0px;
+	float:none;
+}
+
+#institueform.formRow input[type=text]{
+	width:220px;
+}
+
+.btn_update{
+	border:0px;
+	width:110px;
+	height:45px;
+	padding: 0px 0px 0 0;
+    background: url("../images/sprite-2.png") no-repeat scroll -159px -597px transparent;
+	margin: 25px 10px 15px;
+	float:right;
+	cursor:pointer;
+
+}
+
+/*END INSTITUE VIEW*/

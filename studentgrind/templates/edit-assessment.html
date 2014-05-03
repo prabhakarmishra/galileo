@@ -1,0 +1,382 @@
+<div class="heading">ASSESS</div>	
+{% extends "base.html" %}
+{% load static %}
+{% block full_container %}
+<script>
+	$(function() {
+		$( "#id_challenge1Date" ).datepicker({
+			showOn: "both",
+			dateFormat: "mm-dd-yy",
+			buttonImage: "/static/images/calender.png",
+			buttonImageOnly: true,
+			maxDate: 0
+		});
+
+		
+	});
+	</script>
+<script>
+	$(function() {
+		$( "#id_challenge2Date" ).datepicker({
+			showOn: "both",
+			dateFormat: "mm-dd-yy",
+			buttonImage: "/static/images/calender.png",
+			buttonImageOnly: true,
+			maxDate: 0
+		});
+
+		
+	});
+</script>
+
+<!--Validation code starts here -->
+<script type="text/javascript">
+function validateForm()
+{
+  var checkvalidate = true;
+  if( $('select[name=challenge1Type]').val() == "" || $('select[name=challenge1Type]').val() == "Select to Authenticate" )
+   {
+     checkvalidate =  false;
+     alert( "Please select first challenge to Authenticate." );
+     document.addprojform.challenge1Type.focus() ;
+	 return false;
+   }
+   if( $.trim(document.addprojform.challenge1Desc.value) == "" || document.addprojform.challenge1Desc.value == "Explain your First top challenges/task, your role and deliverables in 100 words" || document.addprojform.challenge1Desc.value == "Explain your top challenges/task, your role and deliverables in 100 words" )
+   {
+     checkvalidate =  false;
+     alert( "Select to authenticate your top challenge/task" );
+     document.addprojform.challenge1Desc.focus() ;
+	 return false;
+   }
+   if( document.addprojform.challenge1Date.value == "" || document.addprojform.challenge1Date.value == "MM/DD/YYYY" )
+   {
+     checkvalidate =  false;
+     alert( "Please provide date for first challenge." );
+     document.addprojform.challenge1Date.focus() ;
+     return false;
+   }
+   if( $('select[name=challenge2Type]').val() == "" || $('select[name=challenge2Type]').val() == "Select to Authenticate" )
+   {
+     checkvalidate =  false;
+     alert( "Please select second challenge to authenticate." );
+     document.addprojform.challenge2Type.focus() ;
+	 return false;
+   }
+   if( $.trim(document.addprojform.challenge2Desc.value) == "" || document.addprojform.challenge2Desc.value == "Explain your Second top challenges/task, your role and deliverables in 100 words"  || document.addprojform.challenge2Desc.value == "Explain your top challenges/task, your role and deliverables in 100 words")
+   {
+     checkvalidate =  false;
+     alert( "Select to authenticate your next top challenge/task" );
+     document.addprojform.challenge2Desc.focus() ;
+	 return false;
+   }
+   if( document.addprojform.challenge2Date.value == "" || document.addprojform.challenge2Date.value == "MM/DD/YYYY" )
+   {
+     checkvalidate =  false;
+     alert( "Please provide date for second challenge." );
+     document.addprojform.challenge2Date.focus() ;
+     return false;
+   }
+   if( document.addprojform.perfScore.value == "" || document.addprojform.perfScore.value == "0")
+   {
+     checkvalidate =  false;
+     alert( "Please enter value in rate your performance." );
+     document.addprojform.perfScore.focus() ;
+     return false;
+   }
+
+
+   if( $('input[name=growth]').is(':checked')) {
+	   if( $.trim(document.addprojform.growthDesc.value) == "" || document.addprojform.growthDesc.value == "Explain the growth in 140 characters")
+	   {
+		 checkvalidate =  false;
+		 alert( "Please Explain the growth in 140 characters" );
+		 document.addprojform.growthDesc.focus() ;
+		 return false;
+	   }
+	}
+
+   if( $('input[name=chance]').is(':checked')) {
+	   if( $.trim(document.addprojform.demoDesc.value) == "" || document.addprojform.demoDesc.value == "Explain the growth in 140 characters")
+	   {
+		 checkvalidate =  false;
+		 alert( "Please Explain a chance to demonstrate to Senior Executive in 140 characters" );
+		 document.addprojform.demoDesc.focus() ;
+		 return false;
+	   }
+	}
+
+   if( $('input[name=promotion]').is(':checked')) {
+	   if( $.trim(document.addprojform.promoted.value) == "" || document.addprojform.promoted.value == "Explain the growth in 140 characters")
+	   {
+		 checkvalidate =  false;
+		 alert( "Please Explain the promoted during this project in 140 characters" );
+		 document.addprojform.promoted.focus() ;
+		 return false;
+	   }
+	}
+
+   if( $('input[name=achieve]').is(':checked')) {
+	   if( $.trim(document.addprojform.majorGoalDesc.value) == "" || document.addprojform.majorGoalDesc.value == "Explain the growth in 140 characters")
+	   {
+		 checkvalidate =  false;
+		 alert( "Please Explain the major goals in 140 characters" );
+		 document.addprojform.majorGoalDesc.focus() ;
+		 return false;
+	   }
+	}
+
+   if( $('input[name=hired]').is(':checked')) {
+	   if( $.trim(document.addprojform.mgrRehireDesc.value) == "" || document.addprojform.mgrRehireDesc.value == "Explain the growth in 140 characters")
+	   {
+		 checkvalidate =  false;
+		 alert( "Please Explain the hired/re-hired by previous manager in 140 characters" );
+		 document.addprojform.mgrRehireDesc.focus() ;
+		 return false;
+	   }
+	}
+
+   if( $('input[name=subordinates]').is(':checked')) {
+	   if( $.trim(document.addprojform.subordHireDesc.value) == "" || document.addprojform.subordHireDesc.value == "Explain the growth in 140 characters")
+	   {
+		 checkvalidate =  false;
+		 alert( "Please Explain the hire former subordinates in 140 characters" );
+		 document.addprojform.subordHireDesc.focus() ;
+		 return false;
+	   }
+	}
+
+   if( $('input[name=goperson]').is(':checked')) {
+	   if( $.trim(document.addprojform.gotoPersonDesc.value) == "" || document.addprojform.gotoPersonDesc.value == "Explain the growth in 140 characters")
+	   {
+		 checkvalidate =  false;
+		 alert( "Please Explain the go-to person on the projec in 140 characters" );
+		 document.addprojform.gotoPersonDesc.focus() ;
+		 return false;
+	   }
+	}
+
+   if( $('input[name=mentored]').is(':checked')) {
+	   if( $.trim(document.addprojform.mentoredDesc.value) == "" || document.addprojform.mentoredDesc.value == "Explain the growth in 140 characters")
+	   {
+		 checkvalidate =  false;
+		 alert( "Please Explain the mentored in 140 characters" );
+		 document.addprojform.mentoredDesc.focus() ;
+		 return false;
+	   }
+	}
+
+   return checkvalidate ;
+}
+</script>
+
+<!--Validation code ends here -->
+
+<form id="addprojform" name="addprojform" {% if pro_id %} action="/student/project/assess/?pro_id={{pro_id}}" {% else %} action="/student/project/assess/?perf_id={{perf_id}}" {% endif %} method="POST">
+<div class="centerl_container maxw1216">
+
+<div class="containerRight">
+
+	<div class="formRow_03">
+		<h3>Select to Authenticate your top challenge/task</h3>
+		<select name="challenge1Type" id="id_challenge1Type">
+			<option value="Select to Authenticate" selected>Select to Authenticate</option>
+			<option value="Assigned difficult challenges/tasks in this project">Assigned difficult challenges/tasks in this project</option>
+			<option value="Volunteered difficult challengs/tasks in this project">Volunteered difficult challengs/tasks in this project</option>
+		</select>
+	</div>
+
+	<div class="formRow_03">
+		<textarea name="challenge1Desc" id="id_challenge1Desc" onfocus="if(this.value=='Explain your First top challenges/task, your role and deliverables in 100 words'){this.value=''};" onblur="if( $.trim(this.value) ==''){this.value='Explain your First top challenges/task, your role and deliverables in 100 words'};">Explain your First top challenges/task, your role and deliverables in 100 words</textarea>
+	</div>
+					
+					
+	<div class="formRow">
+		<div class="selectDate">
+
+		<label class="label_txtInput" for="projectDeadline">
+			When was this 
+		</label>
+		<span class="inputLeftCorner"></span><input id="id_challenge1Date" name="challenge1Date" type="text" value="MM/DD/YYYY" onfocus="if(this.value=='MM/DD/YYYY'){this.value=''};" onblur="if(this.value==''){this.value='MM/DD/YYYY'};" /><span class="inputRightCorner"></span>	
+		</div>
+	</div>
+
+</div>
+<div class="containerRight w300">
+	<div class="formRow_03">
+		<h3>Select to Authenticate your next top challenge/task</h3>
+		<select name="challenge2Type" id="id_challenge2Type">
+			<option value="Select to Authenticate" selected>Select to Authenticate</option>
+			<option value="Assigned difficult challenges/tasks in this project">Assigned difficult challenges/tasks in this project</option>
+			<option value="Volunteered difficult challengs/tasks in this project">Volunteered difficult challengs/tasks in this project</option>
+		</select>
+	</div>
+
+	<div class="formRow_03">
+		<textarea name="challenge2Desc" id="id_challenge2Desc" onfocus="if(this.value=='Explain your Second top challenges/task, your role and deliverables in 100 words'){this.value=''};" onblur="if( $.trim(this.value) ==''){this.value='Explain your Second top challenges/task, your role and deliverables in 100 words'};">Explain your Second top challenges/task, your role and deliverables in 100 words</textarea>
+	</div>
+					
+					
+	<div class="formRow">
+		<div class="selectDate">
+
+		<label class="label_txtInput" for="projectDeadline">
+			When was this 
+		</label>
+		<span class="inputLeftCorner"></span><input id="id_challenge2Date" name="challenge2Date" type="text" value="MM/DD/YYYY" onfocus="if(this.value=='MM/DD/YYYY'){this.value=''};" onblur="if(this.value==''){this.value='MM/DD/YYYY'};" /><span class="inputRightCorner"></span>	
+		</div>
+	</div>
+
+</div>
+
+
+
+
+<div class="containerRight">
+
+	<div class="formRow_04">
+	<b>Rate your performance</b><br>
+		<div class="textInputHolder">
+		<span class="inputLeftCorner"></span><input id="id_perfScore"  name="perfScore" type="text" value="3" onfocus="if(this.value=='3'){this.value=''};"  /><span class="inputRightCorner"></span>	
+		</div>
+	</div>
+
+
+
+	<div class="formRow_03">
+		<div class="checkboxHolder_02">
+		<label class="label_check" for="growth">
+		<input name="growth" id="growth" value="1" type="checkbox" />
+		Was there growth in criticality, size, importance or impact of project ?
+		</label>
+		</div>
+	</div>
+	<div class="formRow_04">
+		<div class="textInputHolder">
+		<span class="inputLeftCorner"></span><input id="id_growthDesc" name="growthDesc" type="text" value="Explain the growth in 140 characters" onfocus="if(this.value=='Explain the growth in 140 characters'){this.value=''};" onblur="if(this.value==''){this.value='Explain the growth in 140 characters'};" /><span class="inputRightCorner"></span>	
+		</div>
+	</div>
+
+
+
+
+	<div class="formRow_03">
+		<div class="checkboxHolder_02">
+		<label class="label_check" for="growth">
+		<input name="chance" id="chance" value="1" type="checkbox" />
+		Did you have a chance to demonstrate to Senior Executive ?
+		</label>
+		</div>
+	</div>
+	<div class="formRow_04">
+		<div class="textInputHolder">
+		<span class="inputLeftCorner"></span><input id="id_demoDesc" name="demoDesc" type="text" value="Explain the growth in 140 characters" onfocus="if(this.value=='Explain the growth in 140 characters'){this.value=''};" onblur="if(this.value==''){this.value='Explain the growth in 140 characters'};" /><span class="inputRightCorner"></span>	
+		</div>
+	</div>
+
+
+
+	<div class="formRow_03">
+		<div class="checkboxHolder_02">
+		<label class="label_check" for="growth">
+		<input name="promotion" id="promotion" value="1" type="checkbox" />
+		Were you promoted during this project ?
+		</label>
+		</div>
+	</div>
+	<div class="formRow_04">
+		<div class="textInputHolder">
+		<span class="inputLeftCorner"></span><input id="id_promoted" name="promoted" type="text" value="Explain the growth in 140 characters" onfocus="if(this.value=='Explain the growth in 140 characters'){this.value=''};" onblur="if(this.value==''){this.value='Explain the growth in 140 characters'};" /><span class="inputRightCorner"></span>	
+		</div>
+	</div>
+
+
+
+	<div class="formRow_03">
+		<div class="checkboxHolder_02">
+		<label class="label_check" for="growth">
+		<input name="achieve" id="achieve" value="1" type="checkbox" />
+		Did you establish and achieve major goals during this project ?
+		</label>
+		</div>
+	</div>
+	<div class="formRow_04">
+		<div class="textInputHolder">
+		<span class="inputLeftCorner"></span><input id="id_majorGoalDesc" name="majorGoalDesc" type="text" value="Explain the growth in 140 characters" onfocus="if(this.value=='Explain the growth in 140 characters'){this.value=''};" onblur="if(this.value==''){this.value='Explain the growth in 140 characters'};" /><span class="inputRightCorner"></span>	
+		</div>
+	</div>
+
+
+
+	<div class="formRow_03">
+		<div class="checkboxHolder_02">
+		<label class="label_check" for="growth">
+		<input name="hired" id="hired" value="1" type="checkbox" />
+		Were you hired/re-hired by previous manager for this project ?
+		</label>
+		</div>
+	</div>
+	<div class="formRow_04">
+		<div class="textInputHolder">
+		<span class="inputLeftCorner"></span><input id="id_mgrRehireDesc" name="mgrRehireDesc" type="text" value="Explain the growth in 140 characters" onfocus="if(this.value=='Explain the growth in 140 characters'){this.value=''};" onblur="if(this.value==''){this.value='Explain the growth in 140 characters'};" /><span class="inputRightCorner"></span>	
+		</div>
+	</div>
+
+
+
+	<div class="formRow_03">
+		<div class="checkboxHolder_02">
+		<label class="label_check" for="growth">
+		<input name="subordinates" id="subordinates" value="1" type="checkbox" />
+		Did you hire former subordinates ?
+		</label>
+		</div>
+	</div>
+	<div class="formRow_04">
+		<div class="textInputHolder">
+		<span class="inputLeftCorner"></span><input id="id_subordHireDesc" name="subordHireDesc" type="text" value="Explain the growth in 140 characters" onfocus="if(this.value=='Explain the growth in 140 characters'){this.value=''};" onblur="if(this.value==''){this.value='Explain the growth in 140 characters'};" /><span class="inputRightCorner"></span>	
+		</div>
+	</div>
+
+
+
+	<div class="formRow_03">
+		<div class="checkboxHolder_02">
+		<label class="label_check" for="growth">
+		<input name="goperson" id="goperson" value="1" type="checkbox" />
+		Were you go-to person on the project or did you receive formal recognition ?
+		</label>
+		</div>
+	</div>
+	<div class="formRow_04">
+		<div class="textInputHolder">
+		<span class="inputLeftCorner"></span><input id="id_gotoPersonDesc" name="gotoPersonDesc" type="text" value="Explain the growth in 140 characters" onfocus="if(this.value=='Explain the growth in 140 characters'){this.value=''};" onblur="if(this.value==''){this.value='Explain the growth in 140 characters'};" /><span class="inputRightCorner"></span>	
+		</div>
+	</div>
+
+
+
+	<div class="formRow_03">
+		<div class="checkboxHolder_02">
+		<label class="label_check" for="growth">
+		<input name="mentored" id="mentored" value="1" type="checkbox" />
+		Were you mentored ?
+		</label>
+		</div>
+	</div>
+	<div class="formRow_04">
+		<div class="textInputHolder">
+		<span class="inputLeftCorner"></span><input id="id_mentoredDesc" name="mentoredDesc" type="text" value="Explain the growth in 140 characters" onfocus="if(this.value=='Explain the growth in 140 characters'){this.value=''};" onblur="if(this.value==''){this.value='Explain the growth in 140 characters'};" /><span class="inputRightCorner"></span>	
+		</div>
+	</div>
+	
+	<div class="formRow_03">
+			<div class="btnHolder_05"><input type="submit" class="projectaccessbtn" value="" onclick="return validateForm()" /></div>
+			<a href="#" class="closepop"><input type="button"  class="cancelButton" value=""></a>
+	</div>
+
+	
+	
+	</div>
+</div>
+</form>
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block full_container %}
+<script type="text/javascript">
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.imageform.id_img.value == "")
+   {
+     checkvalidate =  false;
+     alert( "Please Select image first !" );
+     
+	 return false;
+   }
+   return checkvalidate ;
+}
+</script>		
+<div class="full_container bgwhite_main">
+    
+	<div class="wrapper_col1">
+	<h2>What is been assigned to you</h2>
+	<p>Select Assignments and candidate, then click ASSIGN button</p>
+
+	<form method="POST" action="/assessment-assign-candidate/" name="formassign" id="formassign">
+
+						<div class="contentbox2">
+							<div class="grid_heading4">
+								<div class="searchgrp">
+									<input type="text" onfocus="if(this.value=='Search for Assessment'){this.value=''};" onblur="if(this.value==''){this.value='Search for Assessment'};" value="Search for Assessment" name="searchkeyword" id="searchkeyword"><input type="submit" value="" name="btn_search"> 
+								</div>Select Assessment 
+							</div>
+							{% if searched_assessment %}
+							<div class="contentlist4">
+								{% for assess in searched_assessment %}
+								  <div class="assess_grid_col1"><input type="checkbox" name="assessment[]" value="{{assess.testId}}">{{assess.name}}</div>
+								{% endfor %}
+								  
+							</div>
+							{% else %}
+							<div class="contentlist4">
+								{% for assess in assessmentList %}
+								  <div class="assess_grid_col1"><input type="checkbox" name="assessment[]" value="{{assess.testId}}">{{assess.name}}</div>
+								{% endfor %}
+								  
+							</div>
+							{% endif %}
+						</div>
+
+						<div class="contentbox2">
+							<div class="grid_heading4">Assign To </div>
+							<div class="contentlist4">
+								  <div class="assess_grid_col1"><input type="checkbox" name="assessment_assign[]" value="1"> {{user.fName}}&nbsp; {{user.lName}}</div>
+
+							</div>
+						</div>
+					
+					
+					<div class="btnbox">
+						<input type="submit" value="" name="submit_assign" class="assignButton">
+					</div>
+	</form>
+	<div class="clearfix"></div>
+</div>
+
+
+	<div class="wrapper_col2">
+	<h2>What is been assigned to you</h2>
+	<p>Using Assignments or candidate names, look up the assignments that has been assigned to candidates44</p>
+
+	<form method=post action="#" name="formassign" id="formassign">
+
+
+						<div class="contentbox2">
+							<div class="grid_heading4">Assign To </div>
+							<div class="contentlist4">
+								{% for assess in user_assessmentList %}
+								  <div class="assess_grid_col1">{{assess.name}}</div>
+								{% endfor %}
+							</div>
+						</div>
+					
+					
+	</form>
+	<div class="clearfix"></div>
+</div>
+
+
+
+</div>
+<div class="clearfix"></div>
+	{% endblock %}

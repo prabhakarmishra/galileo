@@ -1,0 +1,305 @@
+{% load static %}
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html class="no-js ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]>    <html class="no-js ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]>    <html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Student Grind</title>
+
+    <meta name="description" content="Student Grind">
+    <meta name="keywords" content="Student Grind">
+
+
+<link href="{% static 'css/stye.css' %}" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="{% static 'js/jquery-1.8.3.min.js' %}"></script>
+<script src="{% static 'js/lib.js' %}" type="text/javascript"></script>
+<script type="text/javascript" src="{% static 'js/jquery-ui-1.10.3.custom.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/scripts.js' %}"></script>
+<script>
+function goBack()
+  {
+  window.history.back()
+  }
+</script>
+<script type="text/javascript">
+$(function () {
+	$("#enterprisestudent").selectbox();
+	$(".loginbox #type").selectbox();
+
+	
+	$(".loginbox #type").change(function(){
+		var getval = $(this).val();
+		if (getval=="Candidate"){
+			$('input[name=collegeName]').val('Candidate Name');
+			$('input[name=collegeName]').attr('onfocus',"if(this.value=='Candidate Name'){this.value=''};")
+			$('input[name=collegeName]').attr('onblur',"if(this.value==''){this.value='Candidate Name'};")
+		}else if (getval=="Enterprise"){
+			$('input[name=collegeName]').val('Enterprise Name');
+			$('input[name=collegeName]').attr('onfocus',"if(this.value=='Enterprise Name'){this.value=''};")
+			$('input[name=collegeName]').attr('onblur',"if(this.value==''){this.value='Enterprise Name'};")
+		}else if (getval=="Student"){
+			$('input[name=collegeName]').val('College Name');
+			$('input[name=collegeName]').attr('onfocus',"if(this.value=='College Name'){this.value=''};")
+			$('input[name=collegeName]').attr('onblur',"if(this.value==''){this.value='College Name'};")
+		}
+	});
+});
+</script>
+<script type="text/javascript">
+$(function () {
+	$("#skillId, #verificationStatus").selectbox();
+});
+</script>
+
+
+<script type="text/javascript">
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.registrationForm.fName.value == "" || document.registrationForm.fName.value == "First Name" )
+   {
+     checkvalidate =  false;
+     alert( "Please provide your First name!" );
+     document.registrationForm.fName.focus() ;
+	 return false;
+   }
+   if( document.registrationForm.lName.value == "" || document.registrationForm.lName.value == "Last Name" )
+   {
+     checkvalidate =  false;
+     alert( "Please provide your Last name!" );
+     document.registrationForm.lName.focus() ;
+	 return false;
+   }
+   if( document.registrationForm.emailId.value == "" || document.registrationForm.emailId.value == "Email" )
+   {
+     checkvalidate =  false;
+     alert( "Please provide your Email!" );
+     document.registrationForm.emailId.focus() ;
+	 return false;
+   }
+   
+   if( document.registrationForm.password.value == "" || document.registrationForm.password.value == "password" )
+   {
+     checkvalidate =  false;
+     alert( "Please provide your Password!" );
+     document.registrationForm.password.focus() ;
+     return false;
+   }
+   
+   if( document.registrationForm.collegeName.value == ""|| document.registrationForm.collegeName.value == "College Name")
+   {
+     checkvalidate =  false;
+     alert( "Please mention your College Name!" );
+     document.registrationForm.collegeName.focus() ;
+     return false;
+   }
+   if( document.registrationForm.type.value == "")
+   {
+     checkvalidate =  false;
+     alert( "Please Select your Type!" );
+     document.registrationForm.type.focus() ;
+     return false;
+   }
+
+	$('input[name=Linkedin], input[name=facebook], input[name=github]').attr('onblur','');
+   if( document.registrationForm.linkedIn.value == "Linkedin")
+		document.registrationForm.linkedIn.value = '';
+   /*if( document.registrationForm.facebook.value == "Facebook Profile(optional)")
+		document.registrationForm.facebook.value = '';
+   if( document.registrationForm.github.value == "GitHub Login(optional)")
+		document.registrationForm.github.value = ''; */
+
+   return checkvalidate ;
+}
+</script>
+
+<!-- Forms validation Ends here -->
+<!--  js for changing text value according to usertype selected -->
+<script type="text/javascript"> 
+ window.onload=function() {  
+  if (document.getElementById) { 
+ document.getElementById("type").onchange=function() { checkText(this); }  
+  } 
+ } 
+ function checkText(SNewSel) { 
+ var ind = SNewSel.selectedIndex; 
+ var txt = document.getElementById('collegeName'); 
+ if( document.registrationForm.type.value == "Enterprise")
+   {
+     
+	 txt.value = "Enterprise Name" 
+   }
+	if( document.registrationForm.type.value == "Student")
+   {
+     txt.value = "College Name"
+   }
+} 
+</script> 
+	
+<script type="text/javascript">
+	$.fn.serializeObject = function()
+	{
+		var o = {};
+		var a = this.serializeArray();
+		$.each(a, function() {
+			if (o[this.name] !== undefined) {
+				if (!o[this.name].push) {
+					o[this.name] = [o[this.name]];
+				}
+				o[this.name].push(this.value || '');
+			} else {
+				o[this.name] = this.value || '';
+			}
+		});
+		return o;
+	};
+
+		
+	$(function() {
+	var dat;
+				$('#registrationForm').ajaxForm({
+								type: 'post',
+								beforeSubmit: function(){
+										dat = JSON.stringify($('#registrationForm').serializeObject());
+										/*alert(dat); */
+								},
+								url: '/users/0/create/',
+								data: dat,
+								success: function (dat) {
+									alert('Data Successfully Saved.!');
+									location.href = "/landing_page/";
+								}
+							});
+/*
+		$('#registrationForm').submit(function() 			
+		{
+			var dat = JSON.stringify($('#registrationForm').serializeObject());
+			alert(dat);
+
+			$.ajax({
+				type: 'post',
+				url: '/users/0/create/',
+				data: dat,
+				success: function (data) {
+					alert('Data Successfully Saved.!');
+					location.href = "/landing_page/";
+				}
+			});
+
+			return false;
+		});
+	*/		
+	});
+	
+	
+	
+</script>
+
+
+</head>
+
+<body class="bgwhite">
+
+<header>
+	<a href="/"><img src="{% static 'images/sg-logo.png' %}" width="62" height="60" border=0 alt="Student Grid" class="logo" /></a>
+	<div class="topnav">
+
+
+	{% if request.session.validate_user  %}
+		<div class="loginbox">
+		<form method=post action="" name="logbox" id="logbox" class="logoutbox">
+			<a href="/user_logout/">LOGOUT</a>
+		</form>
+		</div>
+	{% else %}
+		<div class="loginbox"><span>SIGN UP</span>
+			<form method="POST"  name="registrationForm" id="registrationForm" class="logbox"><span>&nbsp;</span>
+				<input type="text"  value="Email"  name="emailId" id="emailId" onfocus="if(this.value=='Email'){this.value=''};" onblur="if(this.value==''){this.value='Email'};">
+				<input type="password" name="password" value="password" id="password" onfocus="if(this.value=='password'){this.value=''};" onblur="if(this.value==''){this.value='password'};">
+				<input type="text" name="linkedIn" value="Linkedin" id="linkedIn" onfocus="if(this.value=='Linkedin'){this.value=''};" onblur="if(this.value==''){this.value='Linkedin'};" />
+				<input type="text"  value="First Name"  name="fName" id="fName" onfocus="if(this.value=='First Name'){this.value=''};" onblur="if(this.value==''){this.value='First Name'};">
+				<input type="text"  value="Last Name"  name="lName" id="lName" onfocus="if(this.value=='Last Name'){this.value=''};" onblur="if(this.value==''){this.value='Last Name'};">
+				<select name="type" id="type">
+					<option value="Student">Student</option>
+					<option value="Candidate">Candidate</option>
+					<option value="Enterprise">Enterprise</option>
+				</select>
+				<input type="text"  value="College Name"  name="collegeName" id="collegeName" onfocus="if(this.value=='College Name'){this.value=''};" onblur="if(this.value==''){this.value='College Name'};">
+				<input type="submit" name="submit_new" class="btn_signup2" value="" onclick="return validateForm(); ">
+			</form>
+		</div>
+		<div class="loginbox"><span>LOGIN</span>
+			<form method="post" action="/user_login/" name="logbox" id="logbox" class="logbox"><span>&nbsp;</span>
+				<input type="text"  value="Email"  name="emailid" onfocus="if(this.value=='Email'){this.value=''};" onblur="if(this.value==''){this.value='Email'};">
+				<input type="password" name="password" value="password" onfocus="if(this.value=='password'){this.value=''};" onblur="if(this.value==''){this.value='password'};">
+				<input type="submit" name="submit_log" class="btn_signin" value="">
+			</form>
+		</div>
+	{% endif %}
+		<div class="menu">
+			{% if request.session.validate_user  %}<a href="/landing_page/">{% else %}<a href="/">{% endif %}HOME</a>&nbsp; &nbsp;<a href="/challenge/">CHALLENGES</a>{% if request.session.validate_user  %}&nbsp; &nbsp;<a href="#" class="coming">ASSESSMENTS<em><img src="{% static 'images/comingsoon.png' %}" width="99" height="40" border=0 alt=""></em></a>&nbsp; &nbsp;<a href="/verify-view/">AUTHENTICATIONS<em><img src="{% static 'images/comingsoon.png' %}" width="99" height="40" border=0 alt=""></em></a>{% else %}{% endif %}&nbsp; &nbsp;<a href="/about_us/">ABOUT</a>&nbsp; &nbsp;<a href="/talentomi/">WHY TALENTOMI</a> <!-- | <a href="#">Alumni or Institution</a> -->
+		</div>
+
+	
+	
+	</div>
+</header>
+
+
+<!-- Start Main -->
+<div class="full_container">
+  <div class="centerl_container mtop0">
+
+	<!-- Box 1 -->
+    <div class="boxgrey3">
+		<p>At Talentomi, we believe talents are our treasures.  Like treasures, talent are rare and have not been explored enough.  We are using technology to explore and help talent achieve their full potential.</p>
+
+	  <h4>Developed by industry experts</h4>
+	  <p>Founders of Talentomi have developed software and run professional services organizations in Software, IT and Hi-Tech industry and tools for the last two decades. They have explored talent and hired over 1000s of Analysts, Sys Admins, Architects, iOS, Android, Java, .NET, Python and other developers.  With plenty of growth and success under their belt for Fortune 500 and startups along with lots of pains and frustrations to discover talent, our team has created Talentomi.  Talentomi is a Talent Discovery and Relationship Management platform.</p>
+
+	  <h4>Proven benefits</h4>
+	  <p>Talentomi founder ran 2 pilot programs with their own tool to discover talent within software and IT vertical.  Talentomi has identified areas of weaknesses and potential improvements such as verified performances, skill assessments, face to face screening, and talent strength analysis such as verified performances, skill assessments, face to face screening, and talent strength analysis. This apart from being a marketing engine for talent it can immensely help them improve their performances.</p>
+	  <div class="clearfix"></div>
+	  <!-- <div class="aboutcrumb">
+		<div class="aboutcrumb1">
+			<span>Students join SG</span>
+			<p>Smart students join to challenge themselves and define career interests</p>
+		</div>
+		
+		<div class="aboutcrumb2">
+			<span>Challenges & contests</span>
+			<p>Students take on challenges and contests.  Find their teams and execute</p>
+		</div>
+
+		<div class="aboutcrumb3">
+			<span>Mentor & Projects connect</span>
+			<p>Student get hands-on with projects and mentorships to develop performances</p>
+		</div>
+
+		<div class="aboutcrumb4">
+			<span>Find the next challenge!</span>
+			<p>Student discovery + mentorship + performances + SG = Great future!</p>
+		</div>
+
+	  </div> -->
+	</div>
+
+
+
+
+  </div>
+</div>
+<!-- END Main -->
+
+<footer>
+	Copyright 2013 Student Grind Inc
+		<div class="sharebox"><a class="icon_fb" href="https://www.facebook.com">&nbsp;</a><a class="icon_in" href="https://www.linkedin.com">&nbsp;</a><a href="https://www.twitter.com" class="icon_twitter">&nbsp;</a></div>
+
+</footer>
+
+
+
+</body>
+</html>

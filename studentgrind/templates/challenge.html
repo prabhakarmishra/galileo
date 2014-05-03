@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block full_container %}
+<script type="text/javascript">
+function validateForm()
+{
+  var checkvalidate = true;
+  /*if( document.imageform.id_img.value == "")
+   {
+     checkvalidate =  false;
+     alert( "Please Select image first !" );
+     
+	 return false;
+   } */
+   return checkvalidate ;
+}
+</script>		
+		<div class="centerl_container maxw1200 mtop0">
+			<div class="centerl_containerContent">
+			{% if save_msg %}
+			<script>
+			alert( "Thank you.  Your challenge feedback has been recorded." );
+			</script>
+			{% endif %}
+				
+			<!-- SECOND COLUMN -->
+				<div class="challengebox">
+				<div class="thumbchartgrp">
+					<h4>{% if request.session.validate_user.type == "Enterprise" %}Challenges{% else %}My Challenges{% endif %} {% if request.session.validate_user.type == "Enterprise" %} <!--  <a href="/enterprise/add_project/?ent_id={{request.session.validate_user.userId}}" class="addBtn_04 exploreme" ><span>Add</span></a> --> {% endif %}</h4>
+					<input type="hidden" name="msg" id="msg" value="{{msg}}">
+					
+					<div class="carouse_box">
+						<div class="btn_prev"></div>
+						<div class="btn_next"></div>
+						<div class="carouse_thumbs"><div class="thumbchartgrps">
+
+						{% for project,value in pro_details.items %}
+							<div class="thumbchart">
+							{% if request.session.validate_user  %}
+							{% if request.session.validate_user.type == "Student" or request.session.validate_user.type == "Candidate" %}
+							<a href="/student/submit-project/?project_id={{project.projectId}}" onclick="showpop(this.href); return false;"> 
+							{% else %}
+							<a href="/enterprise/view-submitted-challenge/?pro_id={{project.projectId}}" >
+							{% endif %}
+								<img {% if project.img %}src="/media/{{project.img}}"{% else %}src="{% static 'images/spacer.gif' %}" {% endif %} width="172px" height="112px" border=0 alt="" class="thumbposter">
+								<p>
+									<span>{{project.name}}</span>
+									<span>{{project.description}}</span>
+								</p>
+								<div class="thumbchart_days">{{value.diff}} <br/>DAYS</div>
+								<div class="thumbchart_submited">{{value.submission_count}}<br/>SUBMITTED </div>
+								<div class="thumbchart_win">0 <br/>WINNER</div>
+								<div class="thumbchart_dollar">{{project.project_value}}<br/>{{project.currency}}</div>
+								</a>
+								{% if request.session.validate_user  %}
+								<div class="accesslinkmenu">&nbsp;
+									<div>
+										{% if request.session.validate_user.type == "Student" or request.session.validate_user.type == "Candidate" %}
+										<a href="/student/submit-project/?project_id={{project.projectId}}" class="menu_open" onclick="showpop(this.href); return false;">Open</a>
+										<a href="/student/project/verify/?pro_id={{project.projectId}}" class="menu_verify" onclick="showpop(this.href); return false;">Authenticate</a>
+										<a href="/student/project/assess/?pro_id={{project.projectId}}" class="menu_access" onclick="showpop(this.href); return false;">Assess</a>
+										{% endif %}
+										{% if request.session.validate_user.type == "Enterprise" %}
+										<a href="/enterprise/view-submitted-challenge/?pro_id={{project.projectId}}" class="menu_open" >Open</a>
+										<a href="/enterprise/edit-project/?pro_id={{project.projectId}}" class="menu_open" onclick="showpop(this.href); return false;">Update</a>
+
+										<a id = "{{project.projectId}}" href="#" onclick="deleteFunction({{project.projectId}})" class="menu_access">Delete</a>
+										
+										{% endif %}
+									</div>
+								</div>
+								{% else %}
+								{% endif %}
+							</div>
+							{% endif %}
+						{% endfor %}
+
+						{% if request.session.validate_user.type == "Enterprise" %}  
+							<div class="thumbchart">
+							<a href="/enterprise/add_project/?ent_id={{request.session.validate_user.userId}}" class="chartexploreme">
+								Click here to add
+							</a>
+							</div>
+						{% endif %}
+
+						<!-- Carrousel end -->
+						</div></div>
+					</div>
+
+				</div>
+				</div>
+
+
+
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	{% endblock %}

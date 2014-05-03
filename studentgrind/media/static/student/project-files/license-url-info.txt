@@ -1,0 +1,16 @@
+QA: http://192.168.40.21:9092
+Development: http://192.168.40.21:8085
+Staging: http://192.168.40.21:8082 
+
+
+Zt3YF4FW
+
+ 	SBIN0006606
+
+prabhakar.mishra@in.ibm.com
+
+
+oct@123
+
+
+The button on your shirt, the Chess and Ludo of your son, ink in your pen and the indigo dye, simple ruler of your geometry box or the concept of prefabricated moveable structure, Zero and Pi, infinite series of algebra and the algorithms of programming, Ayurveda and the cataract surgery, the diamond in your wife’s ring or the Mysorean Rocket – all have been invented by this Country.

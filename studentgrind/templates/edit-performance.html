@@ -1,0 +1,275 @@
+<div class="heading">EDIT</div>	
+
+	<script>
+	$(function() {
+		$( "#id_start_date" ).datepicker({
+			showOn: "both",
+			dateFormat: "mm-dd-yy",
+			buttonImage: "/static/images/calender.png",
+			buttonImageOnly: true
+		});
+
+		
+	});
+	</script>
+<script>
+	$(function() {
+		$( "#id_end_date" ).datepicker({
+			showOn: "both",
+			dateFormat: "mm-dd-yy",
+			buttonImage: "/static/images/calender.png",
+			buttonImageOnly: true
+		});
+
+		
+	});
+</script>
+
+<script type="text/javascript">
+function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#preview')
+                    .attr('src', e.target.result)
+                    .width(150)
+                    .height(200);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+
+	<!-- Javascript or form validation -->
+<script type="text/javascript">
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.addprojform.name.value == "" || document.addprojform.name.value == "Enter the Project Name" )
+   {
+     checkvalidate =  false;
+     alert( "Please enter the project name." );
+     document.addprojform.name.focus() ;
+	 return false;
+   }
+   if( document.addprojform.id_start_date.value == "" || document.addprojform.id_start_date.value == "MM-DD-YYYY" )
+   {
+     checkvalidate =  false;
+     alert( "Please select start date." );
+     document.addprojform.id_project_deadline.focus() ;
+     return false;
+   }
+   if( document.addprojform.id_end_date.value == "" || document.addprojform.id_end_date.value == "MM-DD-YYYY" )
+   {
+     checkvalidate =  false;
+     alert( "Please select end date." );
+     document.addprojform.id_project_deadline.focus() ;
+     return false;
+   }
+/*   if( document.addprojform.id_project_value.value == "" || document.addprojform.id_project_value.value == "Project Value ($)" )
+   {
+     checkvalidate =  false;
+     alert( "Please provide project value ($)." );
+     document.addprojform.id_project_value.focus() ;
+     return false;
+   }*/
+
+   if( document.addprojform.id_project_value.value != "" && document.addprojform.id_project_value.value != "Project Value ($)" )
+   {
+     var x = document.addprojform.id_project_value.value;
+	 if (isNaN(x)) 
+	 {
+     checkvalidate =  false;
+     alert( "Please provide project value ($) in numerical format." );
+     document.addprojform.id_project_value.focus() ;
+     return false;
+	 }
+   }
+   if( document.addprojform.id_description.value == "" || document.addprojform.id_description.value == "Project Description")
+   {
+     checkvalidate =  false;
+     alert( "Please enter project description" );
+     document.addprojform.description.focus() ;
+     return false;
+   }
+	if( document.addprojform.id_role.value == "" || document.addprojform.id_role.value == "Role")
+   {
+     checkvalidate =  false;
+     alert( "Please enter role." );
+     document.addprojform.description.focus() ;
+     return false;
+   }
+	if( document.addprojform.id_team_detail.value == "" || document.addprojform.id_team_detail.value == "Team Detail")
+   {
+     checkvalidate =  false;
+     alert( "Please enter team detail." );
+     document.addprojform.description.focus() ;
+     return false;
+   }
+ 
+
+
+   return checkvalidate ;
+}
+</script>
+
+<!-- Forms validation Ends here -->
+
+<form id="addprojform" name="addprojform" action="/student/edit_performance/?perf_id={{instance.performanceId}}" method="POST" enctype="multipart/form-data">
+<div class="centerl_container maxw1216">
+<div class="containerLeft_02">
+
+
+	<div class="projectImgHolder"><img {% if instance.image %} src="/media/{{instance.image}}" {% else %} src="/static/images/add_prjct_img.png" {% endif %} id="preview" width="152" height="108"> <br><button type="button" class="btnchangephoto">&nbsp;</button></div>
+	<div class="addPrjctImgHolder invisible2 w152"><input type="file" name="image" id="id_image" onchange="readURL(this);"></div>
+</div>
+
+<div class="containerRight">
+
+	<div class="formRow_03">
+		<label>Project Name</label><div class="clearfix"></div>
+		<div class="textInputHolder">
+		<span class="inputLeftCorner"></span><input id="id_name" type="text" name="name" maxlength="140" value="{{instance.name}}"  onfocus="if(this.value=='Enter the Project Name'){this.value=''};" onblur="if(this.value==''){this.value='Enter the Project Name'};" /><span class="inputRightCorner"></span>	
+		</div>
+	</div>
+					
+					
+	<div class="formRow">
+		<div class="selectDate">
+
+		<label class="label_txtInput" for="projectDeadline">
+			Project Start Date
+		</label>
+		<span class="inputLeftCorner"></span><input type="text" name="start_date" id="id_start_date" value="{{instance.start_date|date:'m-d-Y'}}" onfocus="if(this.value=='MM-DD-YYYY'){this.value=''};" onblur="if(this.value==''){this.value='MM-DD-YYYY'};" /><span class="inputRightCorner"></span>	
+	
+		</div>
+	</div>
+	<div class="formRow">
+		<div class="selectDate">
+
+		<label class="label_txtInput" for="projectDeadline">
+			Project End Date
+		</label>
+		<span class="inputLeftCorner"></span><input type="text" name="end_date" id="id_end_date" value="{{instance.end_date|date:'m-d-Y'}}" onfocus="if(this.value=='MM-DD-YYYY'){this.value=''};" onblur="if(this.value==''){this.value='MM-DD-YYYY'};" /><span class="inputRightCorner"></span>	
+		
+		</div>
+	</div>
+	
+	<div class="formRow_03">
+		<label>Role</label><div class="clearfix"></div>
+		<input id="id_role" name="role" type="text" maxlength="140" value="{{instance.role}}"  onfocus="if(this.value=='Role'){this.value=''};" onblur="if(this.value==''){this.value='Role'};" />
+	</div>
+	<div class="formRow_03">
+		<label>Team Detail</label><div class="clearfix"></div>
+		<input id="id_team_detail" name="team_detail" type="text" maxlength="140" value="{{instance.team_detail}}"  onfocus="if(this.value=='Team Detail'){this.value=''};" onblur="if(this.value==''){this.value='Team Detail'};" />
+	</div>
+	<div class="formRow_04">
+	Currency:&nbsp;&nbsp;
+		{{form.currency}}
+	</div>
+	<div class="formRow_04">
+		<label>Project Value (optional)($)</label><div class="clearfix"></div>
+		<div class="textInputHolder">
+		<span class="inputLeftCorner"></span><input type="text" name="project_value" id="id_project_value" value="{{instance.project_value}}" onfocus="if(this.value=='Project Value ($)'){this.value=''};" onblur="if(this.value==''){this.value='Project Value ($)'};" /><span class="inputRightCorner"></span>	
+		</div>
+	</div>
+
+	
+	<div class="formRow_03">
+		<label>Project Description</label><div class="clearfix"></div>
+		<textarea id="id_description" name="description" onfocus="if(this.value=='Project Description'){this.value=''};" onblur="if(this.value==''){this.value='Project Description'};">{{instance.description}}</textarea>
+	</div>
+		<div class="formRow_03" style="font-size:14px;">
+		<b>Attached Documents:</b> <br/><br/>
+		<ul class="editfilelist">
+		{% for doc in attached_docList %}
+		 
+		 <li>{{doc.filename}} &nbsp;  <p class='delfile_edit' style='cursor:pointer; color:#c00;'><input type="checkbox" name="filelist[]" value="{{doc.id}}"> <span>REMOVE</span> </p> </li><br/>
+		{% endfor %}
+		</ul>
+		</div>
+		<div class="uploadgrp">
+				<!-- The fileinput-button span is used to style the file input field as button -->
+				<span class="btn btn-success fileinput-button">
+					<i class="glyphicon glyphicon-plus"></i>
+					<span>Select Docs...</span>
+					<!-- The file input field used as target for the file upload widget -->
+					<input id="fileupload" type="file" name="files[]" multiple>
+				</span>
+				<br>
+				<br>
+				<!-- The global progress bar -->
+				<div id="progress" class="progress">
+					<div class="progress-bar progress-bar-success"></div>
+				</div>
+				<!-- The container for the uploaded files -->
+				<div id="files" class="files"></div>
+
+		<!-- <input type="file" name="myfiles" multiple id="myfiles" onchange="getfiles(this.value)">
+		<img src="/static/images/btn-doc.png" width="85" height="28" border=0 alt=""> <span>Click docs to add project files</span> -->
+		</div>
+
+	<div class="btnHolder_05">
+						<a href="#"  class="closepop"><input type="button"  class="cancelButton" value=""></a>
+						<input type="submit" class="projectupdate" value="" onclick="return validateForm()" />
+						
+	</div>
+
+	</div>
+</div>
+</form>
+	<script>
+/*jslint unparam: true */
+/*global window, $ */
+$(function () {
+    'use strict';
+    // Change this to the location of your server-side upload handler:
+    var url = '/multi-file-upload/?tab_name=Performance';
+    $('#fileupload').fileupload({
+        url: url,
+        dataType: 'json',
+		acceptFileTypes: /(\.|\/)(gif|jpe?g|png|docx|doc)$/i,
+		maxFileSize: 5000000, // 5 MB
+        done: function (e, data) {
+            $.each(data.result, function (index, file) {
+				var textval = "<p>"+file.name+" &nbsp;<span class='delfile' rev='"+file.delete_url+"' style='cursor:pointer; color:#c00;'>REMOVE</span><input type='hidden' name='myfiles[]'  id='myfiles' value='"+file.name+"'><input type='hidden' name='myfileId'  id='myfileId' value='"+file.doc_id+"'></p>";
+                $('#files').append(textval);
+            });
+        },
+        progressall: function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $('#progress .progress-bar').css(
+                'width',
+                progress + '%'
+            );
+        }
+    }).prop('disabled', !$.support.fileInput)
+        .parent().addClass($.support.fileInput ? undefined : 'disabled');
+
+
+	$(".delfile").live('click',function(){
+		var r=confirm("Are you sure you want to delete?");
+        var getfile = $(this).attr('rev');
+		if (r)
+		  {
+		   $(this).parent().slideUp(function(){$(this).remove();});
+		  $.ajax({
+			type: 'post',
+			url:getfile + "?tab_name=Performance",
+			success:function(result){
+			$(this).parent().remove();
+			  
+			}});
+		  }
+  });
+
+	$(".delfile_edit span").live('click',function(){
+		var checkBoxes = $(this).prev();
+        checkBoxes.prop("checked", !checkBoxes.prop("checked"));
+	 });
+
+
+});
+</script>

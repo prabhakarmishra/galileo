@@ -1,0 +1,149 @@
+{% load static %}
+<div class="heading">Update</div>	
+<script>
+function deleteFunction(prodid)
+{
+var r=confirm("Are You Sure to Delete");
+if (r)
+  {
+  $.ajax({
+	url:"/enterprise/delete-project/?pro_id=" + prodid,
+	success:function(result){
+	$('#'+prodid).parent().remove();
+      
+    }});
+  }
+  
+}
+</script>
+<script type="text/javascript">
+	$(function() {
+		$( "#id_project_deadline" ).datepicker({
+			showOn: "both",
+			dateFormat: "mm-dd-yy",
+			buttonImage: "/static/images/calender.png",
+			buttonImageOnly: true
+		});
+	});
+function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#preview')
+                    .attr('src', e.target.result)
+                    .width(210)
+                    .height(250);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+
+	<!-- Javascript or form validation -->
+<script type="text/javascript">
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.addprojform.name.value == "" || document.addprojform.name.value == "Enter the Project Name" )
+   {
+     checkvalidate =  false;
+     alert( "Please enter the project name" );
+     document.addprojform.name.focus() ;
+	 return false;
+   }
+   if( document.addprojform.id_project_deadline.value == "" || document.addprojform.id_project_deadline.value == "MM-DD-YYYY" )
+   {
+     checkvalidate =  false;
+     alert( "Please select date" );
+     document.addprojform.id_project_deadline.focus() ;
+     return false;
+   }
+   if( document.addprojform.id_project_value.value == "" || document.addprojform.id_project_value.value == "Project Value ($)" )
+   {
+     checkvalidate =  false;
+     alert( "Please provide project value ($)" );
+     document.addprojform.id_project_value.focus() ;
+     return false;
+   }
+   if( document.addprojform.description.value == "" || document.addprojform.description.value == "Project Description")
+   {
+     checkvalidate =  false;
+     alert( "Please enter project description" );
+     document.addprojform.description.focus() ;
+     return false;
+   }
+
+
+ 
+
+
+   return checkvalidate ;
+}
+</script>
+
+<!-- Forms validation Ends here -->
+
+	
+<form method="POST" action="/enterprise/edit-project/?pro_id={{project.projectId}}" name="addprojform" enctype="multipart/form-data" >
+<div class="centerl_container maxw1216">
+<div class="containerLeft_02">
+	<div class="projectImgHolder"><img {% if project.img %} src="/media/{{project.img}}" {% else %} src="{% static 'images/project_img.png' %}" {% endif %} width="210" height="250" id="preview"></div>
+	<div class="addPrjctImgHolder invisible2"><input type="file" name="img" id="id_img" onchange="readURL(this);">Click to add/change project image</div>
+</div>
+
+<div class="containerRight">
+
+	<div class="formRow_03">
+		<label>Project Name</label><div class="clearfix"></div>
+		<span class="inputLeftCorner"></span><input id="id_name" type="text" name="name" maxlength="140" value="{{project.name}}"  onfocus="if(this.value=='Enter the Project Name'){this.value=''};" onblur="if(this.value==''){this.value='Enter the Project Name'};" /><span class="inputRightCorner"></span>	
+	</div>
+					
+					
+	<div class="formRow">
+		<div class="selectDate">
+
+		<label class="label_txtInput" for="projectDeadline">
+			Project Deadline
+		</label>
+		<span class="inputLeftCorner"></span><input type="text" name="project_deadline" id="id_project_deadline" value="{{project.project_deadline|date:'m-d-y'}}" onfocus="if(this.value=='MM-DD-YYYY'){this.value=''};" onblur="if(this.value==''){this.value='MM-DD-YYYY'};" readonly="true" /><span class="inputRightCorner"></span>	
+		<!-- <div class="calender"></div> -->
+		</div>
+	</div>
+	
+	<div class="formRow">
+		<div class="checkboxHolder_02">
+		<!--label class="label_check" for="googlegroups">
+		<input type="checkbox" name="participate_leaderboard" id="id_participate_leaderboard" {% if project.participate_leaderboard %} checked="checked" {% endif %} />
+		Participate in Leaderboard for this project
+		</label-->
+		<label for="id_participate_leaderboard">Participate leaderboard</label></th><td><input type="checkbox" name="participate_leaderboard" id="id_participate_leaderboard" {% if project.participate_leaderboard %} checked="checked" {% endif%} />
+
+		</div>
+	</div>
+	<div class="formRow_04">
+	Currency:&nbsp;&nbsp;
+		{{form.currency}}
+	</div>
+	<div class="formRow_04">
+		<label>Project Value ($)</label><div class="clearfix"></div>
+		<span class="inputLeftCorner"></span><input type="text" name="project_value" id="id_project_value" value="{{project.project_value}}" onfocus="if(this.value=='Project Value ($)'){this.value=''};" onblur="if(this.value==''){this.value='Project Value ($)'};" /><span class="inputRightCorner"></span>	
+	</div>
+
+	
+	<div class="formRow_03">
+		<label>Project Description</label><div class="clearfix"></div>
+		<textarea id="id_description" name="description" value="" onfocus="if(this.value=='Project Description'){this.value=''};" onblur="if(this.value==''){this.value='Project Description'};">{{project.description}}</textarea>
+		
+			<div class="btnHolder_05">
+						<input type="submit"  class="projectupdate"  value="" onclick="return validateForm()" />
+						<a href="/landing_page/"><input type="button"  class="cancelButton" value=""></a>
+					</div>
+		
+		
+	</div>
+	</div>
+</div>
+</form>
+

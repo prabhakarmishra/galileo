@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html class="no-js ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]>    <html class="no-js ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]>    <html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Student Grind</title>
+
+    <meta name="description" content="Student Grind">
+    <meta name="keywords" content="Student Grind">
+
+<link href="{% static 'css/stye.css' %}" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="{% static 'js/jquery-1.8.3.min.js' %}"></script>
+<script src="{% static 'js/lib.js' %}" type="text/javascript"></script>
+<script type="text/javascript" src="{% static 'js/jquery-ui-1.10.3.custom.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/scripts.js' %}"></script>
+<script>
+function goBack()
+  {
+  window.history.back()
+  }
+</script>
+<script type="text/javascript">
+$(function () {
+	$("#chooseCollegeUniversity").selectbox();
+});
+</script>
+<script type="text/javascript">
+$(function () {
+	$("#skillId, #verificationStatus").selectbox();
+});
+</script>
+	
+<script type="text/javascript">
+	$.fn.serializeObject = function()
+	{
+		var o = {};
+		var a = this.serializeArray();
+		$.each(a, function() {
+			if (o[this.name] !== undefined) {
+				if (!o[this.name].push) {
+					o[this.name] = [o[this.name]];
+				}
+				o[this.name].push(this.value || '');
+			} else {
+				o[this.name] = this.value || '';
+			}
+		});
+		return o;
+	};
+
+		
+	$(function() {
+	var dat;
+				$('#registrationForm').ajaxForm({
+								type: 'post',
+								beforeSubmit: function(){
+										dat = JSON.stringify($('#registrationForm').serializeObject());
+										alert(dat);
+								},
+								url: '/users/0/create/',
+								data: dat,
+								success: function (data) {
+									alert('Data Successfully Saved.!');
+									location.href = "/landing_page/";
+								}
+							});
+/*
+		$('#registrationForm').submit(function() 			
+		{
+			var dat = JSON.stringify($('#registrationForm').serializeObject());
+			alert(dat);
+
+			$.ajax({
+				type: 'post',
+				url: '/users/0/create/',
+				data: dat,
+				success: function (data) {
+					alert('Data Successfully Saved.!');
+					location.href = "/landing_page/";
+				}
+			});
+
+			return false;
+		});
+	*/		
+	});
+	
+	
+	
+</script>
+
+</head>
+
+<body>
+{% block header %}
+<header>
+	<a href="/"><img src="{% static 'images/sg-logo.png' %}" width="62" height="60" border=0 alt="Student Grid" class="logo" /></a>
+	<div class="topnav">
+	{% if request.session.validate_user  %}
+		<form method=post action="" name="logbox" id="logbox" class="logbox">
+			<a href="/user_logout/">Logout</a>
+		
+		</form>
+	{% else %}
+		<form method="post" action="/user_login/" name="logbox" id="logbox" class="logbox">
+			<input type="text"  value="Email"  name="emailid" onfocus="if(this.value=='Email'){this.value=''};" onblur="if(this.value==''){this.value='Email'};">
+			<input type="password" name="password" value="password" onfocus="if(this.value=='password'){this.value=''};" onblur="if(this.value==''){this.value='password'};">
+			<input type="submit" name="submit_log" class="btn_signin" value="">
+		</form>
+	{% endif %}
+		<div class="sharebox"><a class="icon_fb" href="https://www.facebook.com">&nbsp;</a><a class="icon_in" href="https://www.linkedin.com">&nbsp;</a><a href="https://www.twitter.com" class="icon_twitter">&nbsp;</a></div>
+		<div class="menu">
+			{% if request.session.validate_user  %}<a href="/landing_page/">{% else %}<a href="/">{% endif %}Home</a>&nbsp; |&nbsp;<a href="/about_us/">About</a> <!-- | <a href="#">Alumni or Institution</a> -->
+		</div>
+	</div>
+</header>
+{% endblock %}
+
+<!-- Start Main -->
+{% block full_container %}
+
+
+{% endblock %}
+<!-- END Main -->
+{% block footer %}
+<footer>
+	Copyright 2013 Student Grind Inc
+</footer>
+{% endblock %}
+
+
+		<div class="overlay"></div>
+		<div class="popup" >
+		<div class="pop_close">&nbsp;</div>
+		<div class="copyform">&nbsp;</div>
+		</div>
+
+</body>
+</html>

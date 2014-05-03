@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block full_container %}
+
+<div class="full_container bgwhite_main">
+<h2>ADD ASSESSMENT</h2>	
+
+	<script>
+	$(function() {
+		$( "#id_dueDate" ).datepicker({
+			showOn: "both",
+			dateFormat: "mm-dd-yy",
+			minDate: 0,
+			buttonImage: "/static/images/calender.png",
+			buttonImageOnly: true
+		});
+
+		
+	});
+	</script>
+
+	<!-- Javascript or form validation -->
+<script type="text/javascript">
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.addprojform.name.value == "" || document.addprojform.name.value == "Enter the Assessment Name" )
+   {
+     checkvalidate =  false;
+     alert( "Please enter the assessment name" );
+     document.addprojform.name.focus() ;
+	 return false;
+   }
+   if( document.addprojform.id_dueDate.value == "" || document.addprojform.id_dueDate.value == "MM-DD-YYYY" )
+   {
+     checkvalidate =  false;
+     alert( "Please select due date" );
+     document.addprojform.id_dueDate.focus() ;
+     return false;
+   }
+   if( document.addprojform.id_category.value == "")
+   {
+     checkvalidate =  false;
+     alert( "Please select category" );
+     document.addprojform.id_category.focus() ;
+     return false;
+   }
+   if( document.addprojform.id_assessTime.value == "" || document.addprojform.id_assessTime.value == "MINUTES in HH:MM")
+   {
+     checkvalidate =  false;
+     alert( "Please enter assess time" );
+     document.addprojform.id_assessTime.focus() ;
+     return false;
+   }
+	
+
+
+   return checkvalidate ;
+}
+</script>
+
+<!-- Forms validation Ends here -->
+
+<form id="addprojform" name="addprojform" action="/enterprise/create_assessment/" method="POST" enctype="multipart/form-data">
+<div class="centerl_container maxw1216">
+
+<div class="containerRight">
+
+	<div class="formRow_09">
+		<h3>Assessment Name</h3>
+		<span class="inputLeftCorner"></span><input id="id_name" type="text" name="name" maxlength="140" value="Enter the Assessment Name"  onfocus="if(this.value=='Enter the Assessment Name'){this.value=''};" onblur="if(this.value==''){this.value='Enter the Assessment Name'};" /><span class="inputRightCorner"></span>	
+	</div>
+					
+					
+	<div class="formRow_09">
+
+		<h3>Assessment Due Date</h3>
+		<span class="inputLeftCorner"></span><input type="text" name="dueDate" id="id_dueDate"  readonly="true" value="MM-DD-YYYY" onfocus="if(this.value=='MM-DD-YYYY'){this.value=''};" onblur="if(this.value==''){this.value='MM-DD-YYYY'};" /><span class="inputRightCorner"></span>	
+	
+	</div>
+	<div class="formRow_09">
+		<h3>Select Category</h3>
+		<select name="category" id="id_category">
+			<option value="">--------------</option>
+			<option value="Mobile Development">Mobile Development</option>
+			<option value="PHP Development">PHP Development</option>
+			<option value="JAVA/JEE Development">JAVA/JEE Development</option>
+			<option value=".NET Development">.NET Development</option>
+			<option value="Python Development">Python Development</option>
+			<option value="Database Development">Database Development</option>
+			<option value="Database Administration">Database Administration</option>
+			<option value="Web Server Administration and Configuration">Web Server Administration and Configuration</option>
+			<option value="Application Server Administration and Configuration">Application Server Administration and Configuration</option>		
+			<option value="Business Analysis">Business Analysis</option>
+			<option value="Project Management">Project Management</option>
+			<option value="Other categories to come">Other categories to come</option>
+		</select>
+	</div>
+	<div class="formRow_09">
+		<h3>Assessment Time</h3>
+		<span class="inputLeftCorner"></span><input type="text" name="assessTime" id="id_assessTime" value="MINUTES in HH:MM" onfocus="if(this.value=='MINUTES in HH:MM'){this.value=''};" onblur="if(this.value==''){this.value='MINUTES in HH:MM'};" /><span class="inputRightCorner"></span>	
+	</div>
+	
+	<div class="btnHolder_05 w530">
+						<a href="/assessment-view/"><input type="button"  class="cancelButton" value=""></a>
+						<input type="submit" class="projectupdate" value="" onclick="return validateForm()" />
+						
+	</div>
+
+	</div>
+</div>
+</form>
+	{% endblock %}

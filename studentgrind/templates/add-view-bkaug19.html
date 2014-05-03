@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block full_container %}
+	<script>
+	$(function() {
+		$( "#id_project_deadline" ).datepicker({
+			showOn: "both",
+			dateFormat: "yy-mm-dd",
+			buttonImage: "/static/images/calender.png",
+			buttonImageOnly: true
+		});
+	});
+	</script>
+	<!-- Javascript or form validation -->
+<script type="text/javascript">
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.addprojform.name.value == "" || document.addprojform.name.value == "Enter the Project Name" )
+   {
+     checkvalidate =  false;
+     alert( "Please Enter the Project Name!" );
+     document.addprojform.name.focus() ;
+	 return false;
+   }
+   if( document.addprojform.id_project_deadline.value == "" || document.addprojform.id_project_deadline.value == "YYYY-MM-DD" )
+   {
+     checkvalidate =  false;
+     alert( "Please select date!" );
+     document.addprojform.id_project_deadline.focus() ;
+     return false;
+   }
+   if( document.addprojform.id_project_value.value == "" || document.addprojform.id_project_value.value == "Project Value ($)" )
+   {
+     checkvalidate =  false;
+     alert( "Please provide Project Value ($)" );
+     document.addprojform.id_project_value.focus() ;
+     return false;
+   }
+   if( document.addprojform.description.value == "" || document.addprojform.description.value == "Project Description")
+   {
+     checkvalidate =  false;
+     alert( "Please enter Project Description" );
+     document.addprojform.description.focus() ;
+     return false;
+   }
+
+
+ 
+
+
+   return checkvalidate ;
+}
+</script>
+
+<!-- Forms validation Ends here -->
+
+	
+<form method="POST" action="/enterprise/add_project/?ent_id={{ent_id}}" name="addprojform" enctype="multipart/form-data" >
+<div class="centerl_container maxw1216">
+<div class="containerLeft_02">
+
+
+	<div class="projectImgHolder"><img src="{% static 'images/project_img.png' %}" width="210" height="250"></div>
+	<div class="addPrjctImgHolder"><input type="file" name="img" id="id_img"></div>
+</div>
+
+<div class="containerRight">
+
+	<div class="formRow_03">
+		<div class="textInputHolder">
+		<span class="inputLeftCorner"></span><input id="id_name" type="text" name="name" maxlength="140" value="Enter the Project Name"  onfocus="if(this.value=='Enter the Project Name'){this.value=''};" onblur="if(this.value==''){this.value='Enter the Project Name'};" /><span class="inputRightCorner"></span>	
+		</div>
+	</div>
+					
+					
+	<div class="formRow">
+		<div class="selectDate">
+
+		<label class="label_txtInput" for="projectDeadline">
+			Project Deadline
+		</label>
+		<span class="inputLeftCorner"></span><input type="text" name="project_deadline" id="id_project_deadline" value="YYYY-MM-DD" onfocus="if(this.value=='YYYY-DD-MM'){this.value=''};" onblur="if(this.value==''){this.value='YYYY-DD-MM'};" /><span class="inputRightCorner"></span>	
+		<!-- <div class="calender"></div> -->
+		</div>
+	</div>
+	
+	<div class="formRow">
+		<div class="checkboxHolder_02">
+		<label class="label_check" for="googlegroups">
+		<input type="checkbox" name="participate_leaderboard" id="id_participate_leaderboard" />
+		Participate in Leaderboard for this project
+		</label>
+		</div>
+	</div>
+	
+	<div class="formRow_04">
+		<div class="textInputHolder">
+		<span class="inputLeftCorner"></span><input type="text" name="project_value" id="id_project_value" value="Project Value ($)" onfocus="if(this.value=='Project Value ($)'){this.value=''};" onblur="if(this.value==''){this.value='Project Value ($)'};" /><span class="inputRightCorner"></span>	
+		</div>
+	</div>
+
+	
+	<div class="formRow_03">
+		<textarea id="id_description" name="description" onfocus="if(this.value=='Project Description'){this.value=''};" onblur="if(this.value==''){this.value='Project Description'};">Project Description</textarea>
+		
+			<div class="btnHolder_05">
+						<input type="submit" class="addProject" value="" onclick="return validateForm()" />
+						<input type="button" value="Cancel" onclick="goBack()">
+					</div>
+		
+		
+	</div>
+	</div>
+</div>
+</form>
+{% endblock %}

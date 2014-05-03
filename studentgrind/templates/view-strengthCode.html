@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block full_container %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+
+<script type="text/javascript">
+	$(function(){
+
+
+		$('.cancelButton2').click(function(){
+			location.href = "/";
+		});
+		
+
+		//$('.submitbutton').click(function(){
+		//	document.admin_strength.submit();
+		//});
+
+		$('#strength_keyword').change(function(){
+			document.searchform.submit();
+		});
+
+
+		
+	});
+
+	function addliststrengt(){
+			var addtext = $('.add2:last').parent().prev().find('input[type=text]').val();
+			if (addtext!='') {
+				$('.contentbox:first .contentlist3').append('									<div>										  <div class="auth_grid_col1"><input type="text" name="strenthtxt[]" value=""></div>										  <div class="auth_grid_col4">																     <a href="/strength/delete/?strength_id=555" onclick="return false;" class="cancelbtnx2"><img src="/static/images/btn-delete.png" width="52" height="30" border=0 alt="x"></a> <a href="javascript:addliststrengt()" class="add2" ></a>										  </div>									  <div class="clearfix"></div>									</div>')
+
+				$('.cancelbtnx2').unbind('click');
+				$('.cancelbtnx2').bind('click',function(){
+					gethref = $(this).attr('href');
+					var content = $(this).parent().prev().find('input[type=text]').val();
+					var result = confirm("Delete "+content);
+					if (result==true) {
+						$.get(gethref,function(data){
+							// callback deleted
+						})
+
+						$(this).parent().parent().slideDown('fast',function(){
+							$(this).remove();
+						});
+					}
+				});
+
+			}
+
+	}
+</script>
+
+
+		
+<div class="full_container bgwhite_main stength">
+<form method=post action="/create-strengthCode/" name="admin_strength" id="admin_strength">    
+	<div class="wrapper">
+	<form id="searchform" name="searchform" action="/admin-view-strength/" method="GET">
+				<select name="strength_keyword" id="strength_keyword">
+					{% for candidate in studentList %}
+					<option value="{{candidate.userId}}">{{candidate.fName}}&nbsp;{{candidate.lName}}</option>
+					{% endfor %}
+				</select>
+	</form>
+	<h2>Administer StrengthCodes</h2>
+
+<!--form method=post action="/add-strength/" name="admin_strength" id="admin_strength"--->
+					<div class="contentbox">
+							<div class="grid_heading3">StrengthCodes</div>
+							<div class="contentlist3">
+									{%  if StrengthCodeList%}
+									<div>
+										{% for code in StrengthCodeList %}
+										  <div class="auth_grid_col1"><input type="text" name="strenthtxt[]" value="{{code.strengthCode}}"></div>
+										  <div class="auth_grid_col4">						
+										     <a href="/delete-strengthCode/?strength_id={{code.id}}" onclick="return false;" class="cancelbtnx2"><img src="{% static 'images/btn-delete.png' %}" width="52" height="30" border=0 alt="x"></a> 
+											 <a href="javascript:addliststrengt()" class="add2" ></a>
+										  </div>
+									  <div class="clearfix"></div>
+									  {% endfor %}
+									</div>
+									
+									{% endif %}
+									<div>
+									<div class="auth_grid_col1"><input type="text" name="strenthtxt[]" value=""></div>
+										  <div class="auth_grid_col4">						
+										     <a href="/strength/delete/?strength_id=555" onclick="return false;" class="cancelbtnx2"><img src="{% static 'images/btn-delete.png' %}" width="52" height="30" border=0 alt="x"></a> 
+											 <a href="javascript:addliststrengt()" class="add2" ></a>
+										  </div>
+									  <div class="clearfix"></div>
+									 </div>
+
+							</div>
+						</div>
+
+
+					
+
+
+						<div class="btnbox">
+							<input type="button" value="" name="submit_reject" class="cancelButton2">
+							<input type="submit" value="" name="submit_authorize" class="submitbutton">
+						</div>
+</form>
+<div class="clearfix"></div>
+</div>
+</div>
+<div class="clearfix"></div>
+	{% endblock %}

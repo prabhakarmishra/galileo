@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block full_container %}
+<script type="text/javascript">
+
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.imageform.id_img.value == "")
+   {
+     checkvalidate =  false;
+     alert( "Please Select image first !" );
+     
+	 return false;
+   }
+   return checkvalidate ;
+}
+</script>		
+<div class="full_container bgwhite_main">
+    
+	<div class="wrapper_col1">
+	
+	<h2>Assign Assessments to Candidates</h2>
+	<p>Select Assignments and candidate, then click ASSIGN button</p>
+	
+	<form method=post action="/assessment-assign-enterprise/" name="formassign" id="formassign">
+
+						<div class="contentbox2">
+							<div class="grid_heading4">
+								<div class="searchgrp">
+									<input type="text" onfocus="if(this.value=='Search for Assessment'){this.value=''};" onblur="if(this.value==''){this.value='Search for Assessment'};" value="Search for Assessment" name="searchAssessment" id="searchkeyword"><input type="submit" value="" name="btn_search"> 
+								</div>Select Assessment 
+							</div>
+							<div class="contentlist4">
+								{% if searched_assessmentList %}
+									{% for assess in searched_assessmentList %}
+									  <div class="assess_grid_col1"><input type="checkbox" name="assessment" value="{{assess.testId}}"> {{assess.name}}</div>
+									{% endfor %}
+								{% else %}
+									{% for assess in all_assessmentList %}
+									  <div class="assess_grid_col1"><input type="checkbox" name="assessment" value="{{assess.testId}}"> {{assess.name}}</div>
+									{% endfor %}
+								{% endif %}
+							</div>
+						</div>
+						
+						<div class="contentbox2">
+							<div class="grid_heading4">
+								<div class="searchgrp">
+									<input type="text" onfocus="if(this.value=='Search for Candidates'){this.value=''};" onblur="if(this.value==''){this.value='Search for Candidates'};" value="Search for Candidates" name="searchStudent" id="searchkeyword"><input type="submit" value="" name="btn_search"> 
+								</div> Assign To
+							</div>
+							<div class="contentlist4">
+							{% if searched_studentList %}
+								{% for user in searched_studentList %}
+								  <div class="assess_grid_col1"><input type="checkbox" name="assessment_assign" value="{{user.userId}}"> {{user.fName}}&nbsp;{{user.lName}}</div>
+								{% endfor %}
+							{% else %}
+								{% for user in all_userList %}
+								  <div class="assess_grid_col1"><input type="checkbox" name="assessment_assign" value="{{user.userId}}"> {{user.fName}}&nbsp;{{user.lName}}</div>
+								{% endfor %}
+							{% endif %}
+							</div>
+						</div>
+					
+					
+					<div class="btnbox">
+						<input type="submit" value="" name="submit_assign" class="assignButton">
+					</div>
+	</form> 
+	<div class="clearfix"></div>
+</div> 
+
+
+	<div class="wrapper_col2 fright" >
+	<h2>Assign Assessments to Candidates</h2>
+	<p>Using Assignments or candidate names, look up the assignments that has been assigned to candidates22</p>
+
+	<form method=post action="#" name="formassign" id="formassign">
+
+				<div class="searchfilter">Search By &nbsp; &nbsp; <a href="javascript:void(0)" class="active">Assessment</a><a href="javascript:void(0)">Candidate</a></div>
+				<div class="clearfix"></div>
+				<select name="assesssmentlist" id="assesssmentlist">
+					{% for assess in all_assessmentList %}
+					<option name ="assessment" value="{{assess.testId}}">{{assess.name}}</option>
+					{% endfor %}
+				</select>
+				<select name="candidatelist" id="candidatelist" class="noshow">
+				{% for user in all_userList %}
+					<option value="{{user.userId}}">{{user.fName}}&nbsp;{{user.lName}}</option>
+				{% endfor %}
+					
+				</select>
+				<div class="clearfix"></div>
+						<div class="contentbox2 h192">
+							<div class="grid_heading4">Candidate Assigned</div>
+							<div class="contentlist4">
+								{% for user in all_userList %}
+								  <div class="assess_grid_col1">{{user.fName}}&nbsp;{{user.lName}}</div>
+								{% endfor %}
+							</div>
+						</div>
+					
+					
+	</form>
+			<div class="btnHolder_05">
+				<a href="/assessment-view/" class="closepop"><input type="button"  class="cancelButton" value=""></a>
+			</div>
+
+	<div class="clearfix"></div>
+</div>
+
+
+
+</div>
+<div class="clearfix"></div>
+	{% endblock %}

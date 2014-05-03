@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block full_container %}
+<script type="text/javascript">
+
+  $(function () {
+	scroller = $('.box-wrap').antiscroll().data('antiscroll');
+	scroller2 = $('.box-wrap2').antiscroll().data('antiscroll');
+  });
+
+
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.imageform.id_img.value == "")
+   {
+     checkvalidate =  false;
+     alert( "Please Select image first !" );
+     
+	 return false;
+   }
+   return checkvalidate ;
+}
+</script>		
+<div class="full_container">
+			<!-- FIRST COLUMN -->
+				<div class="verificationlist">
+
+				<div class="verificationgrp"><h4>Complete Verifications</h4>
+				  <div class="box-wrap antiscroll-wrap">
+					<div class="box">
+					  <div class="antiscroll-inner">
+
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> Andy Grover</p>
+							<p><span>Id:</span> 123456</p>
+							<p><span>Verified By:</span> Bill Cartweight</p>
+							<p><span>Status:</span> Pending</p>
+						</a></div>
+						<div class="list active"><a href="#">
+							<p><span>Verified For:</span> TEST Grover</p>
+							<p><span>Id:</span> 3232</p>
+							<p><span>Verified By:</span> Stephanos</p>
+							<p><span>Status:</span> Completed</p>
+						</a></div>
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> </p>
+							<p><span>Id:</span> </p>
+							<p><span>Verified By:</span> </p>
+							<p><span>Status:</span> </p>
+						</a></div>
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> </p>
+							<p><span>Id:</span> </p>
+							<p><span>Verified By:</span> </p>
+							<p><span>Status:</span> </p>
+						</a></div>
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> </p>
+							<p><span>Id:</span> </p>
+							<p><span>Verified By:</span> </p>
+							<p><span>Status:</span> </p>
+						</a></div>
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> </p>
+							<p><span>Id:</span> </p>
+							<p><span>Verified By:</span> </p>
+							<p><span>Status:</span> </p>
+						</a></div>
+
+					  </div>
+					</div>
+				  </div>
+
+				</div>
+
+
+
+					<div class="verificationgrp"><h4>Pending Verifications</h4>
+				  <div class="box-wrap2 antiscroll-wrap">
+					<div class="box">
+					  <div class="antiscroll-inner">
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> TEST Grover</p>
+							<p><span>Id:</span> 4445</p>
+							<p><span>Verified By:</span> Stephanos</p>
+							<p><span>Status:</span> Completed</p>
+						</a></div>
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> </p>
+							<p><span>Id:</span> </p>
+							<p><span>Verified By:</span> </p>
+							<p><span>Status:</span> </p>
+						</a></div>
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> </p>
+							<p><span>Id:</span> </p>
+							<p><span>Verified By:</span> </p>
+							<p><span>Status:</span> </p>
+						</a></div>
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> </p>
+							<p><span>Id:</span> </p>
+							<p><span>Verified By:</span> </p>
+							<p><span>Status:</span> </p>
+						</a></div>
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> </p>
+							<p><span>Id:</span> </p>
+							<p><span>Verified By:</span> </p>
+							<p><span>Status:</span> </p>
+						</a></div>
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> </p>
+							<p><span>Id:</span> </p>
+							<p><span>Verified By:</span> </p>
+							<p><span>Status:</span> </p>
+						</a></div>
+
+					  </div>
+					</div>
+				  </div>
+
+					</div>
+
+
+				</div>
+
+				
+			<!-- SECOND COLUMN -->
+				<div class="verification_col2"><form method=post action="" name="verifications">
+				
+				<h2>Verification Details</h2>
+					<p class="far_r"><span>Id:</span> 3232</p>
+					<p><span>Verified For:</span> TEST Grover</p>
+					<div class="clearfix"></div>
+					<p class="far_r"><span>Date:</span> September 10, 2013</p>
+					<p><span>Status:</span> 
+					<select name="status">
+						<option value="Requested">Requested</option>
+						<option value="Accepted">Accepted</option>
+						<option value="Completed">Completed</option>
+					</select>
+					</p>
+
+				<div class="clearfix"></div>
+				<h2>Verification Feedback</h2>
+
+				<div class="rateit"><span>Quality of work</span> <p class="rate0"><input type="text" name="rate_quality" value="0"><span class="r1">&nbsp;</span><span class="r2">&nbsp;</span><span class="r3">&nbsp;</span><span class="r4">&nbsp;</span><span class="r5">&nbsp;</span></p></div>
+				<div class="rateit"><span>Communication</span> <p class="rate3"><input type="text" name="rate_communication" value="3"><span class="r1">&nbsp;</span><span class="r2">&nbsp;</span><span class="r3">&nbsp;</span><span class="r4">&nbsp;</span><span class="r5">&nbsp;</span></p></div>
+				<div class="rateit"><span>Expertise</span> <p class="rate1"><input type="text" name="rate_expertise" value="1"><span class="r1">&nbsp;</span><span class="r2">&nbsp;</span><span class="r3">&nbsp;</span><span class="r4">&nbsp;</span><span class="r5">&nbsp;</span></p></div>
+				<div class="rateit"><span>On Time</span> <p class="rate5"><input type="text" name="rate_ontime" value="5"><span class="r1">&nbsp;</span><span class="r2">&nbsp;</span><span class="r3">&nbsp;</span><span class="r4">&nbsp;</span><span class="r5">&nbsp;</span></p></div>
+				<div class="rateit"><span>Responsiveness</span> <p class="rate2"><input type="text" name="rate_responsive" value="2"><span class="r1">&nbsp;</span><span class="r2">&nbsp;</span><span class="r3">&nbsp;</span><span class="r4">&nbsp;</span><span class="r5">&nbsp;</span></p></div>
+				<div class="rateit"><span>Within Budget</span> <p class="rate4"><input type="text" name="rate_budget" value="4"><span class="r1">&nbsp;</span><span class="r2">&nbsp;</span><span class="r3">&nbsp;</span><span class="r4">&nbsp;</span><span class="r5">&nbsp;</span></p></div>
+				<div class="rateit"><span>Ownership</span> <p class="rate4"><input type="text" name="rate_ownership" value="4"><span class="r1">&nbsp;</span><span class="r2">&nbsp;</span><span class="r3">&nbsp;</span><span class="r4">&nbsp;</span><span class="r5">&nbsp;</span></p></div>
+				<div class="rateit"><span>Professionalism</span> <p class="rate5"><input type="text" name="rate_professionalis" value="5"><span class="r1">&nbsp;</span><span class="r2">&nbsp;</span><span class="r3">&nbsp;</span><span class="r4">&nbsp;</span><span class="r5">&nbsp;</span></p></div>
+				<div class="rateit"><span>Would Hire Again</span> <p class="rate4"><input type="text" name="rate_hire" value="4"><span class="r1">&nbsp;</span><span class="r2">&nbsp;</span><span class="r3">&nbsp;</span><span class="r4">&nbsp;</span><span class="r5">&nbsp;</span></p></div>
+
+				<div class="clearfix"></div>
+				<textarea name="additional_comments" rows="5" cols=""  onfocus="if(this.value=='Additional Comments'){this.value=''};" onblur="if(this.value==''){this.value='Additional Comments'};" >Additional Comments</textarea>
+				
+
+				<div class="btngrp">
+					<a href="/varifyview/" ><input type="button"  class="cancelButton" value=""></a>
+					<input type="submit" class="btncompleteverify" value="" />
+				</div>
+
+				</form>				
+				
+				</div>
+
+			<!-- End SECOND COLUMN -->
+
+
+		</div>
+		<div class="clearfix"></div>
+	{% endblock %}

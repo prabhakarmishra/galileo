@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block full_container %}
+<script type="text/javascript">
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.imageform.id_img.value == "")
+   {
+     checkvalidate =  false;
+     alert( "Please Select image first !" );
+     
+	 return false;
+   }
+   return checkvalidate ;
+}
+</script>		
+<div class="full_container">
+    <div class="headslide_txt">
+		<div class="leftbracket disable"></div>
+		<div class="rightbracket"></div>
+
+		<!-- Slidding txt -->
+		<div class="slidingtxt">
+			<section class="active even" >
+				<div class="textvmiddle">Do you want to understand <br>companies and their culture better?</div>
+			</section>
+
+			<section>
+				<div class="textvmiddle">Do you want to explore your strengths and interests deeper? </div>
+			</section>
+
+			<section class="even">
+				<div class="textvmiddle">How great will it be if you can build your own inner circle of talent and team?</div>
+			</section>
+
+			<section>
+				<div class="textvmiddle">When was the last time you wanted to understand your strengths and weaknesses to drive your career?</div>
+			</section>
+
+			<section class="even">
+				<div class="textvmiddle"><img src="{% static 'images/talentomi-forth.jpg' %}" width="750" height="193" border=0 alt=""></div>
+			</section>
+
+			<section>
+				<div class="textvmiddle last">Throw your resumes out the door Socialize with your LinkedIn network
+				<p>For everything else you got!<br> <img src="{% static 'images/talentomi_logo_dark.png' %}" width="176" height="25" border=0 alt=""></p>
+				</div>
+			</section>
+
+		</div>
+		<!-- END Slidding txt -->
+
+
+		<!-- Bullets -->
+		<ul class="bulletquote">
+		  <li class="active"></li>
+		  <li></li>
+		  <li></li>
+		  <li></li>
+		  <li></li>
+		  <li></li>
+		 </ul>
+		 <div class="playpause">&nbsp;</div>
+		<!-- END Bullets -->
+
+	</div>
+
+</div>
+<div class="clearfix"></div>
+	{% endblock %}

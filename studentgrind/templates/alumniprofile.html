@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block header %}
+<header>
+	<a href="index.html"><img src="images/sg-logo.png" width="62" height="60" border=0 alt="Student Grid" class="logo" /></a>
+	<div class="topnav">
+		<form method=post action="" name="logbox" id="logbox" class="logbox">
+			Logout
+		</form>
+		<div class="sharebox"><a class="icon_fb" href="https://www.facebook.com">&nbsp;</a><a class="icon_in" href="https://www.linkedin.com">&nbsp;</a><a href="https://www.twitter.com" class="icon_twitter">&nbsp;</a></div>
+		<div class="menu">
+			<a href="#">Home</a>&nbsp; | &nbsp;<a href="http://www.studentgrind.co/about">What is Student Grind</a> | <a href="http://www.studentgrind.co/instalum">Alumni or Institution</a>
+		</div>
+	</div>
+</header>
+{% endblock %}
+
+		{% block full_container %}
+		<div class="centerl_container_01">
+		
+		<div class="centerl_containerContent_01">
+		
+			
+			
+			<!-- mainColumn1 Start Here-->
+				<div class="mainColumn1">
+					<div class="containerMainColumn1">
+						<h3>Mark Zuck</h3>
+						<div class="imageFrame imgHolder">
+							<img src="images/mark_zuc.png" width="106px" height="88px" />
+						</div>
+					</div>
+					<div class="containerMainColumn1">
+						<span class="titleBold knowMore">Know more</span>
+						<div class="imgHolder">
+							<img src="images/img2.png"  width="117px" height="112px" />
+						</div>
+						<div class="anchorHolder">
+							<a href="#" class="record"><span>Record</span></a>
+							<a href="#" class="backward"><span>Backward</span></a>
+							<a href="#" class="play"><span>Play</span></a>
+							<a href="#" class="foreward"><span>Foreward</span></a>
+						</div>
+					</div>
+				</div>
+			<!-- mainColumn1 End Here-->
+			
+			<!-- mainColumn2 Start Here-->
+				<div class="mainColumn2 pright0">
+				
+				<form>
+					<div class="containerMainColumn2">
+						<span class="titleBold">Top Interests</span>
+						<ul class="ulMainColumn2">
+							<li><span class="imageMinusSign"></span>Entreprenuership<span class="imagePlusSign"></span></li>
+							<li><span class="imageMinusSign"></span>Fund Raising<span class="imagePlusSign"></span></li>
+							<li><span class="imageMinusSign"></span>Tech Executive<span class="imagePlusSign"></span></li>
+							<li><span class="imageMinusSign"></span>Social Media<span class="imagePlusSign"></span></li>
+							<li><span class="imageMinusSign"></span>Mobile<span class="imagePlusSign"></span></li>
+						</ul>
+					</div>
+					
+					
+					<div class="containerMainColumn2">
+					<div class="ulHolder">
+						<span class="titleBold">Passion</span>
+						<ul class="ulMainColumn2">
+							<li><span class="imageMinusSign"></span>iOS, Android<span class="imagePlusSign"></span></li>
+							<li><span class="imageMinusSign"></span>Public Speaking<span class="imagePlusSign"></span></li>
+							<li><span class="imageMinusSign"></span>UX Design<span class="imagePlusSign"></span></li>
+							<li><span class="imageMinusSign"></span>Product Mgmt<span class="imagePlusSign"></span></li>
+							<li><span class="imageMinusSign"></span>Customer Dev<span class="imagePlusSign"></span></li>
+						</ul>
+					</div>
+					</div>
+					
+					<div class="containerMainColumn2">
+					<div class="ulHolder">
+						<span class="titleBold">Top Highlights (25 chars or less)</span>
+						<ul class="ulMainColumn2">
+							<li><span class="imageMinusSign"></span>Developed Facebook app<span class="imagePlusSign"></span></li>
+							<li><span class="imageMinusSign"></span>Presented at TED 2012<span class="imagePlusSign"></span></li>		
+						</ul>
+					</div>
+					
+					<div class="ulHolder ulHolderAssociations">
+						<span class="titleBold">Associations (25 chars or less)</span>
+						<ul class="ulAssociations">
+							<li><span class="imageMinusSign"></span>SV Forum Member<span class="imagePlusSign"></span></li>
+							<li><span class="imageMinusSign"></span>SW Alumni<span class="imagePlusSign"></span></li>
+						</ul>
+					</div>
+						
+						
+						
+					</div>
+					
+
+					<div class="clearfix"></div>					
+					<div class="formRow">
+						
+					<div class="checkboxHolder_01">
+					<label class="label_check" for="individualMentorship">
+						<input name="groupMentorship" id="individualMentorship" value="1" type="checkbox" />
+						Accept Individual Mentorship
+					</label>
+					</div>
+					
+					
+					
+					<div class="checkboxHolder_01">
+					<label class="label_check" for="groupMentorship">
+						<input name="groupMentorship" id="groupMentorship" value="1" type="checkbox" />
+						Accept Group Mentorship
+					</label>
+					</div>
+					
+					
+					
+					<div class="checkboxHolder_01">
+					<label class="label_check" for="noMentorship">
+						<input name="groupMentorship" id="noMentorship" value="1" type="checkbox" />
+						No Mentorship
+					</label>
+					</div>
+					</div>
+					
+					
+					<div class="formRow nofloat">
+						<span>Subscribed Email groups (for Alumni emails)</span>
+					</div>
+					<div class="clearfix"></div>
+					
+					
+					<div class="formRow">
+						<div class="checkboxHolder_01">
+					<label class="label_check" for="yahoogroups">
+						<input name="groupMentorship" id="yahoogroups" value="1" type="checkbox" />
+						cit87@yahoogroups.com
+					</label>
+					</div>
+					</div>
+						
+						
+					<div class="formRow">
+						<div class="checkboxHolder_01">
+						<label class="label_check" for="googlegroups">
+							<input name="groupMentorship" id="googlegroups" value="1" type="checkbox" />
+							cit@googlegroups.com
+						</label>
+						</div>
+					</div>
+
+					<div class="clearfix"></div>
+					
+					<div class="btnHolder_04">
+						<input type="button" class="signUpBtn_04" value=""/>
+					</div>
+				</form>
+					
+					
+					
+				</div>
+				
+				<!-- mainColumn2 End Here-->
+				
+			<!-- mainColumn3 Start Here-->
+				<div class="mainColumn3">
+				<div class="mainColumn3TopBorder"></div>
+				
+				<div class="mainColumn3Container">
+					<span class="titleMainColumn3">Help your institution!</span>
+					<form>
+					<div class="selectformRow_01">
+					
+					<select id="chooseCollegeUniversity">
+						<option value="">Satnford University</option>
+						<option value="">Massacheusets Institue of Technology</option>
+						<option value="">Indian institute of Technology</option>
+					</select>
+
+					</div>
+					
+					<div class="formRow_02">
+					<div class="textInputHolder_01">
+						<span class="inputLeftCorner"></span><input type="text" value="$500" onfocus="if(this.value=='$500'){this.value=''};" onblur="if(this.value==''){this.value='$500'};" /><span class="inputRightCorner"></span>	
+						</div>
+					</div>
+						
+					<div class="formRow_02">
+						<textarea onfocus="if(this.value=='Memo for Contribution'){this.value=''};" onblur="if(this.value==''){this.value='Memo for Contribution'};">Memo for Contribution</textarea>
+					</div>
+						
+						<input type="button" value="Contribute!"/>
+						<input type="button" value="Add/Change Payment Info"/>
+					</form>
+				</div>
+				<div class="mainColumn3BottomBorder"></div>
+				</div>
+			<!-- mainColumn3 End Here-->
+		
+			
+			</div>
+			
+			
+			
+			
+		</div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block full_container %}
+<script type="text/javascript">
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.imageform.id_img.value == "")
+   {
+     checkvalidate =  false;
+     alert( "Please Select image first !" );
+     
+	 return false;
+   }
+   return checkvalidate ;
+}
+</script>		
+		<div class="centerl_container maxw1200 mtop0">
+			<div class="centerl_containerContent">
+
+				
+			<!-- SECOND COLUMN -->
+				<div class="challengebox">
+				<div class="thumbchartgrp">
+					<h4>Submissions</h4>
+					
+					<div class="carouse_box">
+						<div class="btn_prev"></div>
+						<div class="btn_next"></div>
+						<div class="carouse_thumbs"><div class="thumbchartgrps">
+
+						{% for submission,submissionInfo in submissionDict.items %}
+							<div class="thumbchart">
+								<a href="/enterprise/view-challenge-submission/?sub_id={{submission.submissionId}}" onclick="showpop(this.href); return false;" >
+								<img {% if projectObj.img %}src="/media/{{projectObj.img}}"{% else %}src="{% static 'images/spacer.gif' %}" {% endif %} width="172px" height="112px" border=0 alt="" class="thumbposter">
+								<p>
+									<span>{{projectObj.name}}</span>
+									<span>{{submissionInfo.userObj.fName}}&nbsp;{{submissionInfo.userObj.lName}}</span>
+								</p>
+								<div class="thumbchart_days">&nbsp;</div>
+								<div class="thumbchart_submited">&nbsp; </div>
+								<div class="thumbchart_win">&nbsp;</div>
+								<div class="thumbchart_dollar">&nbsp;</div>
+								{% if request.session.validate_user  %}</a>{% endif %}
+								{% if request.session.validate_user  %}
+								<div class="accesslinkmenu">&nbsp;
+									<div>
+										
+										{% if request.session.validate_user.type == "Enterprise" %}
+										
+										<a href="/enterprise/view-challenge-submission/?sub_id={{submission.submissionId}}" class="menu_open" onclick="showpop(this.href); return false;">Open</a>
+										
+										{% endif %}
+									</div>
+								</div>
+								{% else %}{% endif %}
+							</div>
+						{% endfor %}
+
+						<!-- Carrousel end -->
+						</div></div>
+					</div>
+
+				</div>
+				</div>
+
+
+
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	{% endblock %}

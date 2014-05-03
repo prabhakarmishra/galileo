@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+
+{% block full_container %}
+	
+
+		<div class="centerl_container maxw1216">
+		
+		<div class="centerl_containerContent">
+			<div class="containerLeft">
+				<h1>Welcome! Student Grind wants to empower Institutions!</h1>
+				<form class="registrationForm" id ="registrationForm">
+					<input type="hidden" name ="fName" value="Rahul">
+					<input type="hidden" name ="lName" value="Kumar">
+					<input type="hidden" name ="type" value="{{userType}}">
+					<input type="hidden" name ="dob" value="2012-07-01">
+					<input type="hidden" name ="contactPhone" value="7836873551">
+					<input type="hidden" name ="gender" value="Male">
+
+					<div class="formRow_01">
+					
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" value="Institution Name" name="name" onfocus="if(this.value=='Institution Name'){this.value=''};" onblur="if(this.value==''){this.value='Institution Name'};" /><span class="inputRightCorner"></span>	
+						</div>
+						
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" value="Create your Grinder User Name" name="emailId" onfocus="if(this.value=='Create your Grinder User Name'){this.value=''};" onblur="if(this.value==''){this.value='Create your Grinder User Name'};" /><span class="inputRightCorner"></span>	
+						</div>
+						
+		
+					</div>
+					
+					<div class="formRow_01">
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text"value="Password" name="password" onfocus="if(this.value=='Password'){this.value=''};" onblur="if(this.value==''){this.value='Password'};" /><span class="inputRightCorner"></span>	
+						</div>
+						
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" value="Confirm Password" onfocus="if(this.value=='Confirm Password'){this.value=''};" onblur="if(this.value==''){this.value='Confirm Password'};" /><span class="inputRightCorner"></span>	
+						</div>
+					</div>
+
+					<div class="formRow_01">
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" value="Website" name="website" onfocus="if(this.value=='Website'){this.value=''};" onblur="if(this.value==''){this.value='Website'};" /><span class="inputRightCorner"></span>	
+						</div>
+						
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" value="Institution Representative/Contact" name="contact" onfocus="if(this.value=='Institution Representative/Contact'){this.value=''};" onblur="if(this.value==''){this.value='Institution Representative/Contact'};" /><span class="inputRightCorner"></span>	
+						</div>
+					</div>
+					
+					<div class="formRow_01">
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" value="Contact Phone" name="contactPhone" onfocus="if(this.value=='Contact Phone'){this.value=''};" onblur="if(this.value==''){this.value='Contact Phone'};" /><span class="inputRightCorner"></span>	
+						</div>
+						
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" value="Contact Email Address" class="validemail" name="contactEmailAddress" onfocus="if(this.value=='Contact Email Address'){this.value=''};" onblur="if(this.value==''){this.value='Contact Email Address'};" /><span class="inputRightCorner"></span>	
+						</div>
+					</div>
+					
+					<div class="formRow_01">
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" value="LinkedIn Profile(optional)" name="linkedIn" onfocus="if(this.value=='LinkedIn Profile(optional)'){this.value=''};" onblur="if(this.value==''){this.value='LinkedIn Profile(optional)'};" /><span class="inputRightCorner"></span>	
+						</div>
+						
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" value="Facebook Profile(optional)" name="facebook" onfocus="if(this.value=='Facebook Profile(optional)'){this.value=''};" onblur="if(this.value==''){this.value='Facebook Profile(optional)'};" /><span class="inputRightCorner"></span>	
+						</div>
+					</div>
+					
+					<div class="formRow_01">
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" value="Bank Account Name" name="bankName" onfocus="if(this.value=='Bank Account Name'){this.value=''};" onblur="if(this.value==''){this.value='Bank Account Name'};" /><span class="inputRightCorner"></span>	
+						</div>
+						
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" value="Bank Routing Number" name="bankRoutingNumber" onfocus="if(this.value=='Bank Routing Number'){this.value=''};" onblur="if(this.value==''){this.value='Bank Routing Number'};" /><span class="inputRightCorner"></span>	
+						</div>
+					</div>
+					
+					<div class="formRow_01 lastFormRow">
+						<div class="textInputHolder">
+						<span class="inputLeftCorner"></span><input type="text" value="Bank Account Number" name="bankAccountNumber" onfocus="if(this.value=='Bank Account Number'){this.value=''};" onblur="if(this.value==''){this.value='Bank Account Number'};" /><span class="inputRightCorner"></span>	
+						</div>
+						
+							<div class="btnHolder_03">
+							<input type="submit" class="signUpBtn_03" value=""/>
+							</div>
+						
+					</div>
+					
+					
+					
+					
+					
+					
+					
+					
+					
+				</form>
+			</div>
+			<div class="containerRight">
+				<p>How student Grind Works?</p>
+				<div class="videoPlayerHolder">
+					<img width="490px" height="286px" src="{% static 'images/video_player_mockup_image.jpg' %}">
+				</div>
+			</div>
+			</div>
+			
+			
+		</div>
+{% endblock %}

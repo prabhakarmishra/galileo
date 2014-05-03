@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block full_container %}
+<script type="text/javascript">
+
+  $(function () {
+	scroller = $('.box-wrap').antiscroll().data('antiscroll');
+	scroller2 = $('.box-wrap2').antiscroll().data('antiscroll');
+  });
+
+
+
+</script>		
+<div class="full_container bgddd">
+			<!-- FIRST COLUMN -->
+				<div class="verificationlist">
+
+				<!-- <a href="/enterprise/view-verification/?key=view" class="menu_open"><input type="image" src="{% static 'images/btn-view-verifications-requested.png' %}" alt="View Verifications Requisition"></a>
+					<a href="/enterprise/create-verification/" class="menu_open" ><input type="image" src="{% static 'images/btn-create-new-verification-request.png' %}" alt="Create New Verification Requist"></a> -->
+
+				<div class="verificationgrp"><h4>Completed Authentications</h4>
+				  <div class="box-wrap antiscroll-wrap">
+					<div class="box">
+					  <div class="antiscroll-inner">
+						{% for key,value in completedverificationDict.items %}
+						<div class="list"><a href="/enterprise/view-verification/?ver_id={{key.id}}">
+							<p><span>Verified For:</span> {{value.verifiedFor.fName}}&nbsp;{{value.verifiedFor.lName}}</p>
+							<p><span>Id:</span> {{key.id}}</p>
+							<p><span>Verified By:</span> {{value.verifiedBy.fName}}&nbsp;{{value.verifiedBy.lName}}</p>
+							<p><span>Status:</span> {{key.status}}</p>
+						</a></div>
+						{% endfor %}
+
+					  </div>
+					</div>
+				  </div>
+
+				</div>
+
+
+
+					<div class="verificationgrp"><h4>Pending Authentications</h4>
+				  <div class="box-wrap2 antiscroll-wrap">
+					<div class="box">
+					  <div class="antiscroll-inner">
+						{% for key,value in pendingVerificationDict.items %}
+						<div class="list"><a href="/enterprise/view-verification/?ver_id={{key.id}}">
+							<p><span>Verified For:</span> {{value.verifiedFor.fName}}&nbsp;{{value.verifiedFor.lName}}</p>
+							<p><span>Id:</span> {{key.id}}</p>
+							<p><span>Verified By:</span> {{value.verifiedBy.fName}}&nbsp;{{value.verifiedBy.lName}}</p>
+							<p><span>Status:</span> {{key.status}}</p>
+						</a></div>
+						{% endfor %}
+						
+
+					  </div>
+					</div>
+				  </div>
+
+					</div>
+
+
+				</div>
+
+				
+			<!-- SECOND COLUMN -->
+				<div class="verification_col2 hire verification">
+
+	<!-- Javascript or form validation -->
+		<script type="text/javascript">
+		function validateForm()
+		{
+		  var checkvalidate = true;
+		  /*if( document.addprojform.first_name.value == "" || document.addprojform.first_name.value == "First Name" )
+		   {
+			 checkvalidate =  false;
+			 alert( "Please Enter the First Name!" );
+			 document.addprojform.first_name.focus() ;
+			 return false;
+		   } else if ( /^[a-z ]+$/i.test( document.addprojform.first_name.value )== false ) {
+					alert( "First name must contain only letters.");
+					 document.addprojform.first_name.focus() ;
+					 return false;
+				}
+		   if( document.addprojform.last_name.value == "" || document.addprojform.last_name.value == "Last Name" )
+		   {
+			 checkvalidate =  false;
+			 alert( "Please Enter the Last Name!" );
+			 document.addprojform.last_name.focus() ;
+			 return false;
+		   } else if ( /^[a-z ]+$/i.test( document.addprojform.last_name.value )== false ) {
+					alert( "Last name must contain only letters.");
+					 document.addprojform.last_name.focus() ;
+					 return false;
+				}
+
+		   var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,5})+$/;
+		   if (!filter.test( $('input[name=email]').val() )) {
+			 checkvalidate =  false;
+			 alert( "Please provide the valid email id" );
+			 document.addprojform.email.focus() ;
+			 return false;
+			}
+			*/
+
+		   if( document.addprojform.verificationDescription.value == "" || document.addprojform.verificationDescription.value == "Provide Brief information about your request.")
+		   {
+			 checkvalidate =  false;
+			 alert( "Please provide brief information about your request." );
+			 document.addprojform.verificationDescription.focus() ;
+			 return false;
+		   }
+			/*if( document.addprojform.company.value == "" || document.addprojform.company.value == "Company or Project Name")
+		   {
+			 checkvalidate =  false;
+			 alert( "Please enter Company or Project Name." );
+			 document.addprojform.company.focus() ;
+			 return false;
+		   }
+		 */
+
+
+		   return checkvalidate ;
+		}
+
+		function sendid(){
+			getval = $('#stu_id').val();
+			location.href = "/enterprise/create-verification/?stu_id="+getval;
+		}
+		</script>
+       <form method="POST" action="/enterprise/create-verification/" name="addprojform">
+
+				<h2>Select candidate and provide brief request information to request authentication for candidate</h2>
+				<p>Using candidate's name look up the authentications that has been requested for candidate</p>
+				<div class="clearfix"><br>&nbsp;</div>
+					<select name="stu_id" id="stu_id" onchange="sendid()">
+					{% for user in StudentList %}
+						<option value="{{user.userId}}">{{user.fName}}&nbsp;{{user.lName}}</option>
+					{% endfor %}
+					</select>
+
+				<div class="clearfix"></div>
+
+			<!--div class="formRow_03">
+				<textarea id="id_projectDescription" name="projectDescription" onfocus="if(this.value=='Project Description Example: Architected and developed IRIS application on Android. Developed common framework components for mobile apps'){this.value=''};" onblur="if(this.value==''){this.value='Project Description Example: Architected and developed IRIS application on Android. Developed common framework components for mobile apps'};">Project Description Example: Architected and developed IRIS application on Android. Developed common framework components for mobile apps</textarea>
+				
+							
+				
+			</div-->
+			
+			<!--div class="formRow_03">
+				<input id="id_first_name" type="text" name="first_name" maxlength="140" {% if studentData.fName %}value="{{studentData.fName}}"{% else %}value="First Name" {% endif %}  onfocus="if(this.value=='First Name'){this.value=''};" onblur="if(this.value==''){this.value='First Name'};" />
+
+				<input id="id_last_name" type="text" name="last_name" maxlength="140" {% if studentData.fName %}value="{{studentData.lName}}"{% else %}value="Last Name" {% endif %}  onfocus="if(this.value=='Last Name'){this.value=''};" onblur="if(this.value==''){this.value='Last Name'};" />
+			</div-->
+							
+							
+				
+			
+			<!--div class="formRow_04">
+				<input type="text" name="email" id="id_email" {% if studentData.emailId %}value="{{studentData.emailId}}"{% else %}value="Email" {% endif %} onfocus="if(this.value=='Email'){this.value=''};" onblur="if(this.value==''){this.value='Email'};" class="validemail" />
+
+				<input id="id_company" type="text" name="company" maxlength="140" value="Company or Project Name"  onfocus="if(this.value=='Company or Project Name'){this.value=''};" onblur="if(this.value==''){this.value='Company or Project Name'};" />
+			</div-->
+			
+			<div class="formRow_03">
+				<textarea id="id_verificationDescription" name="verificationDescription" onfocus="if(this.value=='Provide Brief information about your request.'){this.value=''};" onblur="if(this.value==''){this.value='Provide Brief information about your request.'};">Provide Brief information about your request.</textarea>
+			</div>
+			<div class="btnHolder_05 w55per">
+				<input type="submit" class="verifyBtn_03" value="" onclick="return validateForm()" />
+								
+			</div>
+
+		</form>
+		
+				
+				</div>
+
+			<!-- End SECOND COLUMN -->
+
+
+		</div>
+		<div class="clearfix"></div>
+	{% endblock %}

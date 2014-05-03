@@ -1,0 +1,45 @@
+<div class="heading">ADD VOLUNTEER</div>	
+
+	<!-- Javascript or form validation -->
+<script type="text/javascript">
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.addprojform.name.value == "" || document.addprojform.name.value == "Enter the Volunteer" )
+   {
+     checkvalidate =  false;
+     alert( "Please enter the volunteer." );
+     document.addprojform.name.focus() ;
+	 return false;
+   }
+ 
+
+   return checkvalidate ;
+}
+</script>
+
+<!-- Forms validation Ends here -->
+
+<form id="addprojform" name="addprojform" action="/student/volunteer/add/" method="POST" enctype="multipart/form-data">
+<div class="centerl_container maxw1216">
+
+
+<div class="containerRight">
+
+	<div class="formRow_03">
+		<div class="textInputHolder">
+		<span class="inputLeftCorner"></span><input id="id_name" type="text" name="name" maxlength="140" value="Enter the Volunteer"  onfocus="if(this.value=='Enter the Volunteer'){this.value=''};" onblur="if(this.value==''){this.value='Enter the Volunteer'};" /><span class="inputRightCorner"></span>	
+		</div>
+	</div>
+					
+					
+	
+	<div class="btnHolder_05">
+						<a href="#" class="closepop"><input type="button"  class="cancelButton" value=""></a>
+						<input type="submit" class="projectupdate" value="" onclick="return validateForm()" />
+						
+	</div>
+
+	</div>
+</div>
+</form>

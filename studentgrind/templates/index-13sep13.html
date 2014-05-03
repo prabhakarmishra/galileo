@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block full_container %}
+<!-- Start Main -->
+<div class="full_container">
+  <div class="centerl_container">
+
+    <div class="heading_txt">An Amazing platform for enterprises and companies to <br>connect, engage and hire students!</div>
+
+	<!-- Box 1 -->
+    <div class="boxgrey">
+		<div class="top"></div>
+	  <h4>Why enterprises need Student Grind and will love it!</h4>
+	  <p>Enterprises have a growing shortage for talent in the US and in India! Its all about experience, they need A-level talent that are known quantity, with passion and the right culture fit! This is why enterprises love Student Grind!</p>
+	  <div class="bulletsicon"><span class="iconlens"></span> Engage and hire A-level proven students  </div> 
+	  <div class="bulletsicon"><span class="iconheart"></span> Virtual campus presence and company awareness</div>
+	  <div class="bulletsicon"><span class="iconthumbsup"></span> Understand student's company culture fit</div>
+	  <div class="bulletsicon"><span class="iconsmile"></span> Recruit through employees</div>
+	  
+	  <!--div class="btnjoin">{% if request.session.validate_user or request.session.registered_user %}<a href="/landing_page/"> {% else %} <a href="/join_studentgrind/?type=Enterprise">{% endif %}&nbsp;</a></div-->
+		<div class="btm"></div>
+	</div>
+
+
+	<!-- Box 2 -->
+    <div class="boxgrey2">
+		<div class="top"></div>
+	  <h4>Why Students will love it!</h4>
+	  <p>StudentGrind helps students to challenge themselves, define their career interests and take on challenges and contests.  Students also get hands-on with projects and mentorships to develop performances. </p>
+	  <div class="bulletsicon"><span class="iconlens"></span> Establish student's pedigree </div> 
+	  <div class="bulletsicon"><span class="iconheart"></span> Determine career fit with company</div>
+	  <div class="bulletsicon"><span class="iconthumbsup"></span> Connect and showcase performances</div>
+	  <div class="bulletsicon"><span class="iconsmile"></span> Direct access to enterprise jobs</div>
+	  <!--div class="btnjoin">{% if request.session.validate_user or request.session.registered_user %}<a href="/landing_page/"> {% else %} <a href="/join_studentgrind/?type=Student"> {% endif %}&nbsp;</a></div-->
+		<div class="btm"></div>
+	</div>
+
+
+	<!-- Box 2 -->
+    <!-- <div class="boxwhite">
+		<div class="top"></div>
+	  <h4>Are You an Alumni or Institution?</h4>
+	  <div class="btnclickhere"><a href="#">&nbsp;</a></div>
+		<div class="btm"></div>
+	</div> -->
+
+
+
+  </div>
+</div>
+<!-- END Main -->
+{% endblock %}

@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block full_container %}
+<script type="text/javascript">
+
+  $(function () {
+	scroller = $('.box-wrap').antiscroll().data('antiscroll');
+	scroller2 = $('.box-wrap2').antiscroll().data('antiscroll');
+  });
+
+
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.imageform.id_img.value == "")
+   {
+     checkvalidate =  false;
+     alert( "Please Select image first !" );
+     
+	 return false;
+   }
+   return checkvalidate ;
+}
+</script>		
+<div class="full_container assessmentpg">
+			<!-- FIRST COLUMN -->
+				<div class="verificationlist">
+
+				<div class="verificationgrp"><h4>Complete Assessments</h4>
+				  <div class="box-wrap antiscroll-wrap">
+					<div class="box">
+					  <div class="antiscroll-inner">
+
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> Andy Grover</p>
+							<p class="w53"><span>Id:</span> 123456</p>
+							<div class="clearfix"></div>
+							<p><span>Verified By:</span> Bill Cartweight</p>
+							<p class="w53"><span>Status:</span> Pending</p>
+						</a></div>
+						<div class="list active"><a href="#">
+							<p><span>Verified For:</span> TEST Grover</p>
+							<p class="w53"><span>Id:</span> 3232</p>
+							<div class="clearfix"></div>
+							<p><span>Verified By:</span> Stephanos</p>
+							<p class="w53"><span>Status:</span> Completed</p>
+						</a></div>
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> </p>
+							<p class="w53"><span>Id:</span> </p>
+							<div class="clearfix"></div>
+							<p><span>Verified By:</span> </p>
+							<p class="w53"><span>Status:</span> </p>
+						</a></div>
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> </p>
+							<p class="w53"><span>Id:</span> </p>
+							<div class="clearfix"></div>
+							<p><span>Verified By:</span> </p>
+							<p class="w53"><span>Status:</span> </p>
+						</a></div>
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> </p>
+							<p class="w53"><span>Id:</span> </p>
+							<div class="clearfix"></div>
+							<p><span>Verified By:</span> </p>
+							<p class="w53"><span>Status:</span> </p>
+						</a></div>
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> </p>
+							<p class="w53"><span>Id:</span> </p>
+							<div class="clearfix"></div>
+							<p><span>Verified By:</span> </p>
+							<p class="w53"><span>Status:</span> </p>
+						</a></div>
+
+					  </div>
+					</div>
+				  </div>
+
+				</div>
+
+
+
+					<div class="verificationgrp"><h4>Pending Assessments</h4>
+				  <div class="box-wrap2 antiscroll-wrap">
+					<div class="box">
+					  <div class="antiscroll-inner">
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> TEST Grover</p>
+							<p class="w53"><span>Id:</span> 4445</p>
+							<div class="clearfix"></div>
+							<p><span>Verified By:</span> Stephanos</p>
+							<p class="w53"><span>Status:</span> Completed</p>
+						</a></div>
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> </p>
+							<p class="w53"><span>Id:</span> </p>
+							<div class="clearfix"></div>
+							<p><span>Verified By:</span> </p>
+							<p class="w53"><span>Status:</span> </p>
+						</a></div>
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> </p>
+							<p class="w53"><span>Id:</span> </p>
+							<div class="clearfix"></div>
+							<p><span>Verified By:</span> </p>
+							<p class="w53"><span>Status:</span> </p>
+						</a></div>
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> </p>
+							<p class="w53"><span>Id:</span> </p>
+							<div class="clearfix"></div>
+							<p><span>Verified By:</span> </p>
+							<p class="w53"><span>Status:</span> </p>
+						</a></div>
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> </p>
+							<p class="w53"><span>Id:</span> </p>
+							<div class="clearfix"></div>
+							<p><span>Verified By:</span> </p>
+							<p class="w53"><span>Status:</span> </p>
+						</a></div>
+						<div class="list"><a href="#">
+							<p><span>Verified For:</span> </p>
+							<p class="w53"><span>Id:</span> </p>
+							<div class="clearfix"></div>
+							<p><span>Verified By:</span> </p>
+							<p class="w53"><span>Status:</span> </p>
+						</a></div>
+
+					  </div>
+					</div>
+				  </div>
+
+					</div>
+
+
+				</div>
+
+				
+			<!-- SECOND COLUMN -->
+				<div class="verification_col2">
+				
+				
+				
+				<div class="question_message">
+					<p>Do you want to start your assessment now? If you start, you will not be able to take a break or stop the assessment.</p>
+					<div class="btngrp">
+						<a href="/assessment-view/" ><input type="button"  class="cancelButton" value=""></a>
+						<input type="button"  class="startButton" value="">
+					</div>
+
+				</div>
+
+				<div class="questionform">
+				<form method=post action="" name="assessment">
+					<div class="timer">
+						<span>30:00</span>
+						minutes left
+					</div>
+				
+					<p><span>Id:</span> 3232 </p><p> <span>Date:</span> September 10, 2013</p>
+					<p><span>Status:</span> Open </p><p> <span>Verified For:</span> TEST Grover</p>
+					<div class="clearfix"></div>
+					<p class="far_r"><span>Assessment Name:</span> PHP Programming</p>
+					<p><span>Category:</span> Web Development
+					</p>
+
+				<div class="clearfix"></div>
+
+
+				<!-- QUESTION BOX -->
+				<div class="questionlist">
+
+					<!-- Question section -->
+					<div class="questgrp">
+						<div class="questsno">1</div>
+						<div class="questcol1">
+							What will be the PHP script display?<br><br>
+							<?php<br>
+							$fst=array('one,'two');<br>
+							$end = array('three','four','five');<br>
+							$sum = $fst + $end;<br>
+							print_r( $sum );<br>
+							?><br>
+						</div>
+						<div class="anscol2">
+							<input type="checkbox" name="q1" value="ans1"> Array (0=> one, 1=> two, 2=> three, 3=> four, 4=> five )<br>
+							<input type="checkbox" name="q1" value="ans2"> Array (0=> three, 1=> four, 2=> five )<br>
+							<input type="checkbox" name="q1" value="ans3"> Array (0=> one, 1=> two, 2=> five )<br>
+							<input type="checkbox" name="q1" value="ans4"> Array (0=> one, 1=> two, 2=> three )<br>
+							<input type="checkbox" name="q1" value="none"> None
+						</div>
+						<div class="clearfix"></div>
+					</div>
+
+					<!-- Question section -->
+					<div class="questgrp">
+						<div class="questsno">2</div>
+						<div class="questcol1">
+							Q2?<br><br>
+						</div>
+						<div class="anscol2">
+							Answer2
+						</div>
+						<div class="clearfix"></div>
+					</div>
+
+					<!-- Question section -->
+					<div class="questgrp">
+						<div class="questsno">3</div>
+						<div class="questcol1">
+							Q3?<br><br>
+						</div>
+						<div class="anscol2">
+							Answer3
+						</div>
+						<div class="clearfix"></div>
+					</div>
+
+
+
+				</div>
+				
+				
+
+				<div class="btngrp">
+					<!-- <a href="/assessment-view/" ><input type="button"  class="cancelButton" value=""></a> -->
+					<input type="submit" class="btncompleteverify" value="" />
+				</div>
+
+				</form>				
+				</div> <!-- END QUESTION FORM -->
+				
+
+				</div>
+
+			<!-- End SECOND COLUMN -->
+
+
+		</div>
+		<div class="clearfix"></div>
+
+	{% endblock %}
