@@ -1,0 +1,799 @@
+{% load static %}
+{% load url from future %}
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html class="no-js ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]>    <html class="no-js ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]>    <html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Talentomi</title>
+
+    <meta name="description" content="Student Grind">
+    <meta name="keywords" content="Student Grind">
+<meta name="viewport" content="initial-scale=0.7, maximum-scale=8.0" />
+
+<script type="text/javascript" src="{% static 'js/jquery-1.8.3.min.js' %}"></script>
+<script src="{% static 'js/lib.js' %}" type="text/javascript"></script>
+<script type="text/javascript" src="{% static 'js/jquery-ui-1.10.3.custom.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/scripts.js' %}"></script>
+
+<!-- Bootstrap styles -->
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+<link rel="stylesheet" href="{% static 'css/jquery.fileupload.css' %}">
+<link href="{% static 'css/stye.css' %}" rel="stylesheet" type="text/css"/>
+
+<script>
+function goBack()
+  {
+  window.history.back()
+  }
+</script>
+<!-- Js for delete confirmation -->
+<script>
+function deleteFunction(prodid)
+{
+var r=confirm("Are you sure to delete");
+if (r)
+  {
+  $.ajax({
+	url:"/enterprise/delete-project/?pro_id=" + prodid,
+	success:function(result){
+	$('#'+prodid).parent().remove();
+      
+    }});
+  }
+  
+}
+</script>
+
+<script type="text/javascript">
+$(function () {
+	$("#enterprisestudent").selectbox();
+	$(".loginbox #type").selectbox();
+	$(".wrapper_col2 #assesssmentlist").selectbox();
+	$(".wrapper_col2 #candidatelist").selectbox();
+	$(".wrapper_col2 #candidatelist2").selectbox();
+	$(".wrapper_col2 #buzzlist").selectbox();
+		if ($('.searchfilter a').html()!=null){
+			getindex = $('.searchfilter a').index( $('.searchfilter a.active') );
+			if (getindex==0){
+				$('#assesssmentlist').next().show();
+					$('#candidatelist').next().hide();
+					$('#candidatelist2').next().hide();
+			}else{
+					$('#assesssmentlist').next().hide();
+					$('#candidatelist').next().show();
+					$('#candidatelist2').next().show();
+			}
+		}
+
+
+	
+	$(".loginbox #type").change(function(){
+		var getval = $(this).val();
+		if (getval=="Candidate"){
+			$('input[name=collegeName]').val('Candidate Name');
+			$('input[name=collegeName]').attr('onfocus',"if(this.value=='Candidate Name'){this.value=''};")
+			$('input[name=collegeName]').attr('onblur',"if(this.value==''){this.value='Candidate Name'};")
+		}else if (getval=="Enterprise"){
+			$('input[name=collegeName]').val('Enterprise Name');
+			$('input[name=collegeName]').attr('onfocus',"if(this.value=='Enterprise Name'){this.value=''};")
+			$('input[name=collegeName]').attr('onblur',"if(this.value==''){this.value='Enterprise Name'};")
+		}else if (getval=="Student"){
+			$('input[name=collegeName]').val('College Name');
+			$('input[name=collegeName]').attr('onfocus',"if(this.value=='College Name'){this.value=''};")
+			$('input[name=collegeName]').attr('onblur',"if(this.value==''){this.value='College Name'};")
+		}
+	});
+
+	$( "select[name=currency]" ).live( "change", function() {
+		var getval = $(this).val();
+		if (getval=="INR"){
+			$('input[name=project_value]').val('Project Value (Rupees)');
+			$('input[name=project_value]').attr('onfocus',"if(this.value=='Project Value (Rupees)'){this.value=''};")
+			$('input[name=project_value]').attr('onblur',"if(this.value==''){this.value='Project Value (Rupees)'};")
+		}else{
+			$('input[name=project_value]').val('Project Value ($)');
+			$('input[name=project_value]').attr('onfocus',"if(this.value=='Project Value ($)'){this.value=''};")
+			$('input[name=project_value]').attr('onblur',"if(this.value==''){this.value='Project Value ($)'};")
+		}
+	});
+
+	$( ".editableinput" ).focusin(function() {
+		$(this).css('border','1px solid #eee');
+	})
+	$( ".editableinput" ).focusout(function() {
+		$(this).css('border','1px solid #fff');
+		var geturl = $(this).attr('rev');
+		var getval = $(this).val();
+			$.ajax({
+				type: 'get',
+				url: geturl,
+				data: { field1: getval }
+			});
+	})
+
+
+
+	$( "#candidatelist,#assesssmentlist" ).change(function() {
+		var getval = $(this).val();
+			$.ajax({
+				type: 'get',
+				url: "/get-assessment-data/",
+				data: { field1: getval },
+				success: function (data) {
+					$('.wrapper_col2 .contentlist4').html(data);
+				}
+			});
+	})
+$( "#candidatelist2,#buzzlist" ).change(function() {
+		var getval = $(this).val();
+			$.ajax({
+				type: 'get',
+				url: "/get-buzz-data/",
+				data: { field1: getval },
+				success: function (data) {
+					$('.wrapper_col2 .contentlist4').html(data);
+				}
+			});
+	})
+
+
+
+});
+</script>
+<script type="text/javascript">
+$(function () {
+	$("#skillId, #verificationStatus").selectbox();
+});
+</script>
+
+
+<script type="text/javascript">
+function validatereg()
+{
+  var checkvalidate = true;
+  if( document.registrationForm.fName.value == "" || document.registrationForm.fName.value == "First Name" )
+   {
+     checkvalidate =  false;
+     alert( "Please provide your first name." );
+     document.registrationForm.fName.focus() ;
+	 return false;
+   }
+   if( document.registrationForm.lName.value == "" || document.registrationForm.lName.value == "Last Name" )
+   {
+     checkvalidate =  false;
+     alert( "please provide your last name." );
+     document.registrationForm.lName.focus() ;
+	 return false;
+   }
+   if( document.registrationForm.emailId.value == "" || document.registrationForm.emailId.value == "Email" )
+   {
+     checkvalidate =  false;
+     alert( "Please provide a valid email id" );
+     document.registrationForm.emailId.focus() ;
+	 return false;
+   }
+   
+   if( document.registrationForm.password.value == "" || document.registrationForm.password.value == "password" )
+   {
+     checkvalidate =  false;
+     alert( "Please provide your password." );
+     document.registrationForm.password.focus() ;
+     return false;
+   }
+   
+   if( document.registrationForm.collegeName.value == ""|| document.registrationForm.collegeName.value == "College Name")
+   {
+     checkvalidate =  false;
+     alert( "Please mention your college name." );
+     document.registrationForm.collegeName.focus() ;
+     return false;
+   }
+   if( document.registrationForm.type.value == "")
+   {
+     checkvalidate =  false;
+     alert( "Please select your type." );
+     document.registrationForm.type.focus() ;
+     return false;
+   }
+
+	$('input[name=Linkedin], input[name=facebook], input[name=github]').attr('onblur','');
+   if( document.registrationForm.linkedIn.value == "Linkedin")
+		document.registrationForm.linkedIn.value = '';
+   /*if( document.registrationForm.facebook.value == "Facebook Profile(optional)")
+		document.registrationForm.facebook.value = '';
+   if( document.registrationForm.github.value == "GitHub Login(optional)")
+		document.registrationForm.github.value = ''; */
+
+   return checkvalidate ;
+}
+
+function validatelogin()
+{
+  var checkvalidate = true;
+   if( document.logbox.emailid.value == "" || document.logbox.emailid.value == "Email" )
+   {
+     checkvalidate =  false;
+     alert( "Please provide a valid email id" );
+     document.logbox.emailid.focus() ;
+	 return false;
+   }
+   
+   if( document.logbox.password.value == "" || document.logbox.password.value == "password" )
+   {
+     checkvalidate =  false;
+     alert( "Please provide your password." );
+     document.logbox.password.focus() ;
+     return false;
+   }
+   return checkvalidate ;
+}
+
+
+function validateforget()
+{
+  var checkvalidate = true;
+   if( document.forgetbox.emailid_recovery.value == "" || document.forgetbox.emailid_recovery.value == "Email Address" )
+   {
+     checkvalidate =  false;
+     alert( "Please provide a valid email id" );
+     document.forgetbox.emailid_recovery.focus() ;
+	 return false;
+   }
+   
+   return checkvalidate ;
+}
+
+function passwordcheck()
+{
+  var checkvalidate = true;
+   if( document.resetbox.curr_pwd.value == "" ||  document.resetbox.new_pwd.value == "Old Password"  )
+   {
+     checkvalidate =  false;
+     alert( "Please provide current password for change." );
+     document.resetbox.curr_pwd.focus() ;
+	 return false;
+   }
+   
+   if( document.resetbox.new_pwd.value == "" ||  document.resetbox.new_pwd.value != document.resetbox.confirm_pwd.value  )
+   {
+     checkvalidate =  false;
+     alert( "Please confirm new password. " );
+     document.resetbox.new_pwd.focus() ;
+	 return false;
+   }
+
+   return checkvalidate ;
+}
+
+</script>
+
+<!-- Forms validation Ends here -->
+<!--  js for changing text value according to usertype selected -->
+<script type="text/javascript"> 
+ window.onload=function() {  
+  if (document.getElementById) { 
+ document.getElementById("type").onchange=function() { checkText(this); }  
+  } 
+ } 
+ function checkText(SNewSel) { 
+ var ind = SNewSel.selectedIndex; 
+ var txt = document.getElementById('collegeName'); 
+ if( document.registrationForm.type.value == "Enterprise")
+   {
+     
+	 txt.value = "Enterprise Name" 
+   }
+	if( document.registrationForm.type.value == "Student")
+   {
+     txt.value = "College Name"
+   }
+} 
+
+
+</script> 
+	
+<script type="text/javascript">
+	$.fn.serializeObject = function()
+	{
+		var o = {};
+		var a = this.serializeArray();
+		$.each(a, function() {
+			if (o[this.name] !== undefined) {
+				if (!o[this.name].push) {
+					o[this.name] = [o[this.name]];
+				}
+				o[this.name].push(this.value || '');
+			} else {
+				o[this.name] = this.value || '';
+			}
+		});
+		return o;
+	};
+
+		
+	$(function() {
+		var dat;
+		$('#registrationForm').ajaxForm({
+			type: 'post',
+			beforeSubmit: function(){
+					dat = JSON.stringify($('#registrationForm').serializeObject());
+					/*alert(dat); */
+			},
+			url: '/users/0/create/',
+			data: dat,
+			success: function (dat) {
+				alert('You have successfully signed up with Talentomi');
+				location.href = "/pre_landing/";
+			}
+		});
+/*
+		$('#registrationForm').submit(function() 			
+		{
+			var dat = JSON.stringify($('#registrationForm').serializeObject());
+			alert(dat);
+
+			$.ajax({
+				type: 'post',
+				url: '/users/0/create/',
+				data: dat,
+				success: function (data) {
+					alert('Data Successfully Saved.!');
+					location.href = "/landing_page/";
+				}
+			});
+
+			return false;
+		});
+	*/		
+	});
+	
+	
+	
+</script>
+
+</head>
+
+<body>
+{% block header %}
+<header>
+	{% if request.session.validate_user %}
+		<div class="welcomename logmenu"><img src="{% if request.session.userData.image %} /media/{{request.session.userData.image}} {% else %}{% static 'images/user.png' %} {% endif %}" width="28" height="28" border=0 alt="Welcome" /> 
+		{{user.fName}} {{user.lName}} {% if user.type == "Enterprise" %}{% if request.session.displayName %} {{request.session.displayName}} {% endif %} {% endif %}
+									<form method="POST" enctype="multipart/form-data" name="imageform" id="imageform" {% if request.session.validate_user.type == "Student" %}action="/student/upload-image/" {% endif %}  {% if request.session.validate_user.type == "Enterprise" %}action="/enterprise/upload-image/" {% endif %}>
+									<div><input type="hidden" name="ct_id" value="{{request.session.validate_user.userId}}">
+										<input type="file" name="img" id="id_img" class="changephotoholder">
+										<a href="javascript:void(0)" class="changephoto" >Change Photo</a>
+										<a href="javascript:void(0)" class="showchangepwd">Change Password</a>
+										<a href="/user_logout/" class="">Logout</a>
+									</div>
+									</form>
+									{% if pass_status == "FAIL"%}
+									<script>
+									alert("Incorrect current password! Please try again.");	
+									</script>
+									{% endif %}
+		</div>
+	{% endif %}
+	
+	<a href="/"><img src="{% static 'images/talentomi_logo.png' %}" width="176" height="44" border=0 alt="Talentomi" class="logo" /></a>
+	<div class="topnav">
+
+	{% if status == "FAIL"%}
+		<script>
+		alert("Incorrect login. Please check your username and password and try logging in again.");	
+		</script>
+		<input type="hidden" id="validation_msg" name="validation_msg" value="FAIL" >
+	{% endif %}
+	{% if pass_status == "PASS"%}
+		<script>
+		alert("Password changed successfully.");	
+		</script>
+		
+	{% endif %}
+	{% if messages %}
+		<script>
+		alert("Authorization cancelled. Please confirm authentication.");	
+		</script>
+		
+	{% endif %}
+	
+	
+	{% if request.session.validate_user  %}
+		<!-- <div class="loginbox">
+		<form method=post action="" name="logbox" id="logbox" class="logoutbox">
+			<a href="/user_logout/" class="menu_logout">LOGOUT</a>
+		</form>
+		</div> -->
+	{% else %}
+		<div class="loginbox showverify"><span class="menu_signup">SIGN UP</span>
+			<div  class="logbox">
+			<div class="logcol">
+				Sign up using<br>
+				<a href="{% url 'socialauth_begin' backend='linkedin' %}"><img src="{% static 'images/btn-linkedin.png' %}" width="102" height="32" border=0 alt=""></a>
+			</div>
+			<div class="splitor"><p>OR</p></div>
+			<div class="logcol2">
+				Sign up using email<br>
+			<form method="POST"  name="registrationForm" id="registrationForm"><span class="closelog">&nbsp;</span>{% csrf_token %}
+				<input type="text"  value="Email"  name="emailId" id="emailId" onfocus="if(this.value=='Email'){this.value=''};" onblur="if(this.value==''){this.value='Email'};">
+				<input type="password" name="password" value="password" id="password" onfocus="if(this.value=='password'){this.value=''};" onblur="if(this.value==''){this.value='password'};">
+				<input type="text"  value="First Name"  name="fName" id="fName" onfocus="if(this.value=='First Name'){this.value=''};" onblur="if(this.value==''){this.value='First Name'};">
+				<input type="text"  value="Last Name"  name="lName" id="lName" onfocus="if(this.value=='Last Name'){this.value=''};" onblur="if(this.value==''){this.value='Last Name'};">
+				<input type="text" name="linkedIn" value="Linkedin" id="linkedIn" onfocus="if(this.value=='Linkedin'){this.value=''};" onblur="if(this.value==''){this.value='Linkedin'};" />
+				<select name="type" id="type">
+					<option value="Student">Student</option>
+					<option value="Enterprise">Enterprise</option>
+				</select>
+					<!-- <option value="Candidate">Candidate</option> -->
+				<input type="text"  value="College Name"  name="collegeName" id="collegeName" onfocus="if(this.value=='College Name'){this.value=''};" onblur="if(this.value==''){this.value='College Name'};">
+				<input type="submit" name="submit_new" class="btn_signup2" value="" onclick="return validatereg(); ">
+			</form>
+			</div>
+			</div>
+		</div>
+		<div class="loginbox"><span  class="menu_login">LOGIN</span>
+			<div  class="logbox">
+			<div class="logcol">
+				Log into Talentomi using<br>
+				<a href="{% url 'socialauth_begin' backend='linkedin' %}"><img src="{% static 'images/btn-linkedin.png' %}" width="102" height="32" border=0 alt=""></a>
+			</div>
+			<div class="splitor"><p>OR</p></div>
+			<div class="logcol2">
+				Log into Talentomi account<br>
+				<form method="post" action="/user_login/" name="logbox" id="logbox"><span class="closelog">&nbsp;</span>
+					<input type="text"  value="Email" name="emailid" onfocus="if(this.value=='Email'){this.value=''};" onblur="if(this.value==''){this.value='Email'};">
+					<input type="password" name="password" value="password" onfocus="if(this.value=='password'){this.value=''};" onblur="if(this.value==''){this.value='password'};">
+					<br><a href="javascript:void(0)" class="forgotpassword" >Forgot Password</a><br>
+					<input type="submit" name="submit_log" class="btn_signin" value="" onclick="return validatelogin(); ">
+				</form>
+			</div>
+			</div>
+			
+		</div>
+
+			<div  class="logbox forgotpop">
+				<h4>Forgot your password?</h4><br>
+				<p>Type in your email address to reset your password.</p>
+				<br>
+				<form method="post" action="/forgot-password/" name="forgetbox" id="forgetbox"><span class="closelog">&nbsp;</span>
+					<input type="text"  value="Email Address" name="emailid_recovery" onfocus="if(this.value=='Email Address'){this.value=''};" onblur="if(this.value==''){this.value='Email Address'};"><br>
+					<input type="button" name="submit_log2" class="btn_login2" value="" >
+					<input type="submit" name="submitrecovery" class="btn_continue2" value="" onclick="return validateforget(); ">
+				</form>
+			</div>
+	{% endif %}
+			<div  class="logbox resetpw">
+				<h4>Change Password</h4>
+				<br>
+				<form method="post" action="/reset-password/" name="resetbox" id="resetbox"><span class="closelog">&nbsp;</span>
+					<div class="pwdfield"><input type="password" value="" id="curr_pwd" name="curr_pwd" onfocus="focuspwd('', '#curr_pwd')" onblur="blurpwd(this.val, '#curr_pwd')"><span class="passwordbox">Old Password</span></div>
+					<div class="pwdfield"><input type="password" value="" id="new_pwd" name="new_pwd" onfocus="focuspwd('', '#new_pwd')" onblur="blurpwd(this.val, '#new_pwd')"><span class="passwordbox">New Password</span></div>
+					<div class="pwdfield"><input type="password" value="" id="confirm_pwd" name="confirm_pwd" onfocus="focuspwd('', '#confirm_pwd')" onblur="blurpwd(this.val, '#confirm_pwd')"><span class="passwordbox">Confirm Password</span></div>
+					<input type="button" name="submit_cancel" class="btn_cancel" value="" >
+					<input type="submit" name="submitpwd" class="btn_change" value="" onclick="return passwordcheck(); ">
+				</form>
+			</div>
+		<div class="menu">
+			{% if  user.type == "Admin" %}<a href="/assessment-assign-admin/" class="menu_authorization">AUTHENTICATE AUTHORIZATIONS</a> {% else %}{% if request.session.validate_user  %}<a href="/landing_page/" class="menu_profile">{% else %}<a href="/" class="menu_profile">{% endif %}{%  if user.type == "Enterprise" %}{% else %}PROFILE{% endif %} {% endif %}</a>{% if  user.type != "Admin" %} <a href="/challenge/" class="menu_challenges">CHALLENGES</a>{% else %} <a href="/invite-assign-admin/" class="menu_signverfication">SIGN UP AUTHENTICATIONS</a> {% endif %}{% if request.session.validate_user  %}{% if  user.type != "Admin" %}
+			<div><a href="/assessment-view/" class="menu_assesments">ASSESSMENTS</a>
+				{% if user.type == "Enterprise" %}
+					<ul>
+					<li><a href="/enterprise/create_assessment/">Create Assessment</a></li>
+					<li><a href="/assessment-assign-enterprise/">Assign Assessment</a></li>
+					<li><a href="/assessment-view/">View Assessments</a></li>
+					<li><a href="/enterprise/view-assigned-assessment/">View Assessment Assigned</a></li>
+					</ul>
+				{% else %}
+					<ul><li><a href="/assessment-view/">View Assessments</a></li>
+					<li><a href="/assessment-assign-candidate/" class="menu_open">Assign Assessment</a></li></ul>
+				{% endif %}
+			</div>
+			 {% endif %}{% if  user.type == "Admin" %}<!-- <a href="/admin-view-strength/" class="menu_strengths">STRENGTHS</a> --> {% endif %}	
+				{% if  user.type == "Admin" %}<!-- <a href="/admin/assign-buzz/" class="menu_buzz2">ASSIGN BUZZ</a> --> {% endif %}
+			 {% if  user.type == "Admin" %}<a href="/view-strengthcode/" class="menu_codes">ADD SIGN UP CODES</a> {% endif %}{% if  user.type == "Enterprise" %}
+			 <div><a href="/view-hire-manager/" class="menu_requistions">REQUISITIONS</a> 
+					<ul><li><a href="/view-hire-manager/">View Requisitions</a></li>
+					<li><a href="/create-requisition/">Create Requisition</a></li></ul></div>
+			 {% endif %}{% if  user.type == "Student" or user.type == "Candidate" %}<!-- <a href="/view-strength/" class="menu_strengths">STRENGTHS</a>  -->{% endif %}  
+			 {% if  user.type == "Student" or user.type == "Candidate" %} 
+			 <!-- <div><a href="/candidate/save-buzzResponse/" class="menu_buzz">BUZZ</a>
+					<ul>
+					<li><a href="/candidate/save-buzzResponse/">Build A-Buzz</a></li>
+					<li><a href="/candidate/add-buzz/">Buzz Publisher</a></li>
+					</ul></div> -->
+			 {% else %}{% endif %} 			 
+			 {% if  user.type = "Student" or user.type = "Candidate"%} 
+			 <div><a href="/verify-view/" class="menu_verification">AUTHENTICATIONS</a>
+					<ul><li><a href="/verify-view/">View Authentications</a></li>
+					<!--li><a href="/view-verification-enterprise/">View Authentications Requested</a></li>
+					<li><a href="/create-verification-enterprise/">Create Authentication Request</a></li--></ul></div>
+			 {% else %}{% endif %}
+			 {% if  user.type = "Enterprise" %} 
+			 <div><a href="/enterprise/view-verification/" class="menu_verification">AUTHENTICATIONS</a>
+					<ul><li><a href="/enterprise/view-verification/">View Authentications</a></li>
+					<li><a href="/enterprise/view-verification/?key=view">View Authentications Requested</a></li>
+					<li><a href="/enterprise/create-verification/">Create Authentication Request</a></li></ul></div>
+			 {% else %}{% endif %} {% endif %}  {% if  user.type != "Admin" %}<a href="/howitworks/" class="menu_howitworks">HOW IT WORKS</a>{% endif %}  {% if  user.type != "Admin" %} <a href="/talentomi/" class="menu_why">WHY TALENTOMI</a> {% endif %}&nbsp;
+		</div>
+
+	
+	
+	</div>
+</header>
+{% endblock %}
+
+<!-- Start Main -->
+{% block full_container %}
+
+
+{% endblock %}
+<!-- END Main -->
+{% block footer %}
+<footer>
+<div class="menubottom">
+	<a href="/about_us/">ABOUT</a>&nbsp; &nbsp;
+	<a href="javascript:void(0)" class="contact">CONTACT</a>&nbsp; &nbsp;
+</div>
+	Copyright Talentomi 2013
+		<div class="sharebox"><a class="icon_fb" href="https://www.facebook.com" target="_blank">&nbsp;</a><a class="icon_in" href="https://www.linkedin.com" target="_blank">&nbsp;</a><a href="https://www.twitter.com" class="icon_twitter" target="_blank">&nbsp;</a></div>
+
+</footer>
+<div class="clearfix"></div>
+{% endblock %}
+
+
+		<div class="overlay"></div>
+		<div class="popup" >
+		<div class="pop_close">&nbsp;</div>
+		<div class="copyform">&nbsp;</div>
+		</div>
+
+		
+			<div  class="contactbox"><span class="closelog">&nbsp;</span>
+				<div class="heading">CONTACT US</div>	
+
+			<div class="contact_col1">
+				We are excited to hear from you. If you have any questions as to how you will use Talentomi, how it can help you or what you want to see in Talentomi, please write to us. 
+				<br>We are working hard to get back to you within 24 hours.
+
+				<form name="contactform" id="contactform" method=post action="">
+					<label>Name</label>
+					<input id="id_name" type="text" name="name" maxlength="140" value=""  onfocus="if(this.value=='Name'){this.value=''};" onblur="if(this.value==''){this.value='Name'};" />
+					<label>Email</label>
+					<input id="id_email" type="text" name="email" maxlength="140" value=""  onfocus="if(this.value=='Email'){this.value=''};" onblur="if(this.value==''){this.value='Email'};" />
+					<label>Subject</label>
+					<input id="id_subject" type="text" name="subject" value=""  onfocus="if(this.value=='Subject'){this.value=''};" onblur="if(this.value==''){this.value='Subject'};" />
+					<label>Message</label>
+					<textarea name="message" id="id_message" onfocus="if(this.value=='Message'){this.value=''};" onblur="if(this.value==''){this.value='Message'};"></textarea>
+
+				<div class="formRow_03">
+						<div class="btnHolder_05">
+						<input type="submit" class="submitbutton" value="" onclick="return validatecontactForm()" />
+						<a href="/" class="closepop"><input type="button"  class="cancelButton2" value=""></a>
+						</div>
+				</div>
+
+				</form>
+			</div>
+			<div class="contact_col1 noshow">We are excited to hear from you.  We will get back with you within 24 hours.</div>
+			<div class="splitor">&nbsp;</div>
+			<div class="contact_col2">
+				Contact Us at<br><br>
+				<a href="mailto:admin@talentomi.com">admin@talentomi.com</a><br>
+				<a href="http://twitter.com/talentomi" target="_blank">twitter.com/talentomi</a><br><br>
+				7616 Balmoral Way,<br>
+				San Ramon CA 94582<br>
+			</div>
+			</div>
+
+
+	<!-- INVITE Friends -->	
+
+			<div  class="invitebox"><span class="closelog">&nbsp;</span>
+				<img src="{% static 'images/invite.jpg' %}" width="250" height="177" border=0 alt="" align="left" class="inviteimg">
+				<div class="heading">Want to build a high performance team or be part of one?</div>	
+				<p>Talentomi is the platform for you. We are in limited beta and sign up is by invitation only. Please sign up for invite and we will be in touch with you shortly.</p>
+			<div class="clearfix"></div>
+			<div class="invite_col1">
+				
+
+
+				<form name="inviteform" id="inviteform" method=post action="">
+					<input id="id_emailinvite" type="text" name="emailinvite" maxlength="140" value="Sign up with Email Address for Invite"  onfocus="if(this.value=='Sign up with Email Address for Invite'){this.value=''};" onblur="if(this.value==''){this.value='Sign up with Email Address for Invite'};" />
+
+						<input type="submit" class="btn_invite" value="" onclick="return validateinviteForm()" />
+
+
+
+				</form>
+			</div>
+			<div class="splitor"><p>OR</p></div>
+			<div class="invite_col2">
+						<a href="javascript:void(0)" class="showlogin"><input type="button"  class="btn_skiplog" value=""></a>
+			</div>
+			</div>
+
+		<!-- Sign Up verification -->
+			<div  class="signupverify"><span class="closelog">&nbsp;</span>
+				<h4>Complete Sign Up by authenticating sign up code</h4>
+				<br>
+				<form method="post" action="/signup-verify/" name="signupverfication" id="signupverfication">
+					<input type="text" value="Email" id="email_verify" name="email_verify" onfocus="if(this.value=='Email'){this.value=''};" onblur="if(this.value==''){this.value='Email'};"><br>
+					<input type="text" value="Sign Up code" id="code_verify" name="code_verify" onfocus="if(this.value=='Sign Up code'){this.value=''};" onblur="if(this.value==''){this.value='Sign Up code'};"><br><br>
+					<input type="submit" name="submitrecovery" class="btn_verify" value="" onclick="return validateverification(); ">
+				</form>
+			</div>
+
+
+	<!-- Javascript or form validation -->
+<script type="text/javascript">
+
+function validateinviteForm()
+{
+  var checkvalidate = true;
+
+   var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,5})+$/;
+   if (!filter.test( $('input[name=emailinvite]').val() )) {
+     checkvalidate =  false;
+     alert( "Please enter correct email address" );
+     document.inviteform.emailinvite.focus() ;
+     return false;
+	}
+
+
+ 
+	if (checkvalidate){
+
+		
+			$.ajax({
+				type: 'post',
+				url: '/invite-friend/',
+				data: $("#inviteform").serialize(),
+				success: function (data) {
+					$('#inviteform').html('Thank you for your interest. Please validate the sign up by checking your email.')
+				}
+			});
+		
+	}
+
+   return false ;
+}
+
+
+function validatecontactForm()
+{
+  var checkvalidate = true;
+  if( document.contactform.name.value == "" || document.contactform.name.value == "Name" )
+   {
+     checkvalidate =  false;
+     alert( "Please enter the name." );
+     document.contactform.name.focus() ;
+	 return false;
+   } else if ( /^[a-z ]+$/i.test( document.contactform.name.value )== false ) {
+            alert( "Name must contain only letters.");
+			 document.contactform.name.focus() ;
+			 return false;
+        }
+	
+   var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,5})+$/;
+   if (!filter.test( $('input[name=email]').val() )) {
+     checkvalidate =  false;
+     alert( "Please provide a valid email id." );
+     document.contactform.email.focus() ;
+     return false;
+	}
+
+   if( document.contactform.subject.value == "" || document.contactform.subject.value == "Subject" )
+   {
+     checkvalidate =  false;
+     alert( "Please enter the subject." );
+     document.contactform.subject.focus() ;
+	 return false;
+   } 
+
+  
+
+
+   if( document.contactform.message.value == "" || document.contactform.message.value == "Message.")
+   {
+     checkvalidate =  false;
+     alert( "Please enter Message." );
+     document.contactform.message.focus() ;
+     return false;
+   }
+ 
+	if (checkvalidate){
+
+		
+			$.ajax({
+				type: 'post',
+				url: '/contact-us/',
+				data: $("#contactform").serialize(),
+				success: function (data) {
+					$('.contact_col1:first').hide();
+					$('.contact_col1.noshow').show();
+				}
+			});
+		
+	}
+
+   return false ;
+}
+
+
+function validateverification()
+{
+  var checkvalidate = true;
+   if( document.signupverfication.email_verify.value == "" || document.signupverfication.email_verify.value == "Email" )
+   {
+     checkvalidate =  false;
+     alert( "Please provide your email." );
+     document.signupverfication.email_verify.focus() ;
+	 return false;
+   }
+   
+   if( document.signupverfication.code_verify.value == "" || document.signupverfication.code_verify.value == "Sign Up code" )
+   {
+     checkvalidate =  false;
+     alert( "Please provide your sign up code." );
+     document.signupverfication.code_verify.focus() ;
+	 return false;
+   }
+
+
+
+	if (checkvalidate){
+
+		
+			$.ajax({
+				type: 'post',
+				url: '/signup-verify/',
+				data: $("#signupverfication").serialize(),
+				success: function (data) {
+					if ( data==false){
+						alert('Invalid Code, please try agian authenticate code.');
+					}else{
+						$('#signupverfication').html('Your sign up code has been verified.  You are being forwarded to complete your sign up');
+						var t=setTimeout(function(){ 
+							$('.signupverify').fadeOut('fast');
+							$('.loginbox').eq(0).find('.logbox').fadeIn('fast');
+							$('.loginbox').eq(0).removeClass('showverify');
+						},4000)
+
+					}
+				}
+			});
+		
+	}
+
+   
+   return false ;
+}
+
+</script>
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="{% static 'js/jquery.iframe-transport.js' %}"></script>
+<!-- The basic File Upload plugin -->
+<script src="{% static 'js/jquery.fileupload.js' %}"></script>
+<!-- Bootstrap JS is not required, but included for the responsive demo navigation -->
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+$(function () {
+	$(".changephotoholder").change(function(){
+	  if( document.imageform.id_img.value != "")
+	   {
+		 document.imageform.submit();
+	   }
+	});
+
+});
+</script>
+
+		
+</body>
+</html>

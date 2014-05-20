@@ -1,27 +1,84 @@
 {% extends "base.html" %}
 
 {% load static %}
+{% load url from future %}
 
 {% block full_container %}
 <!-- Start Main -->
 <div class="full_container">
 	<section id="home">
-	<div>Explore our&nbsp;<br> <span>treasured</span> <br>talents!&nbsp;&nbsp;</div>
+	<div>
+	<!-- Explore our&nbsp;<br> <span>treasured</span> <br>talents!&nbsp;&nbsp; -->
+					<div class="heading">Want to build a high performance team or be part of one?</div>	
+					<p>Talentomi is the platform for you.  Talentomi identifies what you need, what gaps you have to what you need to hire.</p>
+				<img src="{% static 'images/home-scroll1.jpg' %}" width="614" height="410" border=0 alt="" align="left" class="inviteimg">
+
+				<!-- <div class="invite_col1">
+				</div> -->
+				<div class="invite_col2 logbox">
+
+					<div class="logcol">
+						Log into Talentomi using<br>
+						<a href="{% url 'socialauth_begin' backend='linkedin' %}"><img src="{% static 'images/btn-linkedin.png' %}" width="102" height="32" border=0 alt=""></a>
+					</div>
+					<div class="splitor"><p>or</p></div>
+					<div class="logcol2">
+						Log into Talentomi account<br>
+						<form method="post" action="/user_login/" name="logbox" id="logbox">
+							<input type="text"  value="Email" name="emailid" onfocus="if(this.value=='Email'){this.value=''};" onblur="if(this.value==''){this.value='Email'};">
+							<input type="password" name="password" value="password" onfocus="if(this.value=='password'){this.value=''};" onblur="if(this.value==''){this.value='password'};">
+							<br><a href="javascript:void(0)" class="forgotpassword" >Forgot Password</a><br>
+							<input type="submit" name="submit_log" class="btn_signin" value="" onclick="return validatelogin(); ">
+						</form>
+							<br><span  class="notregisteryet">Not Registered yet? <a href="javascript:void(0)" class="showverify" >Click here</a> to Sign up</span>
+					</div>
+
+
+				</div>
+
+	</div>
 	</section>
 
 	<section id="home_1">
-		<div>More than 10 million candidates looking for jobs on a daily basis</div>
+		<div>
+		<h3>Challenges today in building a high performance team</h3>
+		<p><span>50+%</span> Failed projects due to not having the right team</p>
+		<p><span>66%</span> Hires change jobs after first year</p>
+		<p><span>20+%</span> Team time spent building the right team. Millions of dollars in cost</p></div>
 	</section>
 
-	<section id="home_4">
+	<!-- <section id="home_4">
 		<div><span>66%</span> of hires change jobs after 1 year</div>
-	</section>
+	</section> -->
 
 	<section id="home_5">
-		<div>Recruiters and hiring enterprises need validated top 25% talent</div>
+		<div><form method=post action="" name="calculatehire" id="calculatehire">
+			<h3>Try this calculator to see Value in Building Better Teams</h3>
+			<div class="home5_col1">
+			<p><label>Number of Hires</label><input type="text" name="hires" id="hires" value="0" onblur="if(this.value==''){this.value='0'};" onfocus="if(this.value=='0'){this.value=''};" ></p>
+			<p><label>Time to Hire</label><input type="text" name="timetohire" id="timetohire" value="0" maxlength="2" onblur="if(this.value==''){this.value='0'};" onfocus="if(this.value=='0'){this.value=''};"></p>
+			<p><label>Referral %</label><input type="text" name="referralhire" id="referralhire" value="0" maxlength="3" onblur="if(this.value==''){this.value='0'};" onfocus="if(this.value=='0'){this.value=''};"></p>
+			<p><label>Offer Acceptance %</label><input type="text" name="hireoffer" id="hireoffer" value="0" maxlength="3" onblur="if(this.value==''){this.value='0'};" onfocus="if(this.value=='0'){this.value=''};"></p>
+			<p><label>Type of Hire</label>
+			<select name="typeofhire" id="typeofhire">
+				<option value="0">Select</option>
+				<option value="2">Niche (Data Scientist, Full Stack)</option>
+				<option value="1">Good Talent</option>
+			</select>
+			</p>
+			</div>
+			<div class="home5_col3">
+				<p>Hours spent by team<br><span>0</span></p>
+				<p>Cost for the team<br><span>$0</span></p>
+			<p><input type="button" name="calc_submit" value="Calculate"></p>
+			
+			</div>
+
+			</form>
+		</div>
 	</section>
 
-	<section id="home_2">
+	<!-- <section id="home_2">
 		<div><span>57%</span> of typical job interviews are accurate</div>
 	</section>
 
@@ -29,38 +86,36 @@
 
 	<section id="home_3">
 		<div><span>44%</span> of resumes going through background check come back with anomalies</div>
-	</section>
+	</section> -->
 
 	<section id="home_6">
-		<div>At Talentomi, we know our talent personally. We are using technology to make that change.<br><br>
+		<div>At Talentomi, we know our talent personally. We are using technology to make that change.<br><br> 
 			<ul>
-			<li><p><img src="{% static 'images/icon-star.gif' %}" width="52" height="66" border=0 alt=""><span>VERIFIED PERFORMANCES</span></p> 
-				Why rely on resumes, spending your time only to look for a more challenging, fit job after hire?
+			<li><p><img src="{% static 'images/icon-star.gif' %}" width="52" height="66" border=0 alt=""><span>AUTHENTICATED PERFORMANCES</span></p> 
+				Why rely on resumes, spending your and your team's time looking for talent to hire?
 				<br><br>
 				Talentomi brings out the best in talent for each project he/she has worked on.   
 			</li>
 			<li class="tright"><p><img src="{% static 'images/icon-challenge.gif' %}" width="52" height="66" border=0 alt=""><span>CHALLENGES</span></p>
-			Why role the dice trying to figure out how you perform to new challenges?
+			Why role the dice trying to figure out how your hire perform to new challenges?
 			<br><br>
-			Talentomi provides employers with challenges and assess how talent perform.
+			Talentomi provides your team with challenges and assess how they perform.
 			</li>
 			<li><p><img src="{% static 'images/icon-eye.gif' %}" width="52" height="66" border=0 alt=""><span>ASSESSMENTS</span></p>
-			What is better than knowing your skill strengths?
+			What is better than knowing your team's skill strengths?
 			<br><br>
-			Assessing your skills and focusing on the strength areas to drive your career.
+			Assessing your team's skills, knowing what your team has and focusing on what is needed bring your team success.
 			</li>
 			<li class="tright"><p><img src="{% static 'images/icon-personal.gif' %}" width="52" height="66" border=0 alt=""><span>PERSONAL REFERRALS</span></p>
 			Can there be a more delightful moment than cherishing your team experiences?
 			<br><br>
-			Why not repeat those fun experiences?  Thats the magic Talentomi's personal referrals does.
+			Why not use them to build your team's success?  Thats the magic Talentomi's personal referrals does.
 			</li>
 			<li><p><img src="{% static 'images/icon-talent.gif' %}" width="52" height="66" border=0 alt=""><span>TALENT FIT</span></p>
-			Why apply for jobs when they should come to you?
-			<br><br>
-			Authenticate performances, take on challenges, assess your skills and leave the rest to us.  We will bring the right fit for you!</li>
+			Knowing your needs, what your team brings and what team gaps are bring the right fit for your team!</li>
 
 			<li class="tright"><p><img src="{% static 'images/icon-marker.gif' %}" width="52" height="66" border=0 alt=""><span>BE IN THE  DRIVER SEAT</span></p>
-			Just love what you do and drive your career!</li>
+			Just love what team you build and make it a success!</li>
 			</ul>
 		</div>
 	</section>

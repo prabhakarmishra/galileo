@@ -57,8 +57,8 @@ $(document).ready(function(){
 						{% for key,value in completed_assessmentDict.items %}
 						<div class="list {% if key.testId == assess_id %} active {% endif %}" >{% if user.type == "Enterprise" %}<a href="/assessment-view/?test_id={{key.testId}}">{% else %}<a href="/assessment-view/?assess_id={{key.testId}}">{% endif %}
 							<p><span>Assessed For:</span> {{value.assessed_for.fName}} {{value.assessed_for.lName}}</p>
-							<p class="w53"><span>Id:</span> {{key.testId}}</p>
-							<div class="clearfix"></div>
+							<!-- <p class="w53"><span>Id:</span> {{key.testId}}</p>
+							<div class="clearfix"></div> -->
 							<p class="w53"><span>Status:</span> Closed</p>
 						</a></div>
 						{% endfor %}
@@ -79,8 +79,8 @@ $(document).ready(function(){
 						{% for key,value in pending_assessmentDict.items %}
 						<div class="list {% if key.testId == assess_id %} active {% endif %}">{% if user.type == "Enterprise" %}<a href="/assessment-view/?test_id={{key.testId}}">{% else %}<a href="/assessment-view/?assess_id={{key.testId}}">{% endif %}
 							<p><span>Assessed For:</span> {{value.assessed_for.fName}} {{value.assessed_for.lName}}</p>
-							<p class="w53"><span>Id:</span> {{key.testId}}</p>
-							<div class="clearfix"></div>
+							<!-- <p class="w53"><span>Id:</span> {{key.testId}}</p>
+							<div class="clearfix"></div> -->
 							<p class="w53"><span>Status:</span> {{key.status}}</p>
 						</a></div>
 						{% endfor %}

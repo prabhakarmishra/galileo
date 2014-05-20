@@ -189,7 +189,7 @@ urlpatterns = patterns('',
    url(r'^admin/assign-buzz/','alpha.views.assign_buzz'),
    url(r'^candidate/save-buzzResponse/','alpha.views.save_buzzResponse'),
    url(r'^get-buzz-data/','alpha.views.get_buzzData'),
-   
+   url(r'^student/edit-goalStatement/','alpha.views.edit_goalStatement'),   
    #url(r'^$','linkedin.views.home'),
 
 #url(r'^instAlumni/$', 'alpha.views.instAlumni'),

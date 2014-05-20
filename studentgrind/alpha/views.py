@@ -1281,11 +1281,12 @@ def user_login(request):
 
 			if validate_user.type == "Admin":
 				return redirect('/assessment-assign-admin/')
-			return render(request, 'howitwork.html', {'user':validate_user})
+			#return render(request, 'howitwork.html', {'user':validate_user})
+			return redirect('/landing_page/')
 		else:
 			return redirect('/?status=FAIL')
 	return render(request, 'index.html')
-
+	#return redirect('/landing_page/')
 def user_logout(request):
 	try:
 		del request.session['validate_user']
@@ -1301,7 +1302,8 @@ def user_logout(request):
 
 def pre_landing(request):
 	request.session['validate_user'] = request.session.get('registered_user','')
-	return render(request, 'howitwork.html', {'register_user':True, 'user':request.session['validate_user']})
+	return redirect('/landing_page/')	
+	#return render(request, 'howitwork.html', {'register_user':True, 'user':request.session['validate_user']})
 
 
 def landing_view(request):
@@ -2033,7 +2035,7 @@ def verify_academic(request):
 		return render(request,'verify-view.html',locals())
 
 def delete_academic(request):
-	adm_id=request.GET.get('adm_id')
+	adm_id=request.GET.get('ace_id')
 	academic = Academic.objects.get(academicId = adm_id)
 	academic.delete()		
 	return redirect('/landing_page/')
@@ -4197,4 +4199,14 @@ def get_buzzData(request):
 		except:
 			pass
 	return render(request, 'buzz-data.html', locals())
-
+def edit_goalStatement(request):
+	stuId = request.GET.get('stu_id')
+	new_goal = request.GET.get('field1')
+	try:
+		studentObj = Student.objects.get(userId = stuId)
+	except:
+		pass
+	if studentObj:
+		studentObj.goalStatement = new_goal
+		studentObj.save()
+	return redirect('/landing_page/')

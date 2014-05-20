@@ -140,8 +140,8 @@ function validateForm()
 		</script>
 		
 
-			<!-- THIRD COLUMN -->
-
+			<!-- RIGHTMOST COLUMN -->
+<!-- 
 			<div class="rightnavslider">
 				<div class="linkrmenu lnkskill">&nbsp;</div>
 				<div class="linkrmenu lnkacademic">&nbsp;</div>
@@ -153,116 +153,14 @@ function validateForm()
 
 				
 				<div class="rightnav_content_grp">
-				<div class="rightnav_content">
-					<h4><img src="{% static 'images/expand-heading-arrow.jpg' %}" width="59" height="32" border=0 alt="" class="arrback" >Skills <a href="/student/skill/add/" class="addBtn_03" onclick="showpop(this.href); return false;"><img src="{% static 'images/btn-add.png' %}" width="37" height="26" border=0 alt="+"></a></h4>
-					<div class="rightnav_Container">
-					{% if skill_list %}
-					{% for skill in skill_list %}
-						<div class="skillsInnerContainer"><span><input type="text" name="skilldesc" value="{{skill.description}}" class="editableinput" rev="/student/skill/update/?skill_id={{skill.skillId}}"></span>
-						<a href="/student/skill/delete/?skill_id={{skill.skillId}}" onclick="return false;"class="cancelbtnx"><img src="{% static 'images/deleteButton.png' %}" width="40" height="27" border=0 alt="x"></a> <a href="/student/skill/verify/?skill_id={{skill.skillId}}" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a></div>
-					{% endfor %}
-					{% else %}
-					Please click add to add to Certifications/Associations.
-					{% endif %}
-					</div>
-				</div>
-
-				<div class="rightnav_content">
-				<form method=post action="" name="academicform" id="academicform">
-					<h4><img src="{% static 'images/expand-heading-arrow.jpg' %}" width="59" height="32" border=0 alt="" class="arrback" >Academic <a href="/student/academic/add/" class="addBtn_03" onclick="showpop(this.href); return false;"><img src="{% static 'images/btn-add.png' %}" width="37" height="26" border=0 alt="+"></a></h4>
-					<div class="rightnav_Container">
-					<ul class="academicBackgroundUl">
-						{% if academic_list %}
-						{% for ace in academic_list %}
-						<li>
-						<span href="#" class="qualification"><input type="text" name="skilldesc" value="{{ace.degree}}" class="editableinput" rev="/student/academic/update/?ace_id={{ace.academicId}}"></span>
-						<input type="text" name="grade" value="{{ace.graduationScore}}" class="currency">
-						<a href="/student/academic/delete/?ace_id={{ace.academicId}}" onclick="return false;" class="cancelbtnx"><img src="{% static 'images/deleteButton.png' %}" width="40" height="27" border=0 alt="x"></a> 
-						<a href="/student/academic/verify/?ace_id={{ace.academicId}}" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a>
-						</li>
-						{% endfor %}
-						{% else %}
-						Please click add to add to Academic Information.
-						{% endif %}
-						
-					</ul>
-					</div>
-				</form>
-				</div>
-				
-				<!-- Assessment tab data -->
-				<div class="rightnav_content">
-					<h4><img src="{% static 'images/expand-heading-arrow.jpg' %}" width="59" height="32" border=0 alt="" class="arrback" >Associations / Certifications <a href="/student/certification/add/" class="addBtn_03" onclick="showpop(this.href); return false;"><img src="{% static 'images/btn-add.png' %}" width="37" height="26" border=0 alt="+"></a></h4>
-					<div class="rightnav_Container">
-					{% if certification_list %}
-					{% for cert in certification_list %}
-						<div class="skillsInnerContainer"><span><input type="text" name="associatedesc" value="{{cert.description}}" class="editableinput" rev="/student/certification/update/?cert_id={{cert.membershipId}}"></span>
-						<a href="/student/certification/delete/?cert_id={{cert.membershipId}}" onclick="return false;" class="cancelbtnx"><img src="{% static 'images/deleteButton.png' %}" width="40" height="27" border=0 alt="x"></a> 
-						<a href="/student/certification/verify/?cert_id={{cert.membershipId}}" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a></div>
-					{% endfor %}
-					{% else %}
-					Please click add to add to Certifications/Associations.
-					{% endif %}
-					</div>
-				</div>
-
-
-
-				<div class="rightnav_content">
-					<h4><img src="{% static 'images/expand-heading-arrow.jpg' %}" width="59" height="32" border=0 alt="" class="arrback" >Volunteer <a href="/student/volunteer/add/" class="addBtn_03" onclick="showpop(this.href); return false;"><img src="{% static 'images/btn-add.png' %}" width="37" height="26" border=0 alt="+"></a></h4>
-					<div class="rightnav_Container">
-					{% if volunteer_list %}
-					{% for volunteer in volunteer_list %}
-						<div class="skillsInnerContainer"><span><input type="text" name="volunteerdesc" value="{{volunteer.name}}" class="editableinput" rev="/student/volunteer/update/?vol_id={{volunteer.volunteerId}}"></span>
-						<a href="/student/volunteer/delete/?vol_id={{volunteer.volunteerId}}" onclick="return false;" class="cancelbtnx"><img src="{% static 'images/deleteButton.png' %}" width="40" height="27" border=0 alt="x"></a> 
-						<a href="/student/volunteer/verify/?vol_id={{volunteer.volunteerId}}" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a></div>
-					{% endfor %}
-					{% else %}
-					Please click add to add to Volunteer.
-					{% endif %}
-					</div>
-				</div>
-
-
-
-				<div class="rightnav_content">
-					<h4><img src="{% static 'images/expand-heading-arrow.jpg' %}" width="59" height="32" border=0 alt="" class="arrback" >Honors/Awards <a href="/student/honor/add/" class="addBtn_03" onclick="showpop(this.href); return false;"><img src="{% static 'images/btn-add.png' %}" width="37" height="26" border=0 alt="+"></a></h4>
-					<div class="rightnav_Container">
-					{% if honor_list %}
-					{% for honor in honor_list %}
-						<div class="skillsInnerContainer"><span><input type="text" name="honordesc" value="{{honor.honor}}" class="editableinput" rev="/student/honor/update/?hon_id={{honor.honorId}}"></span>
-						<a href="/student/honor/delete/?hon_id={{honor.honorId}}" onclick="return false;" class="cancelbtnx"><img src="{% static 'images/deleteButton.png' %}" width="40" height="27" border=0 alt="x"></a> 
-						<a href="/student/honor/verify/?hon_id={{honor.honorId}}" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a></div>
-					{% endfor %}
-					{% else %}
-					Please click add to add to Honors/Awards.
-					{% endif %}
-					</div>
-				</div>
-
-
-
-				<div class="rightnav_content">
-					<h4><img src="{% static 'images/expand-heading-arrow.jpg' %}" width="59" height="32" border=0 alt="" class="arrback" >Languages <a href="/student/language/add/" class="addBtn_03" onclick="showpop(this.href); return false;"><img src="{% static 'images/btn-add.png' %}" width="37" height="26" border=0 alt="+"></a></h4>
-					<div class="rightnav_Container">
-					{% if language_list %}
-					{% for lang in language_list %}
-						<div class="skillsInnerContainer"><span><input type="text" name="honordesc" value="{{lang.name}}" class="editableinput" rev="/student/language/update/?lang_id={{lang.languageId}}"></span>
-						<a href="/student/language/delete/?lang_id={{lang.languageId}}" onclick="return false;" class="cancelbtnx"><img src="{% static 'images/deleteButton.png' %}" width="40" height="27" border=0 alt="x"></a> 
-						<a href="/student/language/verify/?lang_id={{lang.languageId}}" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a></div>
-					{% endfor %}
-					{% else %}
-					Please click add to add to Language.
-					{% endif %}
-					</div>
-				</div>
+					
 				</div>
 
 
 
 
 
-			</div>
+			</div> -->
 
 
 
@@ -309,7 +207,24 @@ function validateForm()
 				</div>  -->
 
 				
-			<!-- SECOND COLUMN -->
+			<!-- FIRST COLUMN -->
+			<div class="profile_col1">
+				<!-- USER PHOTO, NAME and Description -->
+				<div class="userphoto">
+					{% if student.image %}
+						<div><img src="/media/{{student.image}}" width="auto" height="180" border=0 alt=""></div>
+					{% else %}
+						<div><img src="{% static 'images/default-user.jpg' %}" width="auto" height="180" border=0 alt=""></div>
+					{% endif %}
+
+					<h3>{{user.fName}}&nbsp;{{user.lName}} </h3>
+
+					<textarea name="prof_description" id="prof_description" class="editablearea" rows="" cols="" rev="/student/edit-goalStatement/?stu_id={{request.session.userData.userId}}">{% if request.session.userData.goalStatement %}{{request.session.userData.goalStatement}}
+					{% else %}DESCRIPTION/SLOGAN {% endif %}
+					</textarea>
+
+				</div>
+
 				<div class="thumbchartgrp">
 					
 
@@ -366,31 +281,12 @@ function validateForm()
 					</div>
 
 				</div>
-			
-			
-				<!-- THIRD COLUMN CANDIDATE GOAL VIEW -->
-			<div class="col2_candidbox">
-					<h4>&nbsp;&nbsp;My Goals <!-- <a href="/student/add-goals/" class="addBtn_03" onclick="showpop(this.href); return false;"><img src="{% static 'images/btn-add.png' %}" width="37" height="26" border=0 alt="+"></a> --></h4>
-					<div class="rightnav_Container">
-					{% for goal in goalList %}
-						<div class="skillsInnerContainer">
-							<a href="/student/update-goals/?goal_id={{goal.goalId}}" onclick="showpop(this.href); return false;"><span>{{goal.goalCriteria}}</span>
-							<div class="rangebar range1">
-									<input type="range" name="range_rate" id="range_rate" min="0" max="100" step="1" value="{{goal.percentMet}}" class="rangefield">
-							</div></a>
-							<a href="/student/delete-goals/?goal_id={{goal.goalId}}" onclick="return false;" class="cancelbtnx"><img src="{% static 'images/deleteButton.png' %}" width="40" height="27" border=0 alt="x"></a> 
-						</div>
-					{% endfor %}
-
-					<a href="/student/add-goals/" class="mygoal_clickadd" onclick="showpop(this.href); return false;">Click here to add</a>
-					</div>
-			</div>
-				<!-- END THIRD COLUMN CANDIDATE GOAL VIEW -->
 
 
 
 
-				<!-- Start 2 TABS -->
+
+				<!-- Start 4 TABS CHART -->
 				<div id="tabouter">
 						<ul class="tabsav">
 							<li class="active">Assessments</li>
@@ -508,7 +404,166 @@ function validateForm()
 						
 
 				</div>
-				<!-- END 2 TABS -->
+				<!-- END 4 TABS -->
+			</div>
+			
+			
+				<!-- END FIRST COLUMN -->
+
+
+
+
+				<!-- SECOND COLUMN -->
+			<div class="profile_col2">
+
+
+				<div class="rightnav_content_new">
+					<h4>My Skills </h4>
+					<div class="rightnav_Containernew">
+					{% if skill_list %}
+						{% for skill in skill_list %}
+							<div class="skillsInnerContainer">
+								<span><input type="text" name="skilldesc" value="{{skill.description}}" class="editableinput" rev="/student/skill/update/?skill_id={{skill.skillId}}">
+								<a href="/student/skill/delete/?skill_id={{skill.skillId}}" onclick="return false;" class="cancelbtnx"><img src="{% static 'images/icon-del.png' %}" width="15" height="15" border=0 alt="x"></a>
+								<a href="/student/skill/verify/?skill_id={{skill.skillId}}" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a> </span>
+								</div>
+						{% endfor %}
+					</div>
+						<a href="/student/skill/add/" class="skilladd" onclick="showpop(this.href); return false;">CLICK TO ADD</a><div class="clearfix"></div>
+					{% else %}
+						<a href="/student/skill/add/" class="skilladd" onclick="showpop(this.href); return false;">CLICK TO ADD</a><div class="clearfix"></div>
+					{% endif %}
+				</div>
+
+
+				<!-- CANDIDATE GOAL VIEW -->
+				<div class="col2_candidbox">
+					<h4>My Goals <!-- <a href="/student/add-goals/" class="addBtn_03" onclick="showpop(this.href); return false;"><img src="{% static 'images/btn-add.png' %}" width="37" height="26" border=0 alt="+"></a> --></h4>
+					<div class="rightnav_Container">
+					{% for goal in goalList %}
+						<div class="skillsInnerContainer">
+							<a href="/student/update-goals/?goal_id={{goal.goalId}}" onclick="showpop(this.href); return false;"><span>{{goal.goalCriteria}}</span>
+							<div class="rangebar range1">
+									<input type="range" name="range_rate" id="range_rate" min="0" max="100" step="1" value="{{goal.percentMet}}" class="rangefield">
+							</div></a>
+							<a href="/student/delete-goals/?goal_id={{goal.goalId}}" onclick="return false;" class="cancelbtnx"><img src="{% static 'images/icon-del.png' %}" width="15" height="15" border=0 alt="x"></a> 
+						</div>
+					{% endfor %}
+
+					</div>
+					<a href="/student/add-goals/" class="mygoal_clickadd" onclick="showpop(this.href); return false;">CLICK TO ADD</a>
+				</div>
+
+
+
+
+				<div class="rightnav_content_new mgrtop20">
+				<form method=post action="" name="academicform" id="academicform">
+					<h4>My Academics</h4>
+					<div class="rightnav_Containernew">
+					<ul class="academicBackgroundUl">
+						{% if academic_list %}
+						{% for ace in academic_list %}
+						<li>
+						<span href="#" class="qualification"><input type="text" name="skilldesc" value="{{ace.degree}}" class="editableinput" rev="/student/academic/update/?ace_id={{ace.academicId}}"></span>
+						<input type="text" name="grade" value="{{ace.graduationScore}}" class="currency">
+						<a href="/student/academic/delete/?ace_id={{ace.academicId}}" onclick="return false;" class="cancelbtnx"><img src="{% static 'images/icon-del.png' %}" width="15" height="15" border=0 alt="x"></a> 
+						<a href="/student/academic/verify/?ace_id={{ace.academicId}}" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a>
+						</li>
+						{% endfor %}
+					</ul>
+					</div>
+					<a href="/student/academic/add/" class="skilladd" onclick="showpop(this.href); return false;">CLICK TO ADD</a><div class="clearfix"></div>
+					{% else %}
+						<a href="/student/academic/add/" class="skilladd" onclick="showpop(this.href); return false;">CLICK TO ADD</a><div class="clearfix"></div>
+					{% endif %}
+						
+				</form>
+				</div>
+				
+				<!-- Assessment tab data -->
+				<div class="rightnav_content_new">
+					<h4>My Associations / Certifications </h4>
+					<div class="rightnav_Containernew">
+					{% if certification_list %}
+					{% for cert in certification_list %}
+						<div class="skillsInnerContainer"><span><input type="text" name="associatedesc" value="{{cert.description}}" class="editableinput" rev="/student/certification/update/?cert_id={{cert.membershipId}}">
+						<a href="/student/certification/delete/?cert_id={{cert.membershipId}}" onclick="return false;" class="cancelbtnx"><img src="{% static 'images/icon-del.png' %}" width="15" height="15" border=0 alt="x"></a>
+						<a href="/student/certification/verify/?cert_id={{cert.membershipId}}" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a> </span>
+						</div>
+					{% endfor %}
+					</div>
+						<a href="/student/certification/add/" class="skilladd" onclick="showpop(this.href); return false;">CLICK TO ADD</a><div class="clearfix"></div>
+					{% else %}
+						<a href="/student/certification/add/" class="skilladd" onclick="showpop(this.href); return false;">CLICK TO ADD</a><div class="clearfix"></div>
+					{% endif %}
+				</div>
+
+
+
+				<div class="rightnav_content_new">
+					<h4>My Volunteer</h4>
+					<div class="rightnav_Containernew">
+					{% if volunteer_list %}
+					{% for volunteer in volunteer_list %}
+						<div class="skillsInnerContainer"><span><input type="text" name="volunteerdesc" value="{{volunteer.name}}" class="editableinput" rev="/student/volunteer/update/?vol_id={{volunteer.volunteerId}}">
+						<a href="/student/volunteer/delete/?vol_id={{volunteer.volunteerId}}" onclick="return false;" class="cancelbtnx"><img src="{% static 'images/icon-del.png' %}" width="15" height="15" border=0 alt="x"></a>
+						<a href="/student/volunteer/verify/?vol_id={{volunteer.volunteerId}}" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a> </span>
+						</div>
+					{% endfor %}
+					</div>
+						<a href="/student/volunteer/add/" class="skilladd" onclick="showpop(this.href); return false;">CLICK TO ADD</a><div class="clearfix"></div>
+					{% else %}
+						<a href="/student/volunteer/add/" class="skilladd" onclick="showpop(this.href); return false;">CLICK TO ADD</a><div class="clearfix"></div>
+					{% endif %}
+				</div>
+
+
+
+				<div class="rightnav_content_new">
+					<h4>My Honors/Awards</h4>
+					<div class="rightnav_Containernew">
+					{% if honor_list %}
+					{% for honor in honor_list %}
+						<div class="skillsInnerContainer"><span><input type="text" name="honordesc" value="{{honor.honor}}" class="editableinput" rev="/student/honor/update/?hon_id={{honor.honorId}}">
+						<a href="/student/honor/delete/?hon_id={{honor.honorId}}" onclick="return false;" class="cancelbtnx"><img src="{% static 'images/icon-del.png' %}" width="15" height="15" border=0 alt="x"></a>
+						<a href="/student/honor/verify/?hon_id={{honor.honorId}}" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a> </span>
+						</div>
+					{% endfor %}
+					</div>
+						<a href="/student/honor/add/" class="skilladd" onclick="showpop(this.href); return false;">CLICK TO ADD</a><div class="clearfix"></div>
+					{% else %}
+						<a href="/student/honor/add/" class="skilladd" onclick="showpop(this.href); return false;">CLICK TO ADD</a><div class="clearfix"></div>
+					{% endif %}
+				</div>
+
+
+
+				<div class="rightnav_content_new">
+					<h4>My Languages</h4>
+					<div class="rightnav_Containernew">
+					{% if language_list %}
+					{% for lang in language_list %}
+						<div class="skillsInnerContainer"><span><input type="text" name="honordesc" value="{{lang.name}}" class="editableinput" rev="/student/language/update/?lang_id={{lang.languageId}}">
+						<a href="/student/language/delete/?lang_id={{lang.languageId}}" onclick="return false;" class="cancelbtnx"><img src="{% static 'images/icon-del.png' %}" width="15" height="15" border=0 alt="x"></a>
+						<a href="/student/language/verify/?lang_id={{lang.languageId}}" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a> </span>
+						</div>
+					{% endfor %}
+					</div>
+						<a href="/student/language/add/" class="skilladd" onclick="showpop(this.href); return false;">CLICK TO ADD</a><div class="clearfix"></div>
+					{% else %}
+						<a href="/student/language/add/" class="skilladd" onclick="showpop(this.href); return false;">CLICK TO ADD</a><div class="clearfix"></div>
+					{% endif %}
+				</div>
+			
+			
+			</div>
+				<!-- END THIRD COLUMN VIEW -->
+
+
+
+
+
 			
 			
 

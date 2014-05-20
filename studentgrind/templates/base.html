@@ -105,7 +105,7 @@ $(function () {
 		$(this).css('border','1px solid #eee');
 	})
 	$( ".editableinput" ).focusout(function() {
-		$(this).css('border','1px solid #fff');
+		$(this).css('border','1px solid #e6e6e6');
 		var geturl = $(this).attr('rev');
 		var getval = $(this).val();
 			$.ajax({
@@ -116,6 +116,19 @@ $(function () {
 	})
 
 
+	$( ".editablearea" ).focusin(function() {
+		$(this).css('border','1px solid #e6e6e6');
+	})
+	$( ".editablearea" ).focusout(function() {
+		$(this).css('border','1px solid #ffffff');
+		var geturl = $(this).attr('rev');
+		var getval = $(this).val();
+			$.ajax({
+				type: 'get',
+				url: geturl,
+				data: { field1: getval }
+			});
+	})
 
 	$( "#candidatelist,#assesssmentlist" ).change(function() {
 		var getval = $(this).val();
@@ -284,7 +297,6 @@ function passwordcheck()
  var txt = document.getElementById('collegeName'); 
  if( document.registrationForm.type.value == "Enterprise")
    {
-     
 	 txt.value = "Enterprise Name" 
    }
 	if( document.registrationForm.type.value == "Student")
@@ -362,9 +374,9 @@ function passwordcheck()
 <header>
 	{% if request.session.validate_user %}
 		<div class="welcomename logmenu"><img src="{% if request.session.userData.image %} /media/{{request.session.userData.image}} {% else %}{% static 'images/user.png' %} {% endif %}" width="28" height="28" border=0 alt="Welcome" /> 
-		{{user.fName}} {{user.lName}} {% if user.type == "Enterprise" %}{% if request.session.displayName %} {{request.session.displayName}} {% endif %} {% endif %}
+		{{user.fName}} {{user.lName}} <span></span> {% if user.type == "Enterprise" %}{% if request.session.displayName %} {{request.session.displayName}} {% endif %} {% endif %}
 									<form method="POST" enctype="multipart/form-data" name="imageform" id="imageform" {% if request.session.validate_user.type == "Student" %}action="/student/upload-image/" {% endif %}  {% if request.session.validate_user.type == "Enterprise" %}action="/enterprise/upload-image/" {% endif %}>
-									<div><input type="hidden" name="ct_id" value="{{request.session.validate_user.userId}}">
+									<div><p>&nbsp;</p><input type="hidden" name="ct_id" value="{{request.session.validate_user.userId}}">
 										<input type="file" name="img" id="id_img" class="changephotoholder">
 										<a href="javascript:void(0)" class="changephoto" >Change Photo</a>
 										<a href="javascript:void(0)" class="showchangepwd">Change Password</a>
@@ -378,8 +390,86 @@ function passwordcheck()
 									{% endif %}
 		</div>
 	{% endif %}
+
+
 	
-	<a href="/"><img src="{% static 'images/talentomi_logo.png' %}" width="176" height="44" border=0 alt="Talentomi" class="logo" /></a>
+	
+	{% if request.session.validate_user  %}
+		<a href="/landing_page/"><img src="{% static 'images/talentomi_logo.png' %}" width="176" height="44" border=0 alt="Talentomi" class="logo" /></a>
+	{% else %}
+		<a href="/"><img src="{% static 'images/talentomi_logo.png' %}" width="176" height="44" border=0 alt="Talentomi" class="logo" /></a>
+	{% endif %}
+	
+
+
+	{% if request.session.validate_user  %}
+		<!-- <div class="loginbox">
+		<form method=post action="" name="logbox" id="logbox" class="logoutbox">
+			<a href="/user_logout/" class="menu_logout">LOGOUT</a>
+		</form>
+		</div> -->
+
+		<div class="compressmenus">
+			<div class="compressmenusline"></div>
+			<ul>
+
+				{% if  user.type == "Admin" %}<li><a href="/assessment-assign-admin/" class="menu_authorization">AUTHENTICATE AUTHORIZATIONS</a></li> {% else %}
+
+				{%  if user.type == "Enterprise" %}{% else %}
+				{% if request.session.validate_user  %}<li><a href="/landing_page/" class="menu_profile">{% else %}<li><a href="/" class="menu_profile">{% endif %}
+				PROFILE</a></li>
+				{% endif %} {% endif %}
+				
+				{% if  user.type != "Admin" %} <li><a href="/challenge/" class="menu_challenges">CHALLENGES</a></li>{% else %} <li><a href="/invite-assign-admin/" class="menu_signverfication">SIGN UP AUTHENTICATIONS</a></li> {% endif %}{% if request.session.validate_user  %}{% if  user.type != "Admin" %}
+				<li><span class="menu_assesments">ASSESSMENTS
+					{% if user.type == "Enterprise" %}
+						<ul>
+						<li><a href="/enterprise/create_assessment/">Create Assessment</a></li>
+						<li><a href="/assessment-assign-enterprise/">Assign Assessment</a></li>
+						<li><a href="/assessment-view/">View Assessments</a></li>
+						<li><a href="/enterprise/view-assigned-assessment/">View Assessment Assigned</a></li>
+						</ul>
+					{% else %}
+						<ul><li><a href="/assessment-view/">View Assessments</a></li>
+						<li><a href="/assessment-assign-candidate/">Assign Assessment</a></li></ul>
+					{% endif %}
+				</span></li>
+				 {% endif %}{% if  user.type == "Admin" %}<!-- <a href="/admin-view-strength/" class="menu_strengths">STRENGTHS</a> --> {% endif %}	
+					{% if  user.type == "Admin" %}<!-- <a href="/admin/assign-buzz/" class="menu_buzz2">ASSIGN BUZZ</a> --> {% endif %}
+				 {% if  user.type == "Admin" %}<li><a href="/view-strengthcode/" class="menu_codes">ADD SIGN UP CODES</a></li> {% endif %}{% if  user.type == "Enterprise" %}
+				 <li><span class="menu_requistions">REQUISITIONS
+						<ul><li><a href="/view-hire-manager/">View Requisitions</a></li>
+						<li><a href="/create-requisition/">Create Requisition</a></li></ul>
+				</span></li>
+				 {% endif %}{% if  user.type == "Student" or user.type == "Candidate" %}<!-- <a href="/view-strength/" class="menu_strengths">STRENGTHS</a>  -->{% endif %}  
+				 {% if  user.type == "Student" or user.type == "Candidate" %} 
+				 <!-- <div><a href="/candidate/save-buzzResponse/" class="menu_buzz">BUZZ</a>
+						<ul>
+						<li><a href="/candidate/save-buzzResponse/">Build A-Buzz</a></li>
+						<li><a href="/candidate/add-buzz/">Buzz Publisher</a></li>
+						</ul></div> -->
+				 {% else %}{% endif %} 			 
+				 {% if  user.type = "Student" or user.type = "Candidate"%} 
+				 <li><span class="menu_verification">AUTHENTICATIONS
+						<ul><li><a href="/verify-view/">View Authentications</a></li>
+						<!--li><a href="/view-verification-enterprise/">View Authentications Requested</a></li>
+						<li><a href="/create-verification-enterprise/">Create Authentication Request</a></li--></ul>
+				</span></li>
+				 {% else %}{% endif %}
+				 {% if  user.type = "Enterprise" %} 
+				 <li><span class="menu_verification">AUTHENTICATIONS
+						<ul><li><a href="/enterprise/view-verification/">View Authentications</a></li>
+						<li><a href="/enterprise/view-verification/?key=view">View Authentications Requested</a></li>
+						<li><a href="/enterprise/create-verification/">Create Authentication Request</a></li></ul>
+				</span></li>
+				 {% else %}{% endif %} {% endif %}
+
+
+
+			</ul>
+		</div>		
+	{% else %}{% endif %}
+
 	<div class="topnav">
 
 	{% if status == "FAIL"%}
@@ -408,8 +498,10 @@ function passwordcheck()
 			<a href="/user_logout/" class="menu_logout">LOGOUT</a>
 		</form>
 		</div> -->
+
+
 	{% else %}
-		<div class="loginbox showverify"><span class="menu_signup">SIGN UP</span>
+		<!-- <div class="loginbox showverify"><span class="menu_signup">SIGN UP</span>		</div> -->
 			<div  class="logbox">
 			<div class="logcol">
 				Sign up using<br>
@@ -434,8 +526,8 @@ function passwordcheck()
 			</form>
 			</div>
 			</div>
-		</div>
-		<div class="loginbox"><span  class="menu_login">LOGIN</span>
+
+<!-- 		<div class="loginbox"><span  class="menu_login">LOGIN</span>
 			<div  class="logbox">
 			<div class="logcol">
 				Log into Talentomi using<br>
@@ -453,7 +545,7 @@ function passwordcheck()
 			</div>
 			</div>
 			
-		</div>
+		</div> -->
 
 			<div  class="logbox forgotpop">
 				<h4>Forgot your password?</h4><br>
@@ -461,8 +553,9 @@ function passwordcheck()
 				<br>
 				<form method="post" action="/forgot-password/" name="forgetbox" id="forgetbox"><span class="closelog">&nbsp;</span>
 					<input type="text"  value="Email Address" name="emailid_recovery" onfocus="if(this.value=='Email Address'){this.value=''};" onblur="if(this.value==''){this.value='Email Address'};"><br>
-					<input type="button" name="submit_log2" class="btn_login2" value="" >
-					<input type="submit" name="submitrecovery" class="btn_continue2" value="" onclick="return validateforget(); ">
+					<!-- <input type="button" name="submit_log2" class="btn_login2" value="" > 
+					<input type="button" name="submit_cancel" class="btn_cancel2" value="" >-->
+					<input type="submit" name="submitrecovery" class="btn_continue2" value="" onclick="return validateforget(); " align="right">
 				</form>
 			</div>
 	{% endif %}
@@ -477,52 +570,20 @@ function passwordcheck()
 					<input type="submit" name="submitpwd" class="btn_change" value="" onclick="return passwordcheck(); ">
 				</form>
 			</div>
-		<div class="menu">
-			{% if  user.type == "Admin" %}<a href="/assessment-assign-admin/" class="menu_authorization">AUTHENTICATE AUTHORIZATIONS</a> {% else %}{% if request.session.validate_user  %}<a href="/landing_page/" class="menu_profile">{% else %}<a href="/" class="menu_profile">{% endif %}{%  if user.type == "Enterprise" %}{% else %}PROFILE{% endif %} {% endif %}</a>{% if  user.type != "Admin" %} <a href="/challenge/" class="menu_challenges">CHALLENGES</a>{% else %} <a href="/invite-assign-admin/" class="menu_signverfication">SIGN UP AUTHENTICATIONS</a> {% endif %}{% if request.session.validate_user  %}{% if  user.type != "Admin" %}
-			<div><a href="/assessment-view/" class="menu_assesments">ASSESSMENTS</a>
-				{% if user.type == "Enterprise" %}
-					<ul>
-					<li><a href="/enterprise/create_assessment/">Create Assessment</a></li>
-					<li><a href="/assessment-assign-enterprise/">Assign Assessment</a></li>
-					<li><a href="/assessment-view/">View Assessments</a></li>
-					<li><a href="/enterprise/view-assigned-assessment/">View Assessment Assigned</a></li>
-					</ul>
-				{% else %}
-					<ul><li><a href="/assessment-view/">View Assessments</a></li>
-					<li><a href="/assessment-assign-candidate/" class="menu_open">Assign Assessment</a></li></ul>
-				{% endif %}
-			</div>
-			 {% endif %}{% if  user.type == "Admin" %}<!-- <a href="/admin-view-strength/" class="menu_strengths">STRENGTHS</a> --> {% endif %}	
-				{% if  user.type == "Admin" %}<!-- <a href="/admin/assign-buzz/" class="menu_buzz2">ASSIGN BUZZ</a> --> {% endif %}
-			 {% if  user.type == "Admin" %}<a href="/view-strengthcode/" class="menu_codes">ADD SIGN UP CODES</a> {% endif %}{% if  user.type == "Enterprise" %}
-			 <div><a href="/view-hire-manager/" class="menu_requistions">REQUISITIONS</a> 
-					<ul><li><a href="/view-hire-manager/">View Requisitions</a></li>
-					<li><a href="/create-requisition/">Create Requisition</a></li></ul></div>
-			 {% endif %}{% if  user.type == "Student" or user.type == "Candidate" %}<!-- <a href="/view-strength/" class="menu_strengths">STRENGTHS</a>  -->{% endif %}  
-			 {% if  user.type == "Student" or user.type == "Candidate" %} 
-			 <!-- <div><a href="/candidate/save-buzzResponse/" class="menu_buzz">BUZZ</a>
-					<ul>
-					<li><a href="/candidate/save-buzzResponse/">Build A-Buzz</a></li>
-					<li><a href="/candidate/add-buzz/">Buzz Publisher</a></li>
-					</ul></div> -->
-			 {% else %}{% endif %} 			 
-			 {% if  user.type = "Student" or user.type = "Candidate"%} 
-			 <div><a href="/verify-view/" class="menu_verification">AUTHENTICATIONS</a>
-					<ul><li><a href="/verify-view/">View Authentications</a></li>
-					<!--li><a href="/view-verification-enterprise/">View Authentications Requested</a></li>
-					<li><a href="/create-verification-enterprise/">Create Authentication Request</a></li--></ul></div>
-			 {% else %}{% endif %}
-			 {% if  user.type = "Enterprise" %} 
-			 <div><a href="/enterprise/view-verification/" class="menu_verification">AUTHENTICATIONS</a>
-					<ul><li><a href="/enterprise/view-verification/">View Authentications</a></li>
-					<li><a href="/enterprise/view-verification/?key=view">View Authentications Requested</a></li>
-					<li><a href="/enterprise/create-verification/">Create Authentication Request</a></li></ul></div>
-			 {% else %}{% endif %} {% endif %}  {% if  user.type != "Admin" %}<a href="/howitworks/" class="menu_howitworks">HOW IT WORKS</a>{% endif %}  {% if  user.type != "Admin" %} <a href="/talentomi/" class="menu_why">WHY TALENTOMI</a> {% endif %}&nbsp;
-		</div>
+		<!-- <div class="menu">
+			  {% if  user.type != "Admin" %}<a href="/howitworks/" class="menu_howitworks">HOW IT WORKS</a>{% endif %}  {% if  user.type != "Admin" %} <a href="/talentomi/" class="menu_why">WHY TALENTOMI</a> {% endif %}&nbsp;
+		</div> -->
 
 	
 	
 	</div>
+
+
+
+
+		
+
+
 </header>
 {% endblock %}
 
@@ -597,24 +658,24 @@ function passwordcheck()
 				<img src="{% static 'images/invite.jpg' %}" width="250" height="177" border=0 alt="" align="left" class="inviteimg">
 				<div class="heading">Want to build a high performance team or be part of one?</div>	
 				<p>Talentomi is the platform for you. We are in limited beta and sign up is by invitation only. Please sign up for invite and we will be in touch with you shortly.</p>
-			<div class="clearfix"></div>
-			<div class="invite_col1">
-				
+				<div class="clearfix"></div>
+				<div class="invite_col1">
+					
 
 
-				<form name="inviteform" id="inviteform" method=post action="">
-					<input id="id_emailinvite" type="text" name="emailinvite" maxlength="140" value="Sign up with Email Address for Invite"  onfocus="if(this.value=='Sign up with Email Address for Invite'){this.value=''};" onblur="if(this.value==''){this.value='Sign up with Email Address for Invite'};" />
+					<form name="inviteform" id="inviteform" method=post action="">
+						<input id="id_emailinvite" type="text" name="emailinvite" maxlength="140" value="Sign up with Email Address for Invite"  onfocus="if(this.value=='Sign up with Email Address for Invite'){this.value=''};" onblur="if(this.value==''){this.value='Sign up with Email Address for Invite'};" />
 
-						<input type="submit" class="btn_invite" value="" onclick="return validateinviteForm()" />
+							<input type="submit" class="btn_invite" value="" onclick="return validateinviteForm()" />
 
 
 
-				</form>
-			</div>
-			<div class="splitor"><p>OR</p></div>
-			<div class="invite_col2">
-						<a href="javascript:void(0)" class="showlogin"><input type="button"  class="btn_skiplog" value=""></a>
-			</div>
+					</form>
+				</div>
+				<div class="splitor"><p>OR</p></div>
+				<div class="invite_col2">
+							<a href="javascript:void(0)" class="showlogin"><input type="button"  class="btn_skiplog" value=""></a>
+				</div>
 			</div>
 
 		<!-- Sign Up verification -->
@@ -760,7 +821,8 @@ function validateverification()
 						$('#signupverfication').html('Your sign up code has been verified.  You are being forwarded to complete your sign up');
 						var t=setTimeout(function(){ 
 							$('.signupverify').fadeOut('fast');
-							$('.loginbox').eq(0).find('.logbox').fadeIn('fast');
+							//$('.loginbox').eq(0).find('.logbox').fadeIn('fast');
+							$find('.logbox').eq(0).fadeIn('fast');
 							$('.loginbox').eq(0).removeClass('showverify');
 						},4000)
 
