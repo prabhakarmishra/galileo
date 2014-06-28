@@ -52,6 +52,7 @@ function validateForm()
 								<div class="thumbchart_submited">{{value.submission_count}}<br/>SUBMITTED </div>
 								<div class="thumbchart_win">0 <br/>WINNER</div>
 								<div class="thumbchart_dollar">{{project.project_value}}<br/>{{project.currency}}</div>
+								
 								</a>
 								{% if request.session.validate_user  %}
 								<div class="accesslinkmenu">&nbsp;
@@ -64,9 +65,11 @@ function validateForm()
 										{% if request.session.validate_user.type == "Enterprise" %}
 										<a href="/enterprise/view-submitted-challenge/?pro_id={{project.projectId}}" class="menu_open" >Open</a>
 										<a href="/enterprise/edit-project/?pro_id={{project.projectId}}" class="menu_open" onclick="showpop(this.href); return false;">Update</a>
-
+										{% if request.session.userData.userId == project.userId and request.session.validate_user.role == "Manager"%}
+										<a id = "{{project.projectId}}" href="#" onclick="deleteFunction({{project.projectId}})" class="menu_access">Delete</a>{% else %}{% if request.session.validate_user.role == "Admin" %}
 										<a id = "{{project.projectId}}" href="#" onclick="deleteFunction({{project.projectId}})" class="menu_access">Delete</a>
-										
+										{% endif %}
+										{% endif %}
 										{% endif %}
 									</div>
 								</div>
@@ -76,7 +79,7 @@ function validateForm()
 							{% endif %}
 						{% endfor %}
 
-						{% if request.session.validate_user.type == "Enterprise" %}  
+						{% if request.session.validate_user.type == "Enterprise" and not request.session.validate_user.role == "Employee" %}  
 							<div class="thumbchart">
 							<a href="/enterprise/add_project/?ent_id={{request.session.validate_user.userId}}" class="chartexploreme">
 								Click here to add

@@ -1,0 +1,14 @@
+
+<b>{{date_today}}</b> 
+<p>Dear User,</p>
+<p>We had received your request on {{invite.requestOn}}. Your request has been {% if invite.authorized %} Accepted {% else %} Rejected{% endif %}.</p> 
+{% if invite.authorized %}
+<p>Kindly Use Your Sign Up Code as: {{invite.signUpCode}} for registering at our Site.</p>
+
+<p>Please Click the below link and use you Signup code.</p>
+
+<p><a href="http://www.talentomi.com/?showauthenicate=1&email={{invite.emailId}}">http://www.talentomi.com/?showauthenicate=1&email={{invite.emailId}}</a></p>
+{% endif %}
+
+Thank you,<br>
+Talentomi Team

@@ -120,7 +120,12 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
+FILE_UPLOAD_HANDLERS = (
+    "django.core.files.uploadhandler.MemoryFileUploadHandler",
+    "django.core.files.uploadhandler.TemporaryFileUploadHandler",
+)
 
+FILE_UPLOAD_MAX_MEMORY_SIZE = "5242880"
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'moq^mcpfh3am)k896sxrdw8!n69zfkd$$iq231vh$+*n47czz_'
 

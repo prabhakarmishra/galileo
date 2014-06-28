@@ -225,11 +225,13 @@ $(function () {
     $('#fileupload').fileupload({
         url: url,
         dataType: 'json',
-		acceptFileTypes: /(\.|\/)(gif|jpe?g|png|docx|doc)$/i,
 		maxFileSize: 5000000, // 5 MB
         done: function (e, data) {
             $.each(data.result, function (index, file) {
-				var textval = "<p>"+file.name+" &nbsp;&nbsp;<span class='delfile' rev='"+file.delete_url+"' style='cursor:pointer; color:#c00;'>REMOVE</span><input type='hidden' name='myfiles[]'  id='myfiles' value='"+file.name+"'><input type='hidden' name='myfileId'  id='myfileId' value='"+file.doc_id+"'></p>";
+			var getfilename = file.name ;
+			getfilename = getfilename.replace(/[^a-zA-Z .\-_0-9]+/g,'');
+			getfilename = getfilename.replace(/ /g, "_");
+				var textval = "<p><a href='/media/static/student/New-project-files/"+getfilename+"' target='_blank'>"+getfilename+"</a> &nbsp;<span class='delfile' rev='"+file.delete_url+"' style='cursor:pointer; color:#c00;'>REMOVE</span><input type='hidden' name='myfiles[]'  id='myfiles' value='"+file.name+"'><input type='hidden' name='myfileId'  id='myfileId' value='"+file.doc_id+"'></p>";
                 $('#files').append(textval);
             });
         },

@@ -126,7 +126,8 @@
 
 		function sendid(){
 			getval = $('#stu_id').val();
-			location.href = "/enterprise/create-verification/?stu_id="+getval;
+			$("form[name='addprojform']").attr('action', "/enterprise/create-verification/?stu_id="+getval);
+			//location.href = "/enterprise/create-verification/?stu_id="+getval;
 		}
 		</script>
        <form method="POST" action="/enterprise/create-verification/" name="addprojform">

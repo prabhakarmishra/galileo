@@ -40,7 +40,8 @@ if (r)
   $.ajax({
 	url:"/enterprise/delete-project/?pro_id=" + prodid,
 	success:function(result){
-	$('#'+prodid).parent().remove();
+	    $('#'+prodid).parent().remove();
+	    window.location.reload();
       
     }});
   }
@@ -52,6 +53,7 @@ if (r)
 $(function () {
 	$("#enterprisestudent").selectbox();
 	$(".loginbox #type").selectbox();
+	$('input[name=collegeName]').css({'opacity':0})
 	$(".wrapper_col2 #assesssmentlist").selectbox();
 	$(".wrapper_col2 #candidatelist").selectbox();
 	$(".wrapper_col2 #candidatelist2").selectbox();
@@ -71,20 +73,23 @@ $(function () {
 
 
 	
-	$(".loginbox #type").change(function(){
+	$("#registrationForm #type").change(function(){
 		var getval = $(this).val();
 		if (getval=="Candidate"){
-			$('input[name=collegeName]').val('Candidate Name');
+			$('input[name=collegeName]').val('');
 			$('input[name=collegeName]').attr('onfocus',"if(this.value=='Candidate Name'){this.value=''};")
 			$('input[name=collegeName]').attr('onblur',"if(this.value==''){this.value='Candidate Name'};")
+			$('input[name=collegeName]').css({'opacity':0})
 		}else if (getval=="Enterprise"){
 			$('input[name=collegeName]').val('Enterprise Name');
 			$('input[name=collegeName]').attr('onfocus',"if(this.value=='Enterprise Name'){this.value=''};")
 			$('input[name=collegeName]').attr('onblur',"if(this.value==''){this.value='Enterprise Name'};")
+			$('input[name=collegeName]').css({'opacity':1})
 		}else if (getval=="Student"){
 			$('input[name=collegeName]').val('College Name');
 			$('input[name=collegeName]').attr('onfocus',"if(this.value=='College Name'){this.value=''};")
 			$('input[name=collegeName]').attr('onblur',"if(this.value==''){this.value='College Name'};")
+			$('input[name=collegeName]').css({'opacity':1})
 		}
 	});
 
@@ -120,7 +125,7 @@ $(function () {
 		$(this).css('border','1px solid #e6e6e6');
 	})
 	$( ".editablearea" ).focusout(function() {
-		$(this).css('border','1px solid #ffffff');
+		$(this).css('border','1px solid #e6e6e6');
 		var geturl = $(this).attr('rev');
 		var getval = $(this).val();
 			$.ajax({
@@ -197,15 +202,16 @@ function validatereg()
      document.registrationForm.password.focus() ;
      return false;
    }
-   
-   if( document.registrationForm.collegeName.value == ""|| document.registrationForm.collegeName.value == "College Name")
-   {
-     checkvalidate =  false;
-     alert( "Please mention your college name." );
-     document.registrationForm.collegeName.focus() ;
-     return false;
-   }
-   if( document.registrationForm.type.value == "")
+   if ( $("#registrationForm #type").val()=='Student'){
+	   if( document.registrationForm.collegeName.value == ""|| document.registrationForm.collegeName.value == "College Name")
+	   {
+	     checkvalidate =  false;
+	     alert( "Please mention your college name." );
+	     document.registrationForm.collegeName.focus() ;
+	     return false;
+	   }
+	}
+   if( $("#registrationForm #type").val() == "")
    {
      checkvalidate =  false;
      alert( "Please select your type." );
@@ -367,6 +373,25 @@ function passwordcheck()
 	
 </script>
 
+<script>
+
+$(document).ready(function(){
+   $('#type').change(function(){
+        var val = $(this).val();
+        if (val == "Enterprise"){
+            $('#role_type').show();
+        } else {
+            $('#role_type').hide();
+        }
+   });
+
+});
+
+
+</script>
+
+
+
 </head>
 
 <body>
@@ -374,8 +399,8 @@ function passwordcheck()
 <header>
 	{% if request.session.validate_user %}
 		<div class="welcomename logmenu"><img src="{% if request.session.userData.image %} /media/{{request.session.userData.image}} {% else %}{% static 'images/user.png' %} {% endif %}" width="28" height="28" border=0 alt="Welcome" /> 
-		{{user.fName}} {{user.lName}} <span></span> {% if user.type == "Enterprise" %}{% if request.session.displayName %} {{request.session.displayName}} {% endif %} {% endif %}
-									<form method="POST" enctype="multipart/form-data" name="imageform" id="imageform" {% if request.session.validate_user.type == "Student" %}action="/student/upload-image/" {% endif %}  {% if request.session.validate_user.type == "Enterprise" %}action="/enterprise/upload-image/" {% endif %}>
+		{{user.fName}} {{user.lName}} <span></span> {% if user.type == "Enterprise" %}{% if request.session.displayName %}  {% endif %} {% endif %}
+									<form method="POST" enctype="multipart/form-data" name="imageform" id="imageform" {% if request.session.validate_user.type == "Student" %}action="/student/upload-image/" {% endif %} {% if request.session.validate_user.type == "Candidate" %}action="/student/upload-image/" {% endif %}  {% if request.session.validate_user.type == "Enterprise" %}action="/enterprise/upload-image/" {% endif %}>
 									<div><p>&nbsp;</p><input type="hidden" name="ct_id" value="{{request.session.validate_user.userId}}">
 										<input type="file" name="img" id="id_img" class="changephotoholder">
 										<a href="javascript:void(0)" class="changephoto" >Change Photo</a>
@@ -415,19 +440,23 @@ function passwordcheck()
 
 				{% if  user.type == "Admin" %}<li><a href="/assessment-assign-admin/" class="menu_authorization">AUTHENTICATE AUTHORIZATIONS</a></li> {% else %}
 
-				{%  if user.type == "Enterprise" %}{% else %}
+				
 				{% if request.session.validate_user  %}<li><a href="/landing_page/" class="menu_profile">{% else %}<li><a href="/" class="menu_profile">{% endif %}
 				PROFILE</a></li>
-				{% endif %} {% endif %}
+				{% endif %} 
 				
 				{% if  user.type != "Admin" %} <li><a href="/challenge/" class="menu_challenges">CHALLENGES</a></li>{% else %} <li><a href="/invite-assign-admin/" class="menu_signverfication">SIGN UP AUTHENTICATIONS</a></li> {% endif %}{% if request.session.validate_user  %}{% if  user.type != "Admin" %}
 				<li><span class="menu_assesments">ASSESSMENTS
 					{% if user.type == "Enterprise" %}
 						<ul>
+						{% if not user.role == "Employee" %}
 						<li><a href="/enterprise/create_assessment/">Create Assessment</a></li>
+						{% endif %}
 						<li><a href="/assessment-assign-enterprise/">Assign Assessment</a></li>
 						<li><a href="/assessment-view/">View Assessments</a></li>
+						{% if not user.role == "Employee" %}
 						<li><a href="/enterprise/view-assigned-assessment/">View Assessment Assigned</a></li>
+						{% endif %}
 						</ul>
 					{% else %}
 						<ul><li><a href="/assessment-view/">View Assessments</a></li>
@@ -459,8 +488,11 @@ function passwordcheck()
 				 {% if  user.type = "Enterprise" %} 
 				 <li><span class="menu_verification">AUTHENTICATIONS
 						<ul><li><a href="/enterprise/view-verification/">View Authentications</a></li>
+						{% if not user.role == "Employee" %}
 						<li><a href="/enterprise/view-verification/?key=view">View Authentications Requested</a></li>
-						<li><a href="/enterprise/create-verification/">Create Authentication Request</a></li></ul>
+						<li><a href="/enterprise/create-verification/">Create Authentication Request</a></li>
+						{% endif %}
+						</ul>
 				</span></li>
 				 {% else %}{% endif %} {% endif %}
 
@@ -510,18 +542,25 @@ function passwordcheck()
 			<div class="splitor"><p>OR</p></div>
 			<div class="logcol2">
 				Sign up using email<br>
-			<form method="POST"  name="registrationForm" id="registrationForm"><span class="closelog">&nbsp;</span>{% csrf_token %}
+			<form method="POST" name="registrationForm" id="registrationForm"><span class="closelog">&nbsp;</span>{% csrf_token %}
 				<input type="text"  value="Email"  name="emailId" id="emailId" onfocus="if(this.value=='Email'){this.value=''};" onblur="if(this.value==''){this.value='Email'};">
 				<input type="password" name="password" value="password" id="password" onfocus="if(this.value=='password'){this.value=''};" onblur="if(this.value==''){this.value='password'};">
 				<input type="text"  value="First Name"  name="fName" id="fName" onfocus="if(this.value=='First Name'){this.value=''};" onblur="if(this.value==''){this.value='First Name'};">
 				<input type="text"  value="Last Name"  name="lName" id="lName" onfocus="if(this.value=='Last Name'){this.value=''};" onblur="if(this.value==''){this.value='Last Name'};">
 				<input type="text" name="linkedIn" value="Linkedin" id="linkedIn" onfocus="if(this.value=='Linkedin'){this.value=''};" onblur="if(this.value==''){this.value='Linkedin'};" />
 				<select name="type" id="type">
+					<option value="Candidate">Candidate</option>
 					<option value="Student">Student</option>
 					<option value="Enterprise">Enterprise</option>
 				</select>
+				
 					<!-- <option value="Candidate">Candidate</option> -->
 				<input type="text"  value="College Name"  name="collegeName" id="collegeName" onfocus="if(this.value=='College Name'){this.value=''};" onblur="if(this.value==''){this.value='College Name'};">
+				<select id="role_type" name="role_type" style="display:none">
+				    {% for role_ch in role_choice %}
+				        <option value="{{ role_ch.0 }}">{{ role_ch.1 }}</option>
+			        {% endfor %}
+		        </select>
 				<input type="submit" name="submit_new" class="btn_signup2" value="" onclick="return validatereg(); ">
 			</form>
 			</div>
@@ -599,7 +638,7 @@ function passwordcheck()
 	<a href="/about_us/">ABOUT</a>&nbsp; &nbsp;
 	<a href="javascript:void(0)" class="contact">CONTACT</a>&nbsp; &nbsp;
 </div>
-	Copyright Talentomi 2013
+	Copyright Talentomi 2014
 		<div class="sharebox"><a class="icon_fb" href="https://www.facebook.com" target="_blank">&nbsp;</a><a class="icon_in" href="https://www.linkedin.com" target="_blank">&nbsp;</a><a href="https://www.twitter.com" class="icon_twitter" target="_blank">&nbsp;</a></div>
 
 </footer>
@@ -715,7 +754,7 @@ function validateinviteForm()
 				url: '/invite-friend/',
 				data: $("#inviteform").serialize(),
 				success: function (data) {
-					$('#inviteform').html('Thank you for your interest. Please validate the sign up by checking your email.')
+					$('#inviteform').html('Thank you for your interest. Please validate the sign up by checking your email. <a "javascript:void(0)" onclick="showverifyfunc()" >Click here</a> to authenticating sign up code')
 				}
 			});
 		
@@ -818,12 +857,15 @@ function validateverification()
 					if ( data==false){
 						alert('Invalid Code, please try agian authenticate code.');
 					}else{
+						var getemail = $('#email_verify').val();
 						$('#signupverfication').html('Your sign up code has been verified.  You are being forwarded to complete your sign up');
 						var t=setTimeout(function(){ 
 							$('.signupverify').fadeOut('fast');
 							//$('.loginbox').eq(0).find('.logbox').fadeIn('fast');
-							$find('.logbox').eq(0).fadeIn('fast');
+							
+							$('.logbox').eq(0).fadeIn('fast');
 							$('.loginbox').eq(0).removeClass('showverify');
+							$('#emailId').val( getemail );
 						},4000)
 
 					}

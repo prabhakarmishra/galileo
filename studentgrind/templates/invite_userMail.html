@@ -1,10 +1,14 @@
 
-<b>{{date_today}}</b> </br>
-<p>Dear User,</p></br>
-<p>We had recieved your request on {{invite.requestOn}}. Your request has been {% if invite.authorized %} Accepted {% else %} Rejected{% endif %}.</p> </br>
+<b>{{date_today}}</b> 
+<p>Dear Talentomi User,</p>
+<p>We had received your request on {{invite.authorizedOn}}. Your request has been {% if invite.authorized %} accepted {% else %} Rejected{% endif %}</p> 
 {% if invite.authorized %}
-<p>Kindly Use Your Sign Up Code as: {{invite.signUpCode}} for registering at our Site.</p></br>
+<p>Please use your sign up code as: {{invite.signUpCode}} for registering at <a href="http://www.talentomi.com/?showauthenicate=1&email={{invite.emailId}}">http://www.talentomi.com/?showauthenicate=1&email={{invite.emailId}}</a>.</p>
+
+<p>Hope you are as excited as we are in having you!</p>
+
+
 {% endif %}
 
-Thank you,</br>
+<br>
 Talentomi Team

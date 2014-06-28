@@ -185,8 +185,15 @@ function validateForm()
 		<b>Attached Documents:</b> <br/><br/>
 		<ul class="editfilelist">
 		{% for doc in attached_docList %}
-		 
-		 <li>{{doc.filename}} &nbsp;  <p class='delfile_edit' style='cursor:pointer; color:#c00;'><input type="checkbox" name="filelist[]" value="{{doc.id}}"> <span>REMOVE</span> </p> </li><br/>
+			{% if user.type == "Enterprise" %}
+					<li><a href="/media/static/student/New-project-files/{{doc.filename}}" target="_blank">{{doc.filename}}</a> &nbsp;  <p class='delfile_edit' style='cursor:pointer; color:#c00;'><input type="checkbox" name="filelist[]" value="{{doc.id}}"> <span>REMOVE</span> </p> </li><br/>
+			{% else %}
+				{% if user.type == "Candidate" %}
+						<li><a href="/media/static/student/New-project-files/{{doc.filename}}" target="_blank">{{doc.filename}}</a> &nbsp;  <p class='delfile_edit' style='cursor:pointer; color:#c00;'><input type="checkbox" name="filelist[]" value="{{doc.id}}"> <span>REMOVE</span> </p> </li><br/>
+				{% else %}
+						<li><a href="/media/static/student/New-project-files/{{doc.filename}}" target="_blank">{{doc.filename}}</a> &nbsp;  <p class='delfile_edit' style='cursor:pointer; color:#c00;'><input type="checkbox" name="filelist[]" value="{{doc.id}}"> <span>REMOVE</span> </p> </li><br/>
+				{% endif %}
+			{% endif %}
 		{% endfor %}
 		</ul>
 		</div>
@@ -223,6 +230,9 @@ function validateForm()
 	<script>
 /*jslint unparam: true */
 /*global window, $ */
+/* 
+		acceptFileTypes: /(\.|\/)(gif|jpe?g|png|docx|doc)$/i, 
+		*/
 $(function () {
     'use strict';
     // Change this to the location of your server-side upload handler:
@@ -230,11 +240,13 @@ $(function () {
     $('#fileupload').fileupload({
         url: url,
         dataType: 'json',
-		acceptFileTypes: /(\.|\/)(gif|jpe?g|png|docx|doc)$/i,
 		maxFileSize: 5000000, // 5 MB
         done: function (e, data) {
             $.each(data.result, function (index, file) {
-				var textval = "<p>"+file.name+" &nbsp;<span class='delfile' rev='"+file.delete_url+"' style='cursor:pointer; color:#c00;'>REMOVE</span><input type='hidden' name='myfiles[]'  id='myfiles' value='"+file.name+"'><input type='hidden' name='myfileId'  id='myfileId' value='"+file.doc_id+"'></p>";
+			var getfilename = file.name;
+			getfilename = getfilename.replace(/[^a-zA-Z .\-_0-9]+/g,'');
+			getfilename = getfilename.replace(/ /g, "_");
+				var textval = "<p><a href='/media/static/student/New-project-files/"+getfilename+"' target='_blank'>"+getfilename+"</a> &nbsp;<span class='delfile' rev='"+file.delete_url+"' style='cursor:pointer; color:#c00;'>REMOVE</span><input type='hidden' name='myfiles[]'  id='myfiles' value='"+file.name+"'><input type='hidden' name='myfileId'  id='myfileId' value='"+file.doc_id+"'></p>";
                 $('#files').append(textval);
             });
         },

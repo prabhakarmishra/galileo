@@ -4,6 +4,13 @@
 {% load url from future %}
 
 {% block full_container %}
+
+{% if request.session.validate_user  %}
+<script type="text/javascript">
+            window.location.href = "/landing_page/"
+ </script>		
+	{% else %}		
+	{% endif %}
 <!-- Start Main -->
 <div class="full_container">
 	<section id="home">
@@ -30,7 +37,7 @@
 							<br><a href="javascript:void(0)" class="forgotpassword" >Forgot Password</a><br>
 							<input type="submit" name="submit_log" class="btn_signin" value="" onclick="return validatelogin(); ">
 						</form>
-							<br><span  class="notregisteryet">Not Registered yet? <a href="javascript:void(0)" class="showverify" >Click here</a> to Sign up</span>
+							<br><span  class="notregisteryet">Not Registered yet? <a href="javascript:void(0)" class="showinvite" >Click here</a> to Sign up</span>
 					</div>
 
 

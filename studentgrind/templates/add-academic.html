@@ -5,17 +5,17 @@
 function validateForm()
 {
   var checkvalidate = true;
-  if( document.addprojform.id_degree.value == "" || document.addprojform.id_degree.value == "Enter the Degree" )
+  if( document.addprojform.id_degree.value == "" || document.addprojform.id_degree.value == "Enter Degree" )
    {
      checkvalidate =  false;
-     alert( "Please enter the degree." );
+     alert( "Please enter degree." );
      document.addprojform.id_degree.focus() ;
 	 return false;
    }
-   if( document.addprojform.id_graduationScore.value == "" || document.addprojform.id_graduationScore.value == "Enter the Score" )
+   if( document.addprojform.id_graduationScore.value == "" || document.addprojform.id_graduationScore.value == "Enter GPA/Score" )
    {
      checkvalidate =  false;
-     alert( "Please enter the score." );
+     alert( "Please enter GPA/score." );
      document.addprojform.id_graduationScore.focus() ;
 	 return false;
    }
@@ -44,12 +44,12 @@ function validateForm()
 
 	<div class="formRow_03">
 		<div class="textInputHolder">
-		<span class="inputLeftCorner"></span><input id="id_degree" type="text" name="degree" maxlength="140" value="Enter the Degree"  onfocus="if(this.value=='Enter the Degree'){this.value=''};" onblur="if(this.value==''){this.value='Enter the Degree'};" /><span class="inputRightCorner"></span>	
+		<span class="inputLeftCorner"></span><input id="id_degree" type="text" name="degree" maxlength="140" value="Enter Degree"  onfocus="if(this.value=='Enter Degree'){this.value=''};" onblur="if(this.value==''){this.value='Enter Degree'};" /><span class="inputRightCorner"></span>	
 		</div>
 	</div>
 	<div class="formRow_03">
 		<div class="textInputHolder">
-		<span class="inputLeftCorner"></span><input id="id_graduationScore" type="text" name="graduationScore" maxlength="140" value="Enter the Score"  onfocus="if(this.value=='Enter the Score'){this.value=''};" onblur="if(this.value==''){this.value='Enter the Score'};" /><span class="inputRightCorner"></span>	
+		<span class="inputLeftCorner"></span><input id="id_graduationScore" type="text" name="graduationScore" maxlength="140" value="Enter GPA/Score"  onfocus="if(this.value=='Enter GPA/Score'){this.value=''};" onblur="if(this.value==''){this.value='Enter GPA/Score'};" /><span class="inputRightCorner"></span>	
 		</div>
 	</div>				
 					

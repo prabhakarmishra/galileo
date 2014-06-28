@@ -1,0 +1,942 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block full_container %}
+<script type="text/javascript">
+function validateForm()
+{
+  var checkvalidate = true;
+  if( document.imageform.id_img.value == "")
+   {
+     checkvalidate =  false;
+     alert( "Please Select image first !" );
+     
+	 return false;
+   }
+   return checkvalidate ;
+}
+
+  $(function () {
+	createGauges();
+	setTimeout(updateGauges, 5000);
+
+	$('.rangeperc, #chartproj1, #chartproj2, #chartproj3, #chartproj4, #chartproj5').click(function(){
+		$('.overlay').fadeIn();
+		$(this).parent().find('.tabcontentpop').fadeIn();
+	});
+
+	$("input[type=range]").slider({
+	   create: function(event, ui) { 
+			getval = ($(this).val())
+			$(this).parent().find('.ui-btn-text').html(getval+"%");
+		}
+	});
+
+  });
+
+</script>		
+
+		<script type="text/javascript" src="{% static 'js/d3.js' %}"></script>
+		<script type="text/javascript" src="{% static 'js/gauge.js' %}"></script>
+
+		<script>
+						
+				
+			var gauges = [];
+			var projpie = [];
+
+			function createprojectchart(name,col1,col2,perc){
+				var config = 
+				{
+					size: 200,
+					col1: col1,
+					col2: col2,
+					max: perc
+				}
+				projpie[name] = new projectpie(name, config);
+				projpie[name].render();
+			}
+			
+			function createGauge(name, label,bordercolor, min, max)
+			{
+				var config = 
+				{
+					size: 300,
+					label: label,
+					min: undefined != min ? min : 0,
+					max: undefined != max ? max : 90,
+					minorTicks: 5,
+					bordercol: bordercolor
+				}
+				
+				var range = config.max - config.min;
+				//config.yellowZones = [{ from: config.min + range*0.75, to: config.min + range*0.9 }];
+				config.redZones = [{ from: config.min, to: config.max }];
+				
+				gauges[name] = new Gauge(name + "GaugeContainer", config);
+				gauges[name].render();
+			}
+			
+			function createGauges()
+			{
+
+				//<!-- Top 3 Challenge Graph -->
+				{% for challenge in StudentChallengeList %}
+				{% if forloop.counter == 1 %}
+				createGauge("challenge{{challenge.project.projectId}}", "{{challenge.project.name}}", 'rgb(3,116,197)');
+				{% endif %}
+				{% if forloop.counter == 2 %}
+				createGauge("challenge{{challenge.project.projectId}}", "{{challenge.project.name}}", 'rgb(205,6,6)');
+				{% endif %}
+				{% if forloop.counter == 3 %}
+				createGauge("challenge{{challenge.project.projectId}}", "{{challenge.project.name}}",'rgb(94,147,25)');
+				{% endif %}
+				{% endfor %}
+				//createGauge("intelligent", "INTELLIGENT SPRINKLERS", 'rgb(205,6,6)');
+				//createGauge("mobile", "MOBILE SINGLE CREDIT CARD", 'rgb(94,147,25)');
+
+				// Top 5 Dashboard graph
+				{% for ver in StudentPerformanceList %}
+				{% if forloop.counter|divisibleby:"2" %}
+				createprojectchart('chartproj{{forloop.counter}}','rgb(70,99,17)','rgb(135,193,41)',{{ver.Score}});
+				{% else %}
+				createprojectchart('chartproj{{forloop.counter}}','rgb(255,192,0)','rgb(155,96,9)',{{ver.Score}});
+				{% endif %}
+				{% endfor %}
+				//createprojectchart('chartproj3','rgb(255,192,0)','rgb(155,96,9)',70);
+				//createprojectchart('chartproj4','rgb(70,99,17)','rgb(135,193,41)',25);
+				//createprojectchart('chartproj5','rgb(255,192,0)','rgb(155,96,9)',75);
+				{% for ver in StudentPerformanceList %}
+				$('#chartproj{{forloop.counter}}').append('<br>{{ver.performance}}');
+				{% endfor %}
+				//$('#chartproj2').append('<br>Facebook Consumer App');
+				//$('#chartproj3').append('<br>Consumer Analytics Platform');
+				//$('#chartproj4').append('<br>Design of Twitter website');
+				//$('#chartproj5').append('<br>Vine Consumer App');
+				// END Top 5 Dashboard graph
+
+				$(".rangeperc").each( function(){
+					var getperc = $(this).find('div span').html();
+					getperc = getperc.replace('%','');
+					totalrange = 300*(getperc/100);
+					$(this).find('div span').width(totalrange);
+
+				})
+			
+			}
+
+			
+			function updateGauges()
+			{
+				// Top 5 Dashboard graph perc
+				{% for challenge in StudentChallengeList %}
+					gauges["challenge{{challenge.project.projectId}}"].redraw({{challenge.score}});
+				{% endfor %}
+					//gauges["intelligent"].redraw(60);
+					//gauges["mobile"].redraw(70);
+			}
+			
+			
+		</script>
+		
+
+			<!-- RIGHTMOST COLUMN -->
+<!-- 
+			<div class="rightnavslider">
+				<div class="linkrmenu lnkskill">&nbsp;</div>
+				<div class="linkrmenu lnkacademic">&nbsp;</div>
+				<div class="linkrmenu lnkcert">&nbsp;</div>
+				<div class="linkrmenu lnkvolunter">&nbsp;</div>
+				<div class="linkrmenu lnkhonors">&nbsp;</div>
+				<div class="linkrmenu lnklang">&nbsp;</div>
+
+
+				
+				<div class="rightnav_content_grp">
+					
+				</div>
+
+
+
+
+
+			</div> -->
+
+
+
+
+			<!-- End THIRD COLUMN -->
+
+<div class="centerl_container maxw1200">
+			<div class="centerl_containerContent">
+
+
+			<!-- FIRST COLUMN -->
+				<!-- <div class="ppbox">
+					Rahul&nbsp;Kumar 
+					
+					<form method="POST" enctype="multipart/form-data" name="imageform" id="imageform" action="/student/upload-image/">
+					<input type="hidden" name="ct_id" value="139">
+					
+						<img src="/media/static/student-photo/Sign-Add-icon.png" width="107" height="90" border=0 alt="">
+						<div class="addPrjctImgHolder invisible"><input type="file" name="img" id="id_img"></div>
+					
+					
+					<button type="submit" class="btnchangephoto" style="margin-top:30px;" onclick="return validateForm()">&nbsp;</button>
+					</form>
+
+			<div class="scorecard">
+				<div class="color1"><img src="/static/images/talentometer.png" width="108" height="34" border=0 alt=""> <span>912</span>Grind Score </div>
+				<div class="color2"><img src="/static/images/perfometer.png" width="108" height="35" border=0 alt=""> <span>178</span>Academics </div>
+				<div class="color2"><img src="/static/images/acadometer.png" width="108" height="33" border=0 alt=""> <span>714</span>Performances </div>
+			</div>
+
+					<div class="knowmore">
+						<a href="javascript:void(0)" class="showchangepwd">Change Password</a>
+						
+					</div>
+					
+				</div>  -->
+
+				
+			<!-- FIRST COLUMN -->
+			<div class="profile_col1">
+				<!-- USER PHOTO, NAME and Description -->
+				<div class="userphoto">
+					
+						<div><img src="/media/static/student-photo/Sign-Add-icon.png" width="auto" height="180" border=0 alt=""></div>
+					
+
+					<h3>Rahul&nbsp;Kumar </h3>
+
+					<textarea name="prof_description" id="prof_description" class="editablearea" rows="" cols="" rev="/student/edit-goalStatement/?stu_id=139">Programmer
+					
+					
+					
+					
+					
+					</textarea>
+
+				</div>
+
+			</div>
+			
+			
+				<!-- END FIRST COLUMN -->
+
+
+
+
+				<!-- SECOND COLUMN -->
+			<div class="profile_col2">
+
+
+				<div class="rightnav_content_new">
+					<h4>My Skills </h4>
+					<div class="rightnav_Containernew">
+					
+						
+							<div class="skillsInnerContainer">
+								<span><input type="text" name="skilldesc" value="Test1" class="editableinput" rev="/student/skill/update/?skill_id=10">
+								<a href="/student/skill/delete/?skill_id=10" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a>
+								<a href="/student/skill/verify/?skill_id=10" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a> </span>
+								</div>
+						
+							<div class="skillsInnerContainer">
+								<span><input type="text" name="skilldesc" value="PMI" class="editableinput" rev="/student/skill/update/?skill_id=24">
+								<a href="/student/skill/delete/?skill_id=24" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a>
+								<a href="/student/skill/verify/?skill_id=24" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a> </span>
+								</div>
+						
+							<div class="skillsInnerContainer">
+								<span><input type="text" name="skilldesc" value="One More Testing" class="editableinput" rev="/student/skill/update/?skill_id=31">
+								<a href="/student/skill/delete/?skill_id=31" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a>
+								<a href="/student/skill/verify/?skill_id=31" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a> </span>
+								</div>
+						
+							<div class="skillsInnerContainer">
+								<span><input type="text" name="skilldesc" value="Testing 3" class="editableinput" rev="/student/skill/update/?skill_id=33">
+								<a href="/student/skill/delete/?skill_id=33" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a>
+								<a href="/student/skill/verify/?skill_id=33" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a> </span>
+								</div>
+						
+					</div>
+						<a href="/student/skill/add/" class="skilladd" onclick="showpop(this.href); return false;">CLICK TO ADD</a><div class="clearfix"></div>
+					
+				</div>
+
+
+
+
+
+			</div>
+			
+			
+				<!-- END SECOND COLUMN -->
+
+<div class="clearfix"></div>
+
+
+	<!-- SECOND ROWS -->
+	<div class="sectionslider mgrl30">
+		<h4>My Team</h4>
+		<div class="slider1_prev">&nbsp;</div>
+		<div class="slider1_box">
+			<div class="sliderthumbs active">
+				<div class="posterbox"><img src="{% static 'images/poster-img.png' %}" width="75" height="75" border=0 alt=""><p>Janic Joplin</p></div>
+				<div class="posterbox"><img src="{% static 'images/poster-img.png' %}" width="75" height="75" border=0 alt=""><p>John Lennon</p></div>
+				<div class="posterbox"><img src="{% static 'images/poster-img.png' %}" width="75" height="75" border=0 alt=""><p>Janic Joplin</p></div>
+				<div class="posterbox"><img src="{% static 'images/poster-img.png' %}" width="75" height="75" border=0 alt=""><p>John Lennon</p></div>
+			</div>
+			<div class="sliderthumbs">
+				<div class="posterbox"><img src="{% static 'images/poster-img.png' %}" width="75" height="75" border=0 alt=""><p>John Lennon</p></div>
+				<div class="posterbox"><img src="{% static 'images/poster-img.png' %}" width="75" height="75" border=0 alt=""><p>Janic Joplin</p></div>
+				<div class="posterbox"><img src="{% static 'images/poster-img.png' %}" width="75" height="75" border=0 alt=""><p>Janic Joplin</p></div>
+				<div class="posterbox"><img src="{% static 'images/poster-img.png' %}" width="75" height="75" border=0 alt=""><p>John Lennon</p></div>
+			</div>
+			<div class="sliderthumbs">
+				<div class="posterbox"><img src="{% static 'images/poster-img.png' %}" width="75" height="75" border=0 alt=""><p>John Lennon</p></div>
+				<div class="posterbox"><img src="{% static 'images/poster-img.png' %}" width="75" height="75" border=0 alt=""><p>Janic Joplin</p></div>
+				<div class="posterbox"><img src="{% static 'images/poster-img.png' %}" width="75" height="75" border=0 alt=""><p>John Lennon</p></div>
+			</div>
+		</div>
+		<div class="slider1_next">&nbsp;</div>
+	</div>
+
+
+	<div class="sectionslider">
+		<h4>My Reports</h4>
+		<div class="slider1_prev">&nbsp;</div>
+		<div class="slider1_box">
+			<div class="sliderthumbs active">
+				<div class="posterbox"><a href="#"><img src="{% static 'images/poster-img.png' %}" width="75" height="75" border=0 alt=""><p>Janic Joplin</p></a></div>
+				<div class="posterbox"><a href="#"><img src="{% static 'images/poster-img.png' %}" width="75" height="75" border=0 alt=""><p>John Lennon</p></a></div>
+				<div class="posterbox"><a href="#"><img src="{% static 'images/poster-img.png' %}" width="75" height="75" border=0 alt=""><p>Janic Joplin</p></a></div>
+				<div class="posterbox"><a href="#"><img src="{% static 'images/poster-img.png' %}" width="75" height="75" border=0 alt=""><p>John Lennon</p></a></div>
+			</div>
+			<div class="sliderthumbs">
+				<div class="posterbox"><a href="#"><img src="{% static 'images/poster-img.png' %}" width="75" height="75" border=0 alt=""><p>John Lennon</p></a></div>
+				<div class="posterbox"><a href="#"><img src="{% static 'images/poster-img.png' %}" width="75" height="75" border=0 alt=""><p>Janic Joplin</p></a></div>
+				<div class="posterbox"><a href="#"><img src="{% static 'images/poster-img.png' %}" width="75" height="75" border=0 alt=""><p>Janic Joplin</p></a></div>
+				<div class="posterbox"><a href="#"><img src="{% static 'images/poster-img.png' %}" width="75" height="75" border=0 alt=""><p>John Lennon</p></a></div>
+			</div>
+			<div class="sliderthumbs">
+				<div class="posterbox"><a href="#"><img src="{% static 'images/poster-img.png' %}" width="75" height="75" border=0 alt=""><p>John Lennon</p></a></div>
+				<div class="posterbox"><a href="#"><img src="{% static 'images/poster-img.png' %}" width="75" height="75" border=0 alt=""><p>John Lennon</p></a></div>
+			</div>
+		</div>
+		<div class="slider1_next">&nbsp;</div>
+	</div>
+
+
+	<div class="sectionslider w300">
+		<h4>My Reporting Hierarchy</h4>
+		<div class="slider1_prev">&nbsp;</div>
+		<div class="slider1_box">
+			<div class="sliderthumbs active">
+				<div class="posterbox"><img src="{% static 'images/poster-img.png' %}" width="75" height="75" border=0 alt=""><p>Janic Joplin</p></div>
+				<div class="posterbox"><img src="{% static 'images/poster-img.png' %}" width="75" height="75" border=0 alt=""><p>John Lennon</p></div>
+			</div>
+			<div class="sliderthumbs">
+				<div class="posterbox"><img src="{% static 'images/poster-img.png' %}" width="75" height="75" border=0 alt=""><p>John Lennon</p></div>
+				<div class="posterbox"><img src="{% static 'images/poster-img.png' %}" width="75" height="75" border=0 alt=""><p>Janic Joplin</p></div>
+			</div>
+			<div class="sliderthumbs">
+				<div class="posterbox"><img src="{% static 'images/poster-img.png' %}" width="75" height="75" border=0 alt=""><p>John Lennon</p></div>
+			</div>
+		</div>
+		<div class="slider1_next">&nbsp;</div>
+	</div>
+	<!-- END SECOND ROWS -->
+
+
+<div class="clearfix"></div>
+
+				<!-- FIRST COLUMN  - THIRD ROW -->
+			<div class="profile_col1">				
+
+				<div class="thumbchartgrp mtop0">
+					
+
+
+					<h4>My Projects<!-- <a href="/student/add_performance/" class="addBtn_04 exploreme" onclick="showpop(this.href); return false;"><span>Add</span></a> --></h4>
+					<div class="carouse_box">
+						<div class="btn_prev"></div>
+						<div class="btn_next"></div>
+						<div class="carouse_thumbs"><div class="thumbchartgrps">
+						
+							
+							<div class="thumbchart"><a href="/student/edit_performance/?perf_id=1" onclick="showpop(this.href); return false;">
+								<img src="/media/static/student/performance-image/halo_4_wallpaper_2_HD_1920x1080.jpg" width="172px" height="112px" border=0 alt="" class="thumbposter">
+								<p>
+									<span>Test Project</span>
+									none
+								</p>
+								<div class="thumbchart_days">&nbsp; <br/></div>
+								<div class="thumbchart_submited">&nbsp;<br/> </div>
+								<div class="thumbchart_win"> <br/>&nbsp;</div>
+								<div class="thumbchart_dollar">&nbsp;<br/></div>
+								</a>
+								<div class="accesslinkmenu">&nbsp;
+									<div>
+										<a href="/student/edit_performance/?perf_id=1" class="menu_open" onclick="showpop(this.href); return false;">Open</a>
+										<a href="/student/performance/verify/?pro_id=1" class="menu_verify" onclick="showpop(this.href); return false;">Authenticate</a>
+										<a href="/student/performance/assess/?perf_id=1" class="menu_access" onclick="showpop(this.href); return false;">Assess</a>
+									</div>
+								</div>
+							</div>
+
+							
+							<div class="thumbchart"><a href="/student/edit_performance/?perf_id=2" onclick="showpop(this.href); return false;">
+								<img src="/media/static/student/performance-image/macosxlogo.png" width="172px" height="112px" border=0 alt="" class="thumbposter">
+								<p>
+									<span>Test Project2</span>
+									Testing project
+								</p>
+								<div class="thumbchart_days">&nbsp; <br/></div>
+								<div class="thumbchart_submited">&nbsp;<br/> </div>
+								<div class="thumbchart_win"> <br/>&nbsp;</div>
+								<div class="thumbchart_dollar">&nbsp;<br/></div>
+								</a>
+								<div class="accesslinkmenu">&nbsp;
+									<div>
+										<a href="/student/edit_performance/?perf_id=2" class="menu_open" onclick="showpop(this.href); return false;">Open</a>
+										<a href="/student/performance/verify/?pro_id=2" class="menu_verify" onclick="showpop(this.href); return false;">Authenticate</a>
+										<a href="/student/performance/assess/?perf_id=2" class="menu_access" onclick="showpop(this.href); return false;">Assess</a>
+									</div>
+								</div>
+							</div>
+
+							
+							<div class="thumbchart"><a href="/student/edit_performance/?perf_id=3" onclick="showpop(this.href); return false;">
+								<img src="/media/static/student/performance-image/client_logo_cenema.jpg" width="172px" height="112px" border=0 alt="" class="thumbposter">
+								<p>
+									<span>Test Project3</span>
+									Testing project 1
+								</p>
+								<div class="thumbchart_days">&nbsp; <br/></div>
+								<div class="thumbchart_submited">&nbsp;<br/> </div>
+								<div class="thumbchart_win"> <br/>&nbsp;</div>
+								<div class="thumbchart_dollar">&nbsp;<br/></div>
+								</a>
+								<div class="accesslinkmenu">&nbsp;
+									<div>
+										<a href="/student/edit_performance/?perf_id=3" class="menu_open" onclick="showpop(this.href); return false;">Open</a>
+										<a href="/student/performance/verify/?pro_id=3" class="menu_verify" onclick="showpop(this.href); return false;">Authenticate</a>
+										<a href="/student/performance/assess/?perf_id=3" class="menu_access" onclick="showpop(this.href); return false;">Assess</a>
+									</div>
+								</div>
+							</div>
+
+							
+							<div class="thumbchart"><a href="/student/edit_performance/?perf_id=4" onclick="showpop(this.href); return false;">
+								<img src="/media/static/student/performance-image/logo-inner.jpg" width="172px" height="112px" border=0 alt="" class="thumbposter">
+								<p>
+									<span>Tested</span>
+									Testi ng
+								</p>
+								<div class="thumbchart_days">&nbsp; <br/></div>
+								<div class="thumbchart_submited">&nbsp;<br/> </div>
+								<div class="thumbchart_win"> <br/>&nbsp;</div>
+								<div class="thumbchart_dollar">&nbsp;<br/></div>
+								</a>
+								<div class="accesslinkmenu">&nbsp;
+									<div>
+										<a href="/student/edit_performance/?perf_id=4" class="menu_open" onclick="showpop(this.href); return false;">Open</a>
+										<a href="/student/performance/verify/?pro_id=4" class="menu_verify" onclick="showpop(this.href); return false;">Authenticate</a>
+										<a href="/student/performance/assess/?perf_id=4" class="menu_access" onclick="showpop(this.href); return false;">Assess</a>
+									</div>
+								</div>
+							</div>
+
+							
+							<div class="thumbchart"><a href="/student/edit_performance/?perf_id=5" onclick="showpop(this.href); return false;">
+								<img src="/media/static/student/performance-image/logo-inner_1.jpg" width="172px" height="112px" border=0 alt="" class="thumbposter">
+								<p>
+									<span>Tested</span>
+									Testi ng
+								</p>
+								<div class="thumbchart_days">&nbsp; <br/></div>
+								<div class="thumbchart_submited">&nbsp;<br/> </div>
+								<div class="thumbchart_win"> <br/>&nbsp;</div>
+								<div class="thumbchart_dollar">&nbsp;<br/></div>
+								</a>
+								<div class="accesslinkmenu">&nbsp;
+									<div>
+										<a href="/student/edit_performance/?perf_id=5" class="menu_open" onclick="showpop(this.href); return false;">Open</a>
+										<a href="/student/performance/verify/?pro_id=5" class="menu_verify" onclick="showpop(this.href); return false;">Authenticate</a>
+										<a href="/student/performance/assess/?perf_id=5" class="menu_access" onclick="showpop(this.href); return false;">Assess</a>
+									</div>
+								</div>
+							</div>
+
+							
+							<div class="thumbchart">
+							<a href="/student/add_performance/" class="chartexploreme" onclick="showpop(this.href); return false;">
+								Click here to add
+							</a>
+							</div>
+						
+
+							
+						<!-- Carrousel end -->
+						</div></div>
+					</div>
+
+				</div>
+
+
+
+
+
+				<!-- Start 4 TABS CHART -->
+				<div id="tabouter">
+						<ul class="tabsav">
+							<li class="active">Assessments</li>
+							<li>Authentications</li>
+							<!-- <li>Strengths</li> -->
+							<li>Challenges</li>
+						</ul>
+
+
+						<!-- ASSESSMENT TAB -->
+						<div class="tabcontent active fullborder grey">
+
+							<!-- Assessment Graph -->
+							<h4>Assessments</h4>
+							<!-- <div class="rangeperc green"><span>Mobile </span><div><span>90%</span></div></div> -->
+							
+								
+								<div class="rangeperc blue"><span>Project Planning </span><div><span>49.0%</span></div></div>
+								
+							
+								
+								<div class="rangeperc blue"><span>Python </span><div><span>58.0%</span></div></div>
+								
+							
+								
+								<div class="rangeperc green"><span>HTML </span><div><span>85.0%</span></div></div>
+								
+							
+								
+								<div class="rangeperc green"><span>Mobile Communication </span><div><span>90.0%</span></div></div>
+								
+							
+							
+							<!-- END Assessment Graph -->
+
+							<div class="tabcontentpop"><div class="pop_close"></div>
+							 <div class="grid_headingdiv">
+							  <div class="a_grid_col1_h grid_heading">Assessment Name</div>
+							  <div class="a_grid_col2_h grid_heading disable">Category</div>
+							  <div class="a_grid_col3_h grid_heading">Recency (Days)</div>
+							  <div class="a_grid_col4_h grid_heading">Score</div>
+							  <div class="clearfix"></div>
+							</div>
+							<div id="contentlist">
+							
+								<div>
+								  <div class="a_grid_col1">Project Planning&nbsp;</div>
+								  <div class="a_grid_col2">project Planning&nbsp;</div>
+								  <div class="a_grid_col3">224  &nbsp;</div>
+								  <div class="a_grid_col4">49.0&nbsp;</div>
+								  <div class="clearfix"></div>
+								</div>
+							
+								<div>
+								  <div class="a_grid_col1">Python&nbsp;</div>
+								  <div class="a_grid_col2">Software&nbsp;</div>
+								  <div class="a_grid_col3">83  &nbsp;</div>
+								  <div class="a_grid_col4">58.0&nbsp;</div>
+								  <div class="clearfix"></div>
+								</div>
+							
+								<div>
+								  <div class="a_grid_col1">HTML&nbsp;</div>
+								  <div class="a_grid_col2">Software&nbsp;</div>
+								  <div class="a_grid_col3">55  &nbsp;</div>
+								  <div class="a_grid_col4">85.0&nbsp;</div>
+								  <div class="clearfix"></div>
+								</div>
+							
+								<div>
+								  <div class="a_grid_col1">Mobile Communication&nbsp;</div>
+								  <div class="a_grid_col2">Mobile&nbsp;</div>
+								  <div class="a_grid_col3">52  &nbsp;</div>
+								  <div class="a_grid_col4">90.0&nbsp;</div>
+								  <div class="clearfix"></div>
+								</div>
+							
+								
+
+							</div>
+							</div>
+						</div>
+						<!-- END ASSESSMENT TAB -->
+						
+						
+						<!-- VERIFICATION TAB -->
+						<div class="tabcontent fullborder">
+							<h4>Authentications</h4>
+							<!-- // Top 5 Dashboard graph -->
+							
+							<span id="chartproj1"></span>
+							
+							<span id="chartproj2"></span>
+							
+							<span id="chartproj3"></span>
+							
+							<span id="chartproj4"></span>
+							
+							<!--span id="chartproj2"></span>
+							<span id="chartproj3"></span>
+							<span id="chartproj4"></span>
+							<span id="chartproj5"></span-->
+							<!-- // END Top 5 Dashboard graph -->
+
+							<div class="tabcontentpop"><div class="pop_close"></div>
+							<div class="grid_headingdiv">
+							  <div class="v_grid_col1_h grid_heading2">Authentication For</div>
+							  <div class="v_grid_col2_h grid_heading2 disable">Verified By</div>
+							  <div class="v_grid_col3_h grid_heading2">Recency (Days)</div>
+							  <div class="clearfix"></div>
+							</div>
+							<div id="contentlist2">
+								
+								<div>
+								  <div class="v_grid_col1">Test Project&nbsp;</div>
+								  <div class="v_grid_col2">Rahul &nbsp; Kumar&nbsp;</div>
+								  <div class="v_grid_col3">  242  &nbsp;</div>
+								  <div class="clearfix"></div>
+								</div>
+								
+								<div>
+								  <div class="v_grid_col1">&nbsp;</div>
+								  <div class="v_grid_col2">Rahul &nbsp; Kumar&nbsp;</div>
+								  <div class="v_grid_col3">  198  &nbsp;</div>
+								  <div class="clearfix"></div>
+								</div>
+								
+								
+
+							</div>
+							</div>
+						</div>
+						<!-- END VERIFICATION TAB -->
+						
+						<!-- STRENGTH DASHBOARD TAB -->
+						<!-- <div class="tabcontent fullborder">
+							<h4>Strengths</h4>
+							<div class="strengthchart"><img src="/static/images/Strengths_bargraph_blue.png" width="38" height="141" border=0 alt=""><br>INDIVIDUALIZATION</div>
+							<div class="strengthchart"><img src="/static/images/Strengths_bargraph_green.png" width="38" height="140" border=0 alt="" ><br>ACTIVATOR</div>
+							<div class="strengthchart"><img src="/static/images/Strengths_bargraph_gold.png" width="38" height="140" border=0 alt=""><br>ANALYTICAL</div>
+							<div class="strengthchart"><img src="/static/images/Strengths_bargraph_brown.png" width="37" height="140" border=0 alt=""><br>FOCUS</div>
+							<div class="strengthchart"><img src="/static/images/Strengths_bargraph_red.png" width="37" height="141" border=0 alt=""><br>LEADER</div>
+
+						</div> -->
+						<!-- END STRENGTH DASHBOARD TAB -->
+						
+						
+						<!-- CHALLENGE DASHBOARD TAB -->
+						<div class="tabcontent fullborder">
+
+							<!-- Top 3 Challenge Graph -->
+							<h4>Challenges</h4>
+							
+							<span id="challenge43GaugeContainer"></span>
+							
+							<span id="challenge49GaugeContainer"></span>
+							
+							<span id="challenge34GaugeContainer"></span>
+							
+							<!--span id="intelligentGaugeContainer"></span>
+							<span id="mobileGaugeContainer"></span-->
+							<!-- END Top 3 Challenge Graph -->
+							
+						</div>
+						<!-- END CHALLENGE DASHBOARD TAB -->
+						
+
+				</div>
+				<!-- END 4 TABS -->
+			</div>
+			
+			
+				<!-- END FIRST COLUMN -->
+
+
+
+
+				<!-- SECOND COLUMN -->
+			<div class="profile_col2">
+
+
+
+
+				<!-- CANDIDATE GOAL VIEW -->
+				<div class="col2_candidbox">
+					<h4>My Goals <!-- <a href="/student/add-goals/" class="addBtn_03" onclick="showpop(this.href); return false;"><img src="/static/images/btn-add.png" width="37" height="26" border=0 alt="+"></a> --></h4>
+					<div class="rightnav_Container">
+					
+						<div class="skillsInnerContainer">
+							<a href="/student/update-goals/?goal_id=10" onclick="showpop(this.href); return false;"><span>One More Test</span>
+							<div class="rangebar range1">
+									<input type="range" name="range_rate" id="range_rate" min="0" max="100" step="1" value="61" class="rangefield">
+							</div></a>
+							<a href="/student/delete-goals/?goal_id=10" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a> 
+						</div>
+					
+						<div class="skillsInnerContainer">
+							<a href="/student/update-goals/?goal_id=12" onclick="showpop(this.href); return false;"><span>One More Test</span>
+							<div class="rangebar range1">
+									<input type="range" name="range_rate" id="range_rate" min="0" max="100" step="1" value="61" class="rangefield">
+							</div></a>
+							<a href="/student/delete-goals/?goal_id=12" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a> 
+						</div>
+					
+						<div class="skillsInnerContainer">
+							<a href="/student/update-goals/?goal_id=14" onclick="showpop(this.href); return false;"><span>Goal 1</span>
+							<div class="rangebar range1">
+									<input type="range" name="range_rate" id="range_rate" min="0" max="100" step="1" value="50" class="rangefield">
+							</div></a>
+							<a href="/student/delete-goals/?goal_id=14" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a> 
+						</div>
+					
+						<div class="skillsInnerContainer">
+							<a href="/student/update-goals/?goal_id=21" onclick="showpop(this.href); return false;"><span>Test Goal</span>
+							<div class="rangebar range1">
+									<input type="range" name="range_rate" id="range_rate" min="0" max="100" step="1" value="40" class="rangefield">
+							</div></a>
+							<a href="/student/delete-goals/?goal_id=21" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a> 
+						</div>
+					
+						<div class="skillsInnerContainer">
+							<a href="/student/update-goals/?goal_id=27" onclick="showpop(this.href); return false;"><span>Test Goal</span>
+							<div class="rangebar range1">
+									<input type="range" name="range_rate" id="range_rate" min="0" max="100" step="1" value="40" class="rangefield">
+							</div></a>
+							<a href="/student/delete-goals/?goal_id=27" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a> 
+						</div>
+					
+						<div class="skillsInnerContainer">
+							<a href="/student/update-goals/?goal_id=28" onclick="showpop(this.href); return false;"><span>TestMay</span>
+							<div class="rangebar range1">
+									<input type="range" name="range_rate" id="range_rate" min="0" max="100" step="1" value="77" class="rangefield">
+							</div></a>
+							<a href="/student/delete-goals/?goal_id=28" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a> 
+						</div>
+					
+
+					</div>
+					<a href="/student/add-goals/" class="mygoal_clickadd" onclick="showpop(this.href); return false;">CLICK TO ADD</a>
+				</div>
+
+
+
+
+				<div class="rightnav_content_new mgrtop20">
+				<form method=post action="" name="academicform" id="academicform">
+					<h4>My Academics</h4>
+					<div class="rightnav_Containernew">
+					<ul class="academicBackgroundUl">
+						
+						
+						<li>
+						<span href="#" class="qualification"><input type="text" name="skilldesc" value="B.Tech" class="editableinput" rev="/student/academic/update/?ace_id=1"></span>
+						<input type="text" name="grade" value="78.89" class="currency">
+						<a href="/student/academic/delete/?ace_id=1" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a> 
+						<a href="/student/academic/verify/?ace_id=1" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a>
+						</li>
+						
+						<li>
+						<span href="#" class="qualification"><input type="text" name="skilldesc" value="Highschool" class="editableinput" rev="/student/academic/update/?ace_id=2"></span>
+						<input type="text" name="grade" value="89.80" class="currency">
+						<a href="/student/academic/delete/?ace_id=2" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a> 
+						<a href="/student/academic/verify/?ace_id=2" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a>
+						</li>
+						
+						<li>
+						<span href="#" class="qualification"><input type="text" name="skilldesc" value="SCJP" class="editableinput" rev="/student/academic/update/?ace_id=16"></span>
+						<input type="text" name="grade" value="95.00" class="currency">
+						<a href="/student/academic/delete/?ace_id=16" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a> 
+						<a href="/student/academic/verify/?ace_id=16" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a>
+						</li>
+						
+						<li>
+						<span href="#" class="qualification"><input type="text" name="skilldesc" value="rew" class="editableinput" rev="/student/academic/update/?ace_id=17"></span>
+						<input type="text" name="grade" value="1.00" class="currency">
+						<a href="/student/academic/delete/?ace_id=17" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a> 
+						<a href="/student/academic/verify/?ace_id=17" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a>
+						</li>
+						
+						<li>
+						<span href="#" class="qualification"><input type="text" name="skilldesc" value="Master Computer App" class="editableinput" rev="/student/academic/update/?ace_id=18"></span>
+						<input type="text" name="grade" value="80.00" class="currency">
+						<a href="/student/academic/delete/?ace_id=18" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a> 
+						<a href="/student/academic/verify/?ace_id=18" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a>
+						</li>
+						
+					</ul>
+					</div>
+					<a href="/student/academic/add/" class="skilladd" onclick="showpop(this.href); return false;">CLICK TO ADD</a><div class="clearfix"></div>
+					
+						
+				</form>
+				</div>
+				
+				<!-- Assessment tab data -->
+				<div class="rightnav_content_new">
+					<h4>My Associations / Certifications </h4>
+					<div class="rightnav_Containernew">
+					
+					
+						<div class="skillsInnerContainer"><span><input type="text" name="associatedesc" value="PMP " class="editableinput" rev="/student/certification/update/?cert_id=3">
+						<a href="/student/certification/delete/?cert_id=3" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a>
+						<a href="/student/certification/verify/?cert_id=3" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a> </span>
+						</div>
+					
+						<div class="skillsInnerContainer"><span><input type="text" name="associatedesc" value="English" class="editableinput" rev="/student/certification/update/?cert_id=5">
+						<a href="/student/certification/delete/?cert_id=5" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a>
+						<a href="/student/certification/verify/?cert_id=5" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a> </span>
+						</div>
+					
+						<div class="skillsInnerContainer"><span><input type="text" name="associatedesc" value="CCNA" class="editableinput" rev="/student/certification/update/?cert_id=15">
+						<a href="/student/certification/delete/?cert_id=15" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a>
+						<a href="/student/certification/verify/?cert_id=15" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a> </span>
+						</div>
+					
+						<div class="skillsInnerContainer"><span><input type="text" name="associatedesc" value="test" class="editableinput" rev="/student/certification/update/?cert_id=23">
+						<a href="/student/certification/delete/?cert_id=23" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a>
+						<a href="/student/certification/verify/?cert_id=23" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a> </span>
+						</div>
+					
+						<div class="skillsInnerContainer"><span><input type="text" name="associatedesc" value=" asdf" class="editableinput" rev="/student/certification/update/?cert_id=24">
+						<a href="/student/certification/delete/?cert_id=24" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a>
+						<a href="/student/certification/verify/?cert_id=24" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a> </span>
+						</div>
+					
+						<div class="skillsInnerContainer"><span><input type="text" name="associatedesc" value="certified5" class="editableinput" rev="/student/certification/update/?cert_id=25">
+						<a href="/student/certification/delete/?cert_id=25" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a>
+						<a href="/student/certification/verify/?cert_id=25" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a> </span>
+						</div>
+					
+					</div>
+						<a href="/student/certification/add/" class="skilladd" onclick="showpop(this.href); return false;">CLICK TO ADD</a><div class="clearfix"></div>
+					
+				</div>
+
+
+
+				<div class="rightnav_content_new">
+					<h4>My Volunteer</h4>
+					<div class="rightnav_Containernew">
+					
+					
+						<div class="skillsInnerContainer"><span><input type="text" name="volunteerdesc" value="Testing" class="editableinput" rev="/student/volunteer/update/?vol_id=3">
+						<a href="/student/volunteer/delete/?vol_id=3" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a>
+						<a href="/student/volunteer/verify/?vol_id=3" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a> </span>
+						</div>
+					
+						<div class="skillsInnerContainer"><span><input type="text" name="volunteerdesc" value="Test Volunter" class="editableinput" rev="/student/volunteer/update/?vol_id=10">
+						<a href="/student/volunteer/delete/?vol_id=10" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a>
+						<a href="/student/volunteer/verify/?vol_id=10" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a> </span>
+						</div>
+					
+						<div class="skillsInnerContainer"><span><input type="text" name="volunteerdesc" value="Community service" class="editableinput" rev="/student/volunteer/update/?vol_id=12">
+						<a href="/student/volunteer/delete/?vol_id=12" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a>
+						<a href="/student/volunteer/verify/?vol_id=12" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a> </span>
+						</div>
+					
+					</div>
+						<a href="/student/volunteer/add/" class="skilladd" onclick="showpop(this.href); return false;">CLICK TO ADD</a><div class="clearfix"></div>
+					
+				</div>
+
+
+
+				<div class="rightnav_content_new">
+					<h4>My Honors/Awards</h4>
+					<div class="rightnav_Containernew">
+					
+					
+						<div class="skillsInnerContainer"><span><input type="text" name="honordesc" value="Graduate" class="editableinput" rev="/student/honor/update/?hon_id=1">
+						<a href="/student/honor/delete/?hon_id=1" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a>
+						<a href="/student/honor/verify/?hon_id=1" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a> </span>
+						</div>
+					
+						<div class="skillsInnerContainer"><span><input type="text" name="honordesc" value="Test Honors1" class="editableinput" rev="/student/honor/update/?hon_id=7">
+						<a href="/student/honor/delete/?hon_id=7" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a>
+						<a href="/student/honor/verify/?hon_id=7" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a> </span>
+						</div>
+					
+					</div>
+						<a href="/student/honor/add/" class="skilladd" onclick="showpop(this.href); return false;">CLICK TO ADD</a><div class="clearfix"></div>
+					
+				</div>
+
+
+
+				<div class="rightnav_content_new">
+					<h4>My Languages</h4>
+					<div class="rightnav_Containernew">
+					
+					
+						<div class="skillsInnerContainer"><span><input type="text" name="honordesc" value="english " class="editableinput" rev="/student/language/update/?lang_id=1">
+						<a href="/student/language/delete/?lang_id=1" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a>
+						<a href="/student/language/verify/?lang_id=1" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a> </span>
+						</div>
+					
+						<div class="skillsInnerContainer"><span><input type="text" name="honordesc" value="Dutch" class="editableinput" rev="/student/language/update/?lang_id=5">
+						<a href="/student/language/delete/?lang_id=5" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a>
+						<a href="/student/language/verify/?lang_id=5" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a> </span>
+						</div>
+					
+						<div class="skillsInnerContainer"><span><input type="text" name="honordesc" value="French" class="editableinput" rev="/student/language/update/?lang_id=15">
+						<a href="/student/language/delete/?lang_id=15" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a>
+						<a href="/student/language/verify/?lang_id=15" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a> </span>
+						</div>
+					
+						<div class="skillsInnerContainer"><span><input type="text" name="honordesc" value="Arabic" class="editableinput" rev="/student/language/update/?lang_id=16">
+						<a href="/student/language/delete/?lang_id=16" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a>
+						<a href="/student/language/verify/?lang_id=16" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a> </span>
+						</div>
+					
+						<div class="skillsInnerContainer"><span><input type="text" name="honordesc" value="Arabic" class="editableinput" rev="/student/language/update/?lang_id=17">
+						<a href="/student/language/delete/?lang_id=17" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a>
+						<a href="/student/language/verify/?lang_id=17" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a> </span>
+						</div>
+					
+						<div class="skillsInnerContainer"><span><input type="text" name="honordesc" value="Chinese" class="editableinput" rev="/student/language/update/?lang_id=28">
+						<a href="/student/language/delete/?lang_id=28" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a>
+						<a href="/student/language/verify/?lang_id=28" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a> </span>
+						</div>
+					
+						<div class="skillsInnerContainer"><span><input type="text" name="honordesc" value="Korean" class="editableinput" rev="/student/language/update/?lang_id=32">
+						<a href="/student/language/delete/?lang_id=32" onclick="return false;" class="cancelbtnx"><img src="/static/images/icon-del.png" width="15" height="15" border=0 alt="x"></a>
+						<a href="/student/language/verify/?lang_id=32" class="verifyBtn_01b" onclick="showpop(this.href); return false;"></a> </span>
+						</div>
+					
+					</div>
+						<a href="/student/language/add/" class="skilladd" onclick="showpop(this.href); return false;">CLICK TO ADD</a><div class="clearfix"></div>
+					
+				</div>
+			
+			
+			</div>
+				<!-- END THIRD COLUMN VIEW -->
+
+
+
+
+
+			
+			
+
+
+
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	
+<!-- END Main -->
+	{% endblock %}

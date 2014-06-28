@@ -17,13 +17,27 @@ function validateForm()
 }
 
   $(function () {
+  
+  
+    var prof_description = "{{request.session.userData.goalStatement}}";
+    
+    $('#prof_description').blur(function(){
+        var val = $(this).val();
+        if (val != prof_description){
+            var url = $(this).attr('rev');
+            window.location = url + '&field1=' + val;
+        }
+    });
+    
+    
 	createGauges();
 	setTimeout(updateGauges, 5000);
 
-	$('.rangeperc, #chartproj1, #chartproj2, #chartproj3, #chartproj4, #chartproj5').click(function(){
+	$('.rangeperc, #chartproj1, #chartproj2, #chartproj3, #chartproj4, #chartproj5, #chartproj6, #chartproj7, #chartproj8, #chartproj9, #chartproj10, #chartprojOTH1, #chartprojOTH2, #chartprojOTH3, #chartprojOTH4, #chartprojOTH5, #chartprojOTH6, #chartprojOTH7').click(function(){
 		$('.overlay').fadeIn();
 		$(this).parent().find('.tabcontentpop').fadeIn();
 	});
+	
 
 	$("input[type=range]").slider({
 	   create: function(event, ui) { 
@@ -106,6 +120,16 @@ function validateForm()
 				//createprojectchart('chartproj3','rgb(255,192,0)','rgb(155,96,9)',70);
 				//createprojectchart('chartproj4','rgb(70,99,17)','rgb(135,193,41)',25);
 				//createprojectchart('chartproj5','rgb(255,192,0)','rgb(155,96,9)',75);
+
+				// Top Authenication Others graph
+				createprojectchart('chartprojOTH1','rgb(255,192,0)','rgb(155,96,9)',{% if verSkillsPercent == 0 %}0{% else %}{{ verSkillsPercent }}{% endif %});
+				createprojectchart('chartprojOTH2','rgb(70,99,17)','rgb(135,193,41)',{% if veracademicPercent == 0 %}0{% else %}{{ veracademicPercent }}{% endif %});
+				createprojectchart('chartprojOTH3','rgb(255,192,0)','rgb(155,96,9)',{% if vercertificationPercent == 0 %}0 {% else %}{{ vercertificationPercent }}{% endif %});
+				createprojectchart('chartprojOTH4','rgb(70,99,17)','rgb(135,193,41)',{% if vervolPercent == 0 %}0{% else %}{{ vervolPercent }}{% endif %});
+				createprojectchart('chartprojOTH5','rgb(255,192,0)','rgb(155,96,9)',{% if verhonorPercent == 0 %}0{% else %}{{ verhonorPercent }}{% endif %});
+				createprojectchart('chartprojOTH6','rgb(70,99,17)','rgb(135,193,41)',{% if verlanPercent == 0 %}0{% else %}{{ verlanPercent }}{% endif %});
+
+				
 				{% for ver in StudentPerformanceList %}
 				$('#chartproj{{forloop.counter}}').append('<br>{{ver.performance}}');
 				{% endfor %}
@@ -114,6 +138,16 @@ function validateForm()
 				//$('#chartproj4').append('<br>Design of Twitter website');
 				//$('#chartproj5').append('<br>Vine Consumer App');
 				// END Top 5 Dashboard graph
+
+
+				$('#chartprojOTH1').append('<br>My Skills');
+				$('#chartprojOTH2').append('<br>My Academics');
+				$('#chartprojOTH3').append('<br>My Associations / Certifications');
+				$('#chartprojOTH4').append('<br>My Volunteerships');
+				$('#chartprojOTH5').append('<br>My Honors/Awards');
+				$('#chartprojOTH6').append('<br>My Languages');
+
+				// END Top  Authenication Others graph
 
 				$(".rangeperc").each( function(){
 					var getperc = $(this).find('div span').html();
@@ -212,16 +246,16 @@ function validateForm()
 				<!-- USER PHOTO, NAME and Description -->
 				<div class="userphoto">
 					{% if student.image %}
-						<div><img src="/media/{{student.image}}" width="auto" height="180" border=0 alt=""></div>
+						<div><img src="/media/{{student.image}}" width="240" height="180" border=0 alt=""></div>
 					{% else %}
 						<div><img src="{% static 'images/default-user.jpg' %}" width="auto" height="180" border=0 alt=""></div>
 					{% endif %}
 
 					<h3>{{user.fName}}&nbsp;{{user.lName}} </h3>
 
+					Most Impressive Accomplishment:<br>
 					<textarea name="prof_description" id="prof_description" class="editablearea" rows="" cols="" rev="/student/edit-goalStatement/?stu_id={{request.session.userData.userId}}">{% if request.session.userData.goalStatement %}{{request.session.userData.goalStatement}}
-					{% else %}DESCRIPTION/SLOGAN {% endif %}
-					</textarea>
+					{% else %}{% endif %}</textarea>
 
 				</div>
 
@@ -290,8 +324,9 @@ function validateForm()
 				<div id="tabouter">
 						<ul class="tabsav">
 							<li class="active">Assessments</li>
-							<li>Authentications</li>
-							<li>Strengths</li>
+							<li>Authentications - Projects</li>
+							<li>Authentications - Others</li>
+							<!-- <li>Strengths</li> -->
 							<li>Challenges</li>
 						</ul>
 
@@ -338,9 +373,9 @@ function validateForm()
 						<!-- END ASSESSMENT TAB -->
 						
 						
-						<!-- VERIFICATION TAB -->
+						<!-- Authentications - Projects TAB -->
 						<div class="tabcontent fullborder">
-							<h4>Authentications</h4>
+							<h4>Authentications - Projects</h4>
 							<!-- // Top 5 Dashboard graph -->
 							{% for ver in StudentPerformanceList %}
 							<span id="chartproj{{forloop.counter}}"></span>
@@ -358,8 +393,20 @@ function validateForm()
 							  <div class="v_grid_col3_h grid_heading2">Recency (Days)</div>
 							  <div class="clearfix"></div>
 							</div>
-							<div id="contentlist2">
+							<!--div id="contentlist2">
 								{% for verObj in verificationDict_list %}
+								<div>
+								  <div class="v_grid_col1">{{verObj.verification_for.name}}&nbsp;</div>
+								  <div class="v_grid_col2">{{verObj.verified_by.fName}} &nbsp; {{verObj.verified_by.lName}}&nbsp;</div>
+								  <div class="v_grid_col3"> {% if verObj.days_passed > 0 %} {{verObj.days_passed}} {% else %} 0 {% endif %} &nbsp;</div>
+								  <div class="clearfix"></div>
+								</div>
+								{% endfor %}
+								
+
+							</div-->
+							<div id="contentlist2">
+								{% for verObj in verprolist %}
 								<div>
 								  <div class="v_grid_col1">{{verObj.verification_for.name}}&nbsp;</div>
 								  <div class="v_grid_col2">{{verObj.verified_by.fName}} &nbsp; {{verObj.verified_by.lName}}&nbsp;</div>
@@ -374,8 +421,59 @@ function validateForm()
 						</div>
 						<!-- END VERIFICATION TAB -->
 						
-						<!-- STRENGTH DASHBOARD TAB -->
+						
+						
+						
+						<!-- Authentications - Others TAB -->
 						<div class="tabcontent fullborder">
+							<h4>Authentications - Others</h4>
+							<!-- // Top Authentications - Others graph -->
+							<span id="chartprojOTH1"></span>
+							<span id="chartprojOTH2"></span>
+							<span id="chartprojOTH3"></span>
+							<div class="clearfix"></div>
+							<span id="chartprojOTH4"></span>
+							<span id="chartprojOTH5"></span>
+							<span id="chartprojOTH6"></span>
+							<!-- // END Top Authentications - Others graph -->
+
+							<div class="tabcontentpop"><div class="pop_close"></div>
+							<div class="grid_headingdiv">
+							  <div class="v_grid_col1_h grid_heading2">Authentication For</div>
+							  <div class="v_grid_col2_h grid_heading2 disable">Verified By</div>
+							  <div class="v_grid_col3_h grid_heading2">Recency (Days)</div>
+							  <div class="clearfix"></div>
+							</div>
+							<!--div id="contentlist2">
+								{% for verObj in verificationDict_list %}
+								<div>
+								  <div class="v_grid_col1">{{verObj.verification_for.name}}&nbsp;</div>
+								  <div class="v_grid_col2">{{verObj.verified_by.fName}} &nbsp; {{verObj.verified_by.lName}}&nbsp;</div>
+								  <div class="v_grid_col3"> {% if verObj.days_passed > 0 %} {{verObj.days_passed}} {% else %} 0 {% endif %} &nbsp;</div>
+								  <div class="clearfix"></div>
+								</div>
+								{% endfor %}
+								
+
+							</div-->
+							<div id="contentlist2">
+								{% for verObj in verothrlist %}
+								<div>
+								  <div class="v_grid_col1">{{verObj.verification_for.name}}&nbsp;</div>
+								  <div class="v_grid_col2">{{verObj.verified_by.fName}} &nbsp; {{verObj.verified_by.lName}}&nbsp;</div>
+								  <div class="v_grid_col3"> {% if verObj.days_passed > 0 %} {{verObj.days_passed}} {% else %} 0 {% endif %} &nbsp;</div>
+								  <div class="clearfix"></div>
+								</div>
+								{% endfor %}
+								
+
+							</div>
+							</div>
+						</div>
+						<!-- END Authentications - Others TAB -->
+						
+						<!-- STRENGTH DASHBOARD TAB -->
+						<!-- <div class="tabcontent fullborder">
 							<h4>Strengths</h4>
 							<div class="strengthchart"><img src="{% static 'images/Strengths_bargraph_blue.png' %}" width="38" height="141" border=0 alt=""><br>INDIVIDUALIZATION</div>
 							<div class="strengthchart"><img src="{% static 'images/Strengths_bargraph_green.png' %}" width="38" height="140" border=0 alt="" ><br>ACTIVATOR</div>
@@ -383,7 +481,7 @@ function validateForm()
 							<div class="strengthchart"><img src="{% static 'images/Strengths_bargraph_brown.png' %}" width="37" height="140" border=0 alt=""><br>FOCUS</div>
 							<div class="strengthchart"><img src="{% static 'images/Strengths_bargraph_red.png' %}" width="37" height="141" border=0 alt=""><br>LEADER</div>
 
-						</div>
+						</div> -->
 						<!-- END STRENGTH DASHBOARD TAB -->
 						
 						
@@ -419,8 +517,8 @@ function validateForm()
 
 				<div class="rightnav_content_new">
 					<h4>My Skills </h4>
-					<div class="rightnav_Containernew">
 					{% if skill_list %}
+					<div class="rightnav_Containernew">
 						{% for skill in skill_list %}
 							<div class="skillsInnerContainer">
 								<span><input type="text" name="skilldesc" value="{{skill.description}}" class="editableinput" rev="/student/skill/update/?skill_id={{skill.skillId}}">
@@ -445,7 +543,7 @@ function validateForm()
 							<a href="/student/update-goals/?goal_id={{goal.goalId}}" onclick="showpop(this.href); return false;"><span>{{goal.goalCriteria}}</span>
 							<div class="rangebar range1">
 									<input type="range" name="range_rate" id="range_rate" min="0" max="100" step="1" value="{{goal.percentMet}}" class="rangefield">
-							</div></a>
+							</div><p class="coverupgoal">&nbsp;</p></a>
 							<a href="/student/delete-goals/?goal_id={{goal.goalId}}" onclick="return false;" class="cancelbtnx"><img src="{% static 'images/icon-del.png' %}" width="15" height="15" border=0 alt="x"></a> 
 						</div>
 					{% endfor %}
@@ -460,9 +558,9 @@ function validateForm()
 				<div class="rightnav_content_new mgrtop20">
 				<form method=post action="" name="academicform" id="academicform">
 					<h4>My Academics</h4>
+						{% if academic_list %}
 					<div class="rightnav_Containernew">
 					<ul class="academicBackgroundUl">
-						{% if academic_list %}
 						{% for ace in academic_list %}
 						<li>
 						<span href="#" class="qualification"><input type="text" name="skilldesc" value="{{ace.degree}}" class="editableinput" rev="/student/academic/update/?ace_id={{ace.academicId}}"></span>
@@ -484,8 +582,8 @@ function validateForm()
 				<!-- Assessment tab data -->
 				<div class="rightnav_content_new">
 					<h4>My Associations / Certifications </h4>
-					<div class="rightnav_Containernew">
 					{% if certification_list %}
+					<div class="rightnav_Containernew">
 					{% for cert in certification_list %}
 						<div class="skillsInnerContainer"><span><input type="text" name="associatedesc" value="{{cert.description}}" class="editableinput" rev="/student/certification/update/?cert_id={{cert.membershipId}}">
 						<a href="/student/certification/delete/?cert_id={{cert.membershipId}}" onclick="return false;" class="cancelbtnx"><img src="{% static 'images/icon-del.png' %}" width="15" height="15" border=0 alt="x"></a>
@@ -503,8 +601,8 @@ function validateForm()
 
 				<div class="rightnav_content_new">
 					<h4>My Volunteer</h4>
-					<div class="rightnav_Containernew">
 					{% if volunteer_list %}
+					<div class="rightnav_Containernew">
 					{% for volunteer in volunteer_list %}
 						<div class="skillsInnerContainer"><span><input type="text" name="volunteerdesc" value="{{volunteer.name}}" class="editableinput" rev="/student/volunteer/update/?vol_id={{volunteer.volunteerId}}">
 						<a href="/student/volunteer/delete/?vol_id={{volunteer.volunteerId}}" onclick="return false;" class="cancelbtnx"><img src="{% static 'images/icon-del.png' %}" width="15" height="15" border=0 alt="x"></a>
@@ -522,8 +620,8 @@ function validateForm()
 
 				<div class="rightnav_content_new">
 					<h4>My Honors/Awards</h4>
-					<div class="rightnav_Containernew">
 					{% if honor_list %}
+					<div class="rightnav_Containernew">
 					{% for honor in honor_list %}
 						<div class="skillsInnerContainer"><span><input type="text" name="honordesc" value="{{honor.honor}}" class="editableinput" rev="/student/honor/update/?hon_id={{honor.honorId}}">
 						<a href="/student/honor/delete/?hon_id={{honor.honorId}}" onclick="return false;" class="cancelbtnx"><img src="{% static 'images/icon-del.png' %}" width="15" height="15" border=0 alt="x"></a>
@@ -541,8 +639,8 @@ function validateForm()
 
 				<div class="rightnav_content_new">
 					<h4>My Languages</h4>
-					<div class="rightnav_Containernew">
 					{% if language_list %}
+					<div class="rightnav_Containernew">
 					{% for lang in language_list %}
 						<div class="skillsInnerContainer"><span><input type="text" name="honordesc" value="{{lang.name}}" class="editableinput" rev="/student/language/update/?lang_id={{lang.languageId}}">
 						<a href="/student/language/delete/?lang_id={{lang.languageId}}" onclick="return false;" class="cancelbtnx"><img src="{% static 'images/icon-del.png' %}" width="15" height="15" border=0 alt="x"></a>

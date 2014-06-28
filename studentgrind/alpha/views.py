@@ -37,6 +37,7 @@ def home(request):
 		pass
 	status = request.GET.get('status')
 	pass_status = request.GET.get('pass_status')
+	role_choice = ROLE_CHOICES
 	return render(request,'index.html', locals())
 
 def about_us(request):
@@ -68,43 +69,43 @@ def join_studentgrind(request):
 		return render(request,'enterprise.html', {'userType':'Enterprise'})
 	
 def view_page (request, userId):
-    try:
-        user = User.objects.get(pk=userId)
-    except  User.DoesNotExist:
-        return render_to_response("create.html",{"userId": userId})
-    fname = user.fname
-    return render_to_response("view.html",{"userId":userId, "fname":fname})
-    
+	try:
+		user = User.objects.get(pk=userId)
+	except  User.DoesNotExist:
+		return render_to_response("create.html",{"userId": userId})
+	fname = user.fname
+	return render_to_response("view.html",{"userId":userId, "fname":fname})
+	
 def edit_page (request, userId):
-    logger.debug('inside Edit Page')
-    try:
-        user = User.objects.get(pk=userId)
-        fname = user.fname
-        userType = user.type
-        logger.debug('inside Edit Page - fname')
-    except User.DoesNotExist:
-        logger.debug('inside Edit Page - User Does not exist')
-        return render_to_response("create.html",{"userId": userId})
-    return render_to_response("edit.html",{"userId":userId, "fname":fname,"type":userType})
-    
+	logger.debug('inside Edit Page')
+	try:
+		user = User.objects.get(pk=userId)
+		fname = user.fname
+		userType = user.type
+		logger.debug('inside Edit Page - fname')
+	except User.DoesNotExist:
+		logger.debug('inside Edit Page - User Does not exist')
+		return render_to_response("create.html",{"userId": userId})
+	return render_to_response("edit.html",{"userId":userId, "fname":fname,"type":userType})
+	
 def save_page (request, userId):
-    fname = request.POST["fname"]
-    userType = request.POST["type"]
-    create_dt = datetime.datetime.now()
-    update_dt = datetime.datetime.now()
+	fname = request.POST["fname"]
+	userType = request.POST["type"]
+	create_dt = datetime.datetime.now()
+	update_dt = datetime.datetime.now()
 
-    try:
-        user = User.objects.get(pk=userId)
-        user.name = fname
-        user.type = userType
-    except User.DoesNotExist:
-        user = User(id=userId, fname=fname, type=userType, create_dt=create_dt,update_dt=update_dt)
-    user.save()
-    return HttpResponseRedirect("/studentgrind/" + userId + "/")
+	try:
+		user = User.objects.get(pk=userId)
+		user.name = fname
+		user.type = userType
+	except User.DoesNotExist:
+		user = User(id=userId, fname=fname, type=userType, create_dt=create_dt,update_dt=update_dt)
+	user.save()
+	return HttpResponseRedirect("/studentgrind/" + userId + "/")
 """
 def create_user (request, userId):
-    logger.debug('inside create_user')
-    if request.method == 'POST':
+	logger.debug('inside create_user')
+	if request.method == 'POST':
 		json_data = simplejson.loads(request.body)
 		logger.debug('Raw Data: "%s"' % json_data)
 		password = json_data['password']
@@ -136,22 +137,22 @@ def create_user (request, userId):
 			facebook = ''
 			linkedIn = ''
 			github = ''
-    # -- Remove comments above during actual integration = Test code
-    #logger.debug('inside POST')
-    #password = '1234'
-    #fName = 'CIT'
-    #lName = 'Edu'
-    #dob = '1942-01-01'
-    #userType = 'Institution'
-    #contactPhone = '310-212-2802'
-    #emailId = 'info@cit.edu'
-    #gender = 'NA'
-    #logger.debug('password: %s' %  password)
-    #createDate = datetime.datetime.now()
-    #facebook = 'info@cit.edu'
-    #linkedIn = 'info@cit.edu'
-    #github = 'info@cit.edu'
-    
+	# -- Remove comments above during actual integration = Test code
+	#logger.debug('inside POST')
+	#password = '1234'
+	#fName = 'CIT'
+	#lName = 'Edu'
+	#dob = '1942-01-01'
+	#userType = 'Institution'
+	#contactPhone = '310-212-2802'
+	#emailId = 'info@cit.edu'
+	#gender = 'NA'
+	#logger.debug('password: %s' %  password)
+	#createDate = datetime.datetime.now()
+	#facebook = 'info@cit.edu'
+	#linkedIn = 'info@cit.edu'
+	#github = 'info@cit.edu'
+	
 		try:
 			user = User.objects.get(pk=userId)
 			logger.debug('####### Create User');
@@ -187,7 +188,7 @@ def create_user (request, userId):
 			except Student.DoesNotExist:
 				student = Student(userId=user.userId, collegeName=collegeName, photo = photo, video = video)
 				logger.debug('####### Student not exists; created');
-			student.save()    
+			student.save()	
 		elif userType == 'Alumni':
 			mentorship = json_data['mentorship']
 			#mentorship = 'group'
@@ -208,7 +209,7 @@ def create_user (request, userId):
 				contactPhone = json_data['contactPhone']
 			except:
 				contactPhone = ''
-			contactEmailAddress = json_data['emailId']     
+			contactEmailAddress = json_data['emailId']	 
 			#image = request.FILES['image']
 			try:
 				image = json_data['image']
@@ -251,7 +252,7 @@ def create_user (request, userId):
 			
 		logger.debug('userId: %s' %  user.userId)
 		logger.debug('user emailId: %s' %  user.emailId)
-    return HttpResponseRedirect("/users/" + emailId)
+	return HttpResponseRedirect("/users/" + emailId)
 """
 
 ## New Function for implementing signup via popup and without json data.	
@@ -276,9 +277,9 @@ def check_validUser(request):
 
 @csrf_exempt
 def create_user (request, userId):
-    logger.debug('inside create_user')
-    key=request.GET.get('key')
-    if request.method == 'POST':
+	logger.debug('inside create_user')
+	key=request.GET.get('key')
+	if request.method == 'POST':
 		#logger.debug('Raw Data: "%s"' % request.POST.get)
 		password = request.POST.get('password')
 		try:
@@ -288,6 +289,7 @@ def create_user (request, userId):
 			fName = ''
 			lName = ''
 		userType = request.POST.get('type')
+		roletype = request.POST.get('role_type') or None
 		if userType !='Student':
 			try:
 				dob = request.POST.get('dob')
@@ -309,7 +311,7 @@ def create_user (request, userId):
 			facebook = ''
 			linkedIn = ''
 			github = ''
-    
+	
 		try:
 			user = User.objects.get(pk=userId)
 			logger.debug('####### Create User');
@@ -318,7 +320,8 @@ def create_user (request, userId):
 			if userType == 'Student':
 				user = User(emailId=emailId,fName=fName, lName=lName, password=password, type=userType,createDate=createDate, facebook=facebook, linkedIn=linkedIn, github=github)
 			if userType == 'Enterprise':
-				user = User(emailId=emailId, dob=dob, fName=fName, lName=lName, password=password, type=userType, contactPhone=contactPhone, gender=gender, createDate=createDate, facebook=facebook, linkedIn=linkedIn, github=github)
+				user = User(emailId=emailId, dob=dob, fName=fName, lName=lName, password=password, type=userType,
+				role = roletype, contactPhone=contactPhone, gender=gender, createDate=createDate, facebook=facebook, linkedIn=linkedIn, github=github)
 			if userType == 'Candidate':
 				user = User(emailId=emailId, dob=dob, fName=fName, lName=lName, password=password, type=userType, contactPhone=contactPhone, gender=gender, createDate=createDate, facebook=facebook, linkedIn=linkedIn, github=github)
 		user.save()
@@ -372,7 +375,7 @@ def create_user (request, userId):
 				contactPhone = request.POST.get('contactPhone')
 			except:
 				contactPhone = ''
-			contactEmailAddress = request.POST.get('emailId')     
+			contactEmailAddress = request.POST.get('emailId')	 
 			#image = request.FILES('image')
 			try:
 				image = request.POST.get('image')
@@ -394,688 +397,688 @@ def create_user (request, userId):
 			res = {'success':True, 'msg':msg}
 			return HttpResponse(json.dumps(res), mimetype = "application/json")
 			
-    return redirect("/landing_page/")
+	return redirect("/landing_page/")
 	
 	
 	
 	
 def update_user (request, userId):
-    logger.debug('inside update_user')
-    logger.debug('------------')
-    #if request.method == 'PUT':
-    #json_data = simplejson.loads(request.body)
-    #logger.debug('Raw Data: "%s"' % json_data)
-    #emailId = json_data['emailId']
-    #password = json_data['password']
-    #createDate = datetime.datetime.now()
-    #contactPhone = json_data['contactPhone']
-    #fName = json_data['fName']
-    #lName = json_data['lName']
-    #userType = json_data['type']
-    
-    # -- Remove comments above during actual integration
-    #createDate = datetime.datetime.now()
-    lName = 'Vijay'
-    userType = 'Student'
-    createDate = datetime.datetime.now()
+	logger.debug('inside update_user')
+	logger.debug('------------')
+	#if request.method == 'PUT':
+	#json_data = simplejson.loads(request.body)
+	#logger.debug('Raw Data: "%s"' % json_data)
+	#emailId = json_data['emailId']
+	#password = json_data['password']
+	#createDate = datetime.datetime.now()
+	#contactPhone = json_data['contactPhone']
+	#fName = json_data['fName']
+	#lName = json_data['lName']
+	#userType = json_data['type']
+	
+	# -- Remove comments above during actual integration
+	#createDate = datetime.datetime.now()
+	lName = 'Vijay'
+	userType = 'Student'
+	createDate = datetime.datetime.now()
 
-    try:
-        user = User.objects.get(pk=userId)
-        logger.debug('####### Update User');
-    except User.DoesNotExist:
-        logger.debug('####### Update User - USER NOT FOUND userId: %s' %  userId);
-        #user = User(emailId=emailId, fName=fName, lName=lName, password=password, contactPhone=contactPhone, createDate=createDate)
-        user = User(lName=lName, createDate=createDate)
-    #user.fName = fName
-    user.lName = lName
-    user.save()
-    
-    # Create entry in Student, Alumni, Enterprise or Institution table based "user type"
-    if userType == 'Student':
-        #collegeName = json_data['collegeName']
-        collegeName = 'MIT'
-        try:
-            student = Student.objects.get(pk=userId)
-            student.collegeName = collegeName
-            logger.debug('####### Student exists');
-        except Student.DoesNotExist:
-            student = Student(userId=user.userId, collegeName=collegeName)
-            logger.debug('####### Student not exists; created');
-        student.save()    
-    elif userType == 'Alumni':
-        #mentorship = json_data['mentorship']
-        mentorship = 'no'
-        try:
-            alumni = Alumni.objects.get(pk=userId)
-            alumni.mentorship = mentorship
-            logger.debug('####### Alumni exists');
-        except Alumni.DoesNotExist:
-            alumni = Alumni(userId=user.userId, mentorship=mentorship)
-        alumni.save()
+	try:
+		user = User.objects.get(pk=userId)
+		logger.debug('####### Update User');
+	except User.DoesNotExist:
+		logger.debug('####### Update User - USER NOT FOUND userId: %s' %  userId);
+		#user = User(emailId=emailId, fName=fName, lName=lName, password=password, contactPhone=contactPhone, createDate=createDate)
+		user = User(lName=lName, createDate=createDate)
+	#user.fName = fName
+	user.lName = lName
+	user.save()
+	
+	# Create entry in Student, Alumni, Enterprise or Institution table based "user type"
+	if userType == 'Student':
+		#collegeName = json_data['collegeName']
+		collegeName = 'MIT'
+		try:
+			student = Student.objects.get(pk=userId)
+			student.collegeName = collegeName
+			logger.debug('####### Student exists');
+		except Student.DoesNotExist:
+			student = Student(userId=user.userId, collegeName=collegeName)
+			logger.debug('####### Student not exists; created');
+		student.save()	
+	elif userType == 'Alumni':
+		#mentorship = json_data['mentorship']
+		mentorship = 'no'
+		try:
+			alumni = Alumni.objects.get(pk=userId)
+			alumni.mentorship = mentorship
+			logger.debug('####### Alumni exists');
+		except Alumni.DoesNotExist:
+			alumni = Alumni(userId=user.userId, mentorship=mentorship)
+		alumni.save()
 
-    return HttpResponseRedirect("/users/" + userId)
+	return HttpResponseRedirect("/users/" + userId)
 
 def create_performance (request, performanceId):
-    logger.debug('inside create_performance')
-    #if request.method == 'POST':
-    #json_data = simplejson.loads(request.body)
-    #logger.debug('Raw Data: "%s"' % json_data)
-    #userId = json_data['userId']
-    #description = json_data['description']
-    #video = json_data['video']
-    #doc = json_data['doc']
-    verificationId = '0'
-    performanceScore = '0'
-    
-    # -- Remove comments above during actual integration = Test code
-    logger.debug('inside POST')
-    description = 'Lead mobile strategy through technology and marketing research'
-    video = 'Sample Video'
-    doc = 'Edu'
-    userId = '9'
-    verificationId = '0'
-    performanceScore = '0'
+	logger.debug('inside create_performance')
+	#if request.method == 'POST':
+	#json_data = simplejson.loads(request.body)
+	#logger.debug('Raw Data: "%s"' % json_data)
+	#userId = json_data['userId']
+	#description = json_data['description']
+	#video = json_data['video']
+	#doc = json_data['doc']
+	verificationId = '0'
+	performanceScore = '0'
+	
+	# -- Remove comments above during actual integration = Test code
+	logger.debug('inside POST')
+	description = 'Lead mobile strategy through technology and marketing research'
+	video = 'Sample Video'
+	doc = 'Edu'
+	userId = '9'
+	verificationId = '0'
+	performanceScore = '0'
 
-    try:
-        performance = Performance.objects.get(pk=performanceId)
-        logger.debug('####### Create performance');
-    except Performance.DoesNotExist:
-        logger.debug('####### Create performance- User NOT FOUND');
-        performance = Performance(performanceId=performanceId, description=description, video=video, doc=doc, userId=userId, verificationId=verificationId, performanceScore=performanceScore)
-    performance.save()
-    return HttpResponseRedirect("/performances/" + performanceId)
+	try:
+		performance = Performance.objects.get(pk=performanceId)
+		logger.debug('####### Create performance');
+	except Performance.DoesNotExist:
+		logger.debug('####### Create performance- User NOT FOUND');
+		performance = Performance(performanceId=performanceId, description=description, video=video, doc=doc, userId=userId, verificationId=verificationId, performanceScore=performanceScore)
+	performance.save()
+	return HttpResponseRedirect("/performances/" + performanceId)
 
 def update_performance (request, performanceId):
-    logger.debug('inside update_performance')
-    logger.debug('------------')
-    #if request.method == 'PUT':
-    #json_data = simplejson.loads(request.body)
-    #logger.debug('Raw Data: "%s"' % json_data)
-    #userId = json_data['userId']
-    #description = json_data['description']
-    #video = json_data['video']
-    #doc = json_data['doc']
-    #verificationId = '0'
-    #performanceScore = '0'
-    
-    # -- Remove comments above during actual integration
-    #createDate = datetime.datetime.now()
-    description = 'Lead mobile strategy through technology and marketing research'
-    video = 'Strategy Video'
-    doc = 'Mobile Design Guide'
-    userId = '9'
-    verificationId = '0'
-    performanceScore = '0'
+	logger.debug('inside update_performance')
+	logger.debug('------------')
+	#if request.method == 'PUT':
+	#json_data = simplejson.loads(request.body)
+	#logger.debug('Raw Data: "%s"' % json_data)
+	#userId = json_data['userId']
+	#description = json_data['description']
+	#video = json_data['video']
+	#doc = json_data['doc']
+	#verificationId = '0'
+	#performanceScore = '0'
+	
+	# -- Remove comments above during actual integration
+	#createDate = datetime.datetime.now()
+	description = 'Lead mobile strategy through technology and marketing research'
+	video = 'Strategy Video'
+	doc = 'Mobile Design Guide'
+	userId = '9'
+	verificationId = '0'
+	performanceScore = '0'
 
-    try:
-        performance = Performance.objects.get(pk=performanceId)
-        logger.debug('####### Update performance');
-    except Performance.DoesNotExist:
-        logger.debug('####### Create performance- User NOT FOUND');
-        performance = Performance(performanceId=performanceId, description=description, video=video, doc=doc, userId=userId, verificationId=verificationId, performanceScore=performanceScore)
-    #user.fName = fName
-    performance.description = description
-    performance.video = video
-    performance.doc = doc
-    performance.save()
-    return HttpResponseRedirect("/performances/" + performanceId)
+	try:
+		performance = Performance.objects.get(pk=performanceId)
+		logger.debug('####### Update performance');
+	except Performance.DoesNotExist:
+		logger.debug('####### Create performance- User NOT FOUND');
+		performance = Performance(performanceId=performanceId, description=description, video=video, doc=doc, userId=userId, verificationId=verificationId, performanceScore=performanceScore)
+	#user.fName = fName
+	performance.description = description
+	performance.video = video
+	performance.doc = doc
+	performance.save()
+	return HttpResponseRedirect("/performances/" + performanceId)
 
 def delete_performance (request, performanceId):
-    logger.debug('inside delete_performance')
-    logger.debug('------------')
+	logger.debug('inside delete_performance')
+	logger.debug('------------')
 
-    try:
-        performance = Performance.objects.get(pk=performanceId)
-        logger.debug('####### Delete performance');
-    except Performance.DoesNotExist:
-        logger.debug('####### Performance not found');
-    
-    performance.delete()    
-    return HttpResponseRedirect("/performances/" + performanceId)
+	try:
+		performance = Performance.objects.get(pk=performanceId)
+		logger.debug('####### Delete performance');
+	except Performance.DoesNotExist:
+		logger.debug('####### Performance not found');
+	
+	performance.delete()	
+	return HttpResponseRedirect("/performances/" + performanceId)
 
 def create_accomplishment (request, accomplishmentId):
-    logger.debug('inside create_accomplishment')
-    #if request.method == 'POST':
-    #json_data = simplejson.loads(request.body)
-    #logger.debug('Raw Data: "%s"' % json_data)
-    #userId = json_data['userId']
-    #description = json_data['description']
-    
-    # -- Remove comments above during actual integration = Test code
-    logger.debug('inside POST')
-    description = 'Launched Facebook App for Android'
-    userId = '9'
+	logger.debug('inside create_accomplishment')
+	#if request.method == 'POST':
+	#json_data = simplejson.loads(request.body)
+	#logger.debug('Raw Data: "%s"' % json_data)
+	#userId = json_data['userId']
+	#description = json_data['description']
+	
+	# -- Remove comments above during actual integration = Test code
+	logger.debug('inside POST')
+	description = 'Launched Facebook App for Android'
+	userId = '9'
 
-    try:
-        accomplishment = Accomplishment.objects.get(pk=accomplishmentId)
-        logger.debug('####### Create accomplishment');
-    except Accomplishment.DoesNotExist:
-        logger.debug('####### Create accomplishment- User NOT FOUND');
-        accomplishment = Accomplishment(accomplishmentId=accomplishmentId, description=description, userId=userId)
-    accomplishment.save()
-    return HttpResponseRedirect("/accomplishments/" + accomplishmentId)
+	try:
+		accomplishment = Accomplishment.objects.get(pk=accomplishmentId)
+		logger.debug('####### Create accomplishment');
+	except Accomplishment.DoesNotExist:
+		logger.debug('####### Create accomplishment- User NOT FOUND');
+		accomplishment = Accomplishment(accomplishmentId=accomplishmentId, description=description, userId=userId)
+	accomplishment.save()
+	return HttpResponseRedirect("/accomplishments/" + accomplishmentId)
 
 def update_accomplishment (request, accomplishmentId):
-    logger.debug('inside update_accomplishment')
-    logger.debug('------------')
-    #if request.method == 'PUT':
-    #json_data = simplejson.loads(request.body)
-    #logger.debug('Raw Data: "%s"' % json_data)
-    #userId = json_data['userId']
-    #description = json_data['description']
-    
-    # -- Remove comments above during actual integration
-    #createDate = datetime.datetime.now()
-    description = 'Launched Facebook app for iPads'
-    userId = '9'
+	logger.debug('inside update_accomplishment')
+	logger.debug('------------')
+	#if request.method == 'PUT':
+	#json_data = simplejson.loads(request.body)
+	#logger.debug('Raw Data: "%s"' % json_data)
+	#userId = json_data['userId']
+	#description = json_data['description']
+	
+	# -- Remove comments above during actual integration
+	#createDate = datetime.datetime.now()
+	description = 'Launched Facebook app for iPads'
+	userId = '9'
 
-    try:
-        accomplishment = Accomplishment.objects.get(pk=accomplishmentId)
-        logger.debug('####### Update accomplishment');
-    except Accomplishment.DoesNotExist:
-        logger.debug('####### Create accomplishment- User NOT FOUND');
-        accomplishment = Accomplishment(accomplishmentId=accomplishmentId, description=description, userId=userId)
-    #user.fName = fName
-    accomplishment.description = description
-    accomplishment.save()
-    return HttpResponseRedirect("/accomplishments/" + accomplishmentId)
+	try:
+		accomplishment = Accomplishment.objects.get(pk=accomplishmentId)
+		logger.debug('####### Update accomplishment');
+	except Accomplishment.DoesNotExist:
+		logger.debug('####### Create accomplishment- User NOT FOUND');
+		accomplishment = Accomplishment(accomplishmentId=accomplishmentId, description=description, userId=userId)
+	#user.fName = fName
+	accomplishment.description = description
+	accomplishment.save()
+	return HttpResponseRedirect("/accomplishments/" + accomplishmentId)
 
 def delete_accomplishment (request, accomplishmentId):
-    logger.debug('inside delete_accomplishment')
-    logger.debug('------------')
+	logger.debug('inside delete_accomplishment')
+	logger.debug('------------')
 
-    try:
-        accomplishment = Accomplishment.objects.get(pk=accomplishmentId)
-        logger.debug('####### Delete accomplishment');
-    except Accomplishment.DoesNotExist:
-        logger.debug('####### Accomplishment not found');
-    
-    accomplishment.delete()    
-    return HttpResponseRedirect("/memberships/" + accomplishmentId)
+	try:
+		accomplishment = Accomplishment.objects.get(pk=accomplishmentId)
+		logger.debug('####### Delete accomplishment');
+	except Accomplishment.DoesNotExist:
+		logger.debug('####### Accomplishment not found');
+	
+	accomplishment.delete()	
+	return HttpResponseRedirect("/memberships/" + accomplishmentId)
 
 def create_membership (request, membershipId):
-    logger.debug('inside create_membership')
-    #if request.method == 'POST':
-    #json_data = simplejson.loads(request.body)
-    #logger.debug('Raw Data: "%s"' % json_data)
-    #userId = json_data['userId']
-    #description = json_data['description']
-    
-    # -- Remove comments above during actual integration = Test code
-    logger.debug('inside POST')
-    description = 'Joined Y-combinator startup program'
-    userId = '9'
+	logger.debug('inside create_membership')
+	#if request.method == 'POST':
+	#json_data = simplejson.loads(request.body)
+	#logger.debug('Raw Data: "%s"' % json_data)
+	#userId = json_data['userId']
+	#description = json_data['description']
+	
+	# -- Remove comments above during actual integration = Test code
+	logger.debug('inside POST')
+	description = 'Joined Y-combinator startup program'
+	userId = '9'
 
-    try:
-        membership = Membership.objects.get(pk=membershipId)
-        logger.debug('####### Create membership');
-    except Membership.DoesNotExist:
-        logger.debug('####### Create membership- User NOT FOUND');
-        membership = Membership(membershipId=membershipId, description=description, userId=userId)
-    membership.save()
-    return HttpResponseRedirect("/memberships/" + membershipId)
+	try:
+		membership = Membership.objects.get(pk=membershipId)
+		logger.debug('####### Create membership');
+	except Membership.DoesNotExist:
+		logger.debug('####### Create membership- User NOT FOUND');
+		membership = Membership(membershipId=membershipId, description=description, userId=userId)
+	membership.save()
+	return HttpResponseRedirect("/memberships/" + membershipId)
 
 def update_membership (request, membershipId):
-    logger.debug('inside update_membership')
-    logger.debug('------------')
-    #if request.method == 'PUT':
-    #json_data = simplejson.loads(request.body)
-    #logger.debug('Raw Data: "%s"' % json_data)
-    #userId = json_data['userId']
-    #description = json_data['description']
-    
-    # -- Remove comments above during actual integration
-    #createDate = datetime.datetime.now()
-    description = 'Joined Google Venture incubator program'
-    userId = '9'
+	logger.debug('inside update_membership')
+	logger.debug('------------')
+	#if request.method == 'PUT':
+	#json_data = simplejson.loads(request.body)
+	#logger.debug('Raw Data: "%s"' % json_data)
+	#userId = json_data['userId']
+	#description = json_data['description']
+	
+	# -- Remove comments above during actual integration
+	#createDate = datetime.datetime.now()
+	description = 'Joined Google Venture incubator program'
+	userId = '9'
 
-    try:
-        membership = Membership.objects.get(pk=membershipId)
-        logger.debug('####### Update membership');
-    except Membership.DoesNotExist:
-        logger.debug('####### Update membership- User NOT FOUND');
-        membership = Membership(membershipId=membershipId, description=description, userId=userId)
-    #user.fName = fName
-    membership.description = description
-    membership.save()
-    return HttpResponseRedirect("/memberships/" + membershipId)
+	try:
+		membership = Membership.objects.get(pk=membershipId)
+		logger.debug('####### Update membership');
+	except Membership.DoesNotExist:
+		logger.debug('####### Update membership- User NOT FOUND');
+		membership = Membership(membershipId=membershipId, description=description, userId=userId)
+	#user.fName = fName
+	membership.description = description
+	membership.save()
+	return HttpResponseRedirect("/memberships/" + membershipId)
 
 def delete_membership (request, membershipId):
-    logger.debug('inside delete_membership')
-    logger.debug('------------')
+	logger.debug('inside delete_membership')
+	logger.debug('------------')
 
-    try:
-        membership = Membership.objects.get(pk=membershipId)
-        logger.debug('####### Delete membership');
-    except Membership.DoesNotExist:
-        logger.debug('####### Membership not found');
-    
-    membership.delete()    
-    return HttpResponseRedirect("/memberships/" + membershipId)
-        
+	try:
+		membership = Membership.objects.get(pk=membershipId)
+		logger.debug('####### Delete membership');
+	except Membership.DoesNotExist:
+		logger.debug('####### Membership not found');
+	
+	membership.delete()	
+	return HttpResponseRedirect("/memberships/" + membershipId)
+		
 def create_payment (request, paymentId):
-    logger.debug('inside create_payment')
-    #if request.method == 'POST':
-    #json_data = simplejson.loads(request.body)
-    #logger.debug('Raw Data: "%s"' % json_data)
-    #userId = json_data['userId']
-    #description = json_data['description']
-    #createDate = datetime.datetime.now()
-    #sequence = json_data['sequence']
-    #paymentType = json_data['paymentType']
-    #paymentNumber = json_data['paymentNumber']
-    #expiration = json_data['expiration']
-    #cvv = json_data['cvv']
-        
-    # -- Remove comments above during actual integration = Test code
-    logger.debug('inside POST')
-    createDate = datetime.datetime.now()
-    userId = '9'
-    sequence = '1'
-    paymentType = 'Visa'
-    paymentNumber = '4388570012341000'
-    expiration = '01/2014'
-    cvv = '100'
+	logger.debug('inside create_payment')
+	#if request.method == 'POST':
+	#json_data = simplejson.loads(request.body)
+	#logger.debug('Raw Data: "%s"' % json_data)
+	#userId = json_data['userId']
+	#description = json_data['description']
+	#createDate = datetime.datetime.now()
+	#sequence = json_data['sequence']
+	#paymentType = json_data['paymentType']
+	#paymentNumber = json_data['paymentNumber']
+	#expiration = json_data['expiration']
+	#cvv = json_data['cvv']
+		
+	# -- Remove comments above during actual integration = Test code
+	logger.debug('inside POST')
+	createDate = datetime.datetime.now()
+	userId = '9'
+	sequence = '1'
+	paymentType = 'Visa'
+	paymentNumber = '4388570012341000'
+	expiration = '01/2014'
+	cvv = '100'
 
-    try:
-        payment = Payment.objects.get(pk=paymentId)
-        logger.debug('####### Create payment');
-    except Payment.DoesNotExist:
-        logger.debug('####### Create payment- User NOT FOUND');
-        payment = Payment(createDate=createDate, userId=userId, sequence=sequence, paymentType=paymentType, paymentNumber=paymentNumber, expiration=expiration, cvv=cvv)
-    payment.save()
-    return HttpResponseRedirect("/payments/" + paymentId)
+	try:
+		payment = Payment.objects.get(pk=paymentId)
+		logger.debug('####### Create payment');
+	except Payment.DoesNotExist:
+		logger.debug('####### Create payment- User NOT FOUND');
+		payment = Payment(createDate=createDate, userId=userId, sequence=sequence, paymentType=paymentType, paymentNumber=paymentNumber, expiration=expiration, cvv=cvv)
+	payment.save()
+	return HttpResponseRedirect("/payments/" + paymentId)
 
 def update_payment (request, paymentId):
-    logger.debug('inside update_payment')
-    logger.debug('------------')
-    #if request.method == 'PUT':
-    #json_data = simplejson.loads(request.body)
-    #logger.debug('Raw Data: "%s"' % json_data)
-    #userId = json_data['userId']
-    #description = json_data['description']
-    
-    # -- Remove comments above during actual integration
-    #createDate = datetime.datetime.now()
-    paymentNumber = '4388010120202000'
-    expiration = '03/2015'
-    cvv = '010'
-    userId = '9'
+	logger.debug('inside update_payment')
+	logger.debug('------------')
+	#if request.method == 'PUT':
+	#json_data = simplejson.loads(request.body)
+	#logger.debug('Raw Data: "%s"' % json_data)
+	#userId = json_data['userId']
+	#description = json_data['description']
+	
+	# -- Remove comments above during actual integration
+	#createDate = datetime.datetime.now()
+	paymentNumber = '4388010120202000'
+	expiration = '03/2015'
+	cvv = '010'
+	userId = '9'
 
-    try:
-        payment = Payment.objects.get(pk=paymentId)
-        logger.debug('####### Update payment');
-    except Payment.DoesNotExist:
-        logger.debug('####### Update payment- User NOT FOUND');
-        payment = Payment(paymentId=paymentId, userId=userId)
-    #user.fName = fName
-    payment.paymentNumber = paymentNumber
-    payment.expiration = expiration
-    payment.cvv = cvv
-    payment.save()
-    return HttpResponseRedirect("/payments/" + paymentId)
+	try:
+		payment = Payment.objects.get(pk=paymentId)
+		logger.debug('####### Update payment');
+	except Payment.DoesNotExist:
+		logger.debug('####### Update payment- User NOT FOUND');
+		payment = Payment(paymentId=paymentId, userId=userId)
+	#user.fName = fName
+	payment.paymentNumber = paymentNumber
+	payment.expiration = expiration
+	payment.cvv = cvv
+	payment.save()
+	return HttpResponseRedirect("/payments/" + paymentId)
 
 def request_verification (request, verificationId):
-    logger.debug('inside request_verification')
-    #if request.method == 'PUT':
-    #json_data = simplejson.loads(request.body)
-    #logger.debug('Raw Data: "%s"' % json_data)
-    #fName = json_data['fName']
-    #lName = json_data['lName']
-    #emailId = json_data['emailId']
-    #userId = json_data['userId']
-    #verifierId = json_data['verifierId']
-    #verificationDescription = json_data['verificationDescription']
-    #performanceId = json_data['performanceId']
-    #verifyType = json_data['verifyType']
-    userType = 'Verifier'
-    password = 'TempPass1#'
-    createDate = datetime.datetime.now()
+	logger.debug('inside request_verification')
+	#if request.method == 'PUT':
+	#json_data = simplejson.loads(request.body)
+	#logger.debug('Raw Data: "%s"' % json_data)
+	#fName = json_data['fName']
+	#lName = json_data['lName']
+	#emailId = json_data['emailId']
+	#userId = json_data['userId']
+	#verifierId = json_data['verifierId']
+	#verificationDescription = json_data['verificationDescription']
+	#performanceId = json_data['performanceId']
+	#verifyType = json_data['verifyType']
+	userType = 'Verifier'
+	password = 'TempPass1#'
+	createDate = datetime.datetime.now()
 
-    # -- Remove comments above during actual integration
-    #createDate = datetime.datetime.now()
-    verifierId = '17'
-    fName = 'John'
-    lName = 'Doe'
-    emailId = 'jdoe@stanford.edu'
-    verificationDescription = 'I request you to verify the Individual study i successfully completed with you in 2009 for Python programming skills'
-    status = 'Requested'
-    userId = '9'
-    performanceId = '2'
-    verifyType = 'Skill'
+	# -- Remove comments above during actual integration
+	#createDate = datetime.datetime.now()
+	verifierId = '17'
+	fName = 'John'
+	lName = 'Doe'
+	emailId = 'jdoe@stanford.edu'
+	verificationDescription = 'I request you to verify the Individual study i successfully completed with you in 2009 for Python programming skills'
+	status = 'Requested'
+	userId = '9'
+	performanceId = '2'
+	verifyType = 'Skill'
 
-    #if verifierId =='':
-    try:
-        user = User(fName=fName, lName=lName, emailId=emailId, type=userType, password=password, createDate=createDate)
-        user.save()
-    except:
-        logger.debug('####### except');
-        user = User.objects.get(pk=verifierId)
-        logger.debug('####### Create User');
-    
-    try:
-        verification = Verification.objects.get(pk=verificationId)
-        logger.debug('####### Create Verification');
-    except Verification.DoesNotExist:
-        logger.debug('####### Create Verification- Verification NOT FOUND');
-        verification = Verification(verifiedFor=userId, verifiedBy=user.userId, verificationDescription=verificationDescription, status=status, verifiedDate=createDate)
-    verification.save()
-    
-    if verifyType == 'Performance':
-        try:
-            performance = Performance.objects.get(pk=performanceId)
-            logger.debug('####### Got Performance');
-        except:
-            logger.debug('####### Unable to find Performance');
-            
-        performance.verificationId = verification.verificationId 
-        performance.save()   
-    else:
-        try:
-            skill = Skill.objects.get(pk=performanceId)
-            logger.debug('####### Got Skill');
-        except:
-            logger.debug('####### Unable to find Skill');
-            
-        skill.verificationId = verification.verificationId 
-        skill.save()   
-    return HttpResponseRedirect("/verification/" + verificationId)
+	#if verifierId =='':
+	try:
+		user = User(fName=fName, lName=lName, emailId=emailId, type=userType, password=password, createDate=createDate)
+		user.save()
+	except:
+		logger.debug('####### except');
+		user = User.objects.get(pk=verifierId)
+		logger.debug('####### Create User');
+	
+	try:
+		verification = Verification.objects.get(pk=verificationId)
+		logger.debug('####### Create Verification');
+	except Verification.DoesNotExist:
+		logger.debug('####### Create Verification- Verification NOT FOUND');
+		verification = Verification(verifiedFor=userId, verifiedBy=user.userId, verificationDescription=verificationDescription, status=status, verifiedDate=createDate)
+	verification.save()
+	
+	if verifyType == 'Performance':
+		try:
+			performance = Performance.objects.get(pk=performanceId)
+			logger.debug('####### Got Performance');
+		except:
+			logger.debug('####### Unable to find Performance');
+			
+		performance.verificationId = verification.verificationId 
+		performance.save()   
+	else:
+		try:
+			skill = Skill.objects.get(pk=performanceId)
+			logger.debug('####### Got Skill');
+		except:
+			logger.debug('####### Unable to find Skill');
+			
+		skill.verificationId = verification.verificationId 
+		skill.save()   
+	return HttpResponseRedirect("/verification/" + verificationId)
 
 def create_skill (request, skillId):
-    logger.debug('inside create_skill')
-    #if request.method == 'POST':
-    #json_data = simplejson.loads(request.body)
-    #logger.debug('Raw Data: "%s"' % json_data)
-    #userId = json_data['userId']
-    #description = json_data['description']
-    
-    # -- Remove comments above during actual integration = Test code
-    logger.debug('inside POST')
-    description = 'Python programming'
-    userId = '9'
-    verificationId = '0'
-    skillScore = '0'
+	logger.debug('inside create_skill')
+	#if request.method == 'POST':
+	#json_data = simplejson.loads(request.body)
+	#logger.debug('Raw Data: "%s"' % json_data)
+	#userId = json_data['userId']
+	#description = json_data['description']
+	
+	# -- Remove comments above during actual integration = Test code
+	logger.debug('inside POST')
+	description = 'Python programming'
+	userId = '9'
+	verificationId = '0'
+	skillScore = '0'
 
-    try:
-        skill = Skill.objects.get(pk=skillId)
-        logger.debug('####### Create membership');
-    except Skill.DoesNotExist:
-        logger.debug('####### Create skill- User NOT FOUND');
-        skill = Skill(skillId=skillId, description=description, userId=userId, verificationId=verificationId, skillScore=skillScore)
-    skill.save()
-    return HttpResponseRedirect("/skills/" + skillId)
+	try:
+		skill = Skill.objects.get(pk=skillId)
+		logger.debug('####### Create membership');
+	except Skill.DoesNotExist:
+		logger.debug('####### Create skill- User NOT FOUND');
+		skill = Skill(skillId=skillId, description=description, userId=userId, verificationId=verificationId, skillScore=skillScore)
+	skill.save()
+	return HttpResponseRedirect("/skills/" + skillId)
 
 def update_skill (request, skillId):
-    logger.debug('inside update_skill')
-    logger.debug('------------')
-    #if request.method == 'PUT':
-    #json_data = simplejson.loads(request.body)
-    #logger.debug('Raw Data: "%s"' % json_data)
-    #userId = json_data['userId']
-    #description = json_data['description']
-    #verificationId = json_data['verificationId']
-    #skillScore = json_data['skillScore']
-    
-    # -- Remove comments above during actual integration
-    #createDate = datetime.datetime.now()
-    description = 'Hive Development'
-    userId = '9'
-    verificationId = '0'
-    skillScore = '0'
+	logger.debug('inside update_skill')
+	logger.debug('------------')
+	#if request.method == 'PUT':
+	#json_data = simplejson.loads(request.body)
+	#logger.debug('Raw Data: "%s"' % json_data)
+	#userId = json_data['userId']
+	#description = json_data['description']
+	#verificationId = json_data['verificationId']
+	#skillScore = json_data['skillScore']
+	
+	# -- Remove comments above during actual integration
+	#createDate = datetime.datetime.now()
+	description = 'Hive Development'
+	userId = '9'
+	verificationId = '0'
+	skillScore = '0'
 
-    try:
-        skill = Skill.objects.get(pk=skillId)
-        logger.debug('####### Update skill');
-    except Skill.DoesNotExist:
-        logger.debug('####### Update skill- User NOT FOUND');
-        skill = Skill(skillId=skillId, description=description, userId=userId, verificationId=verificationId, skillScore=skillScore)
-    #user.fName = fName
-    skill.description = description
-    skill.save()
-    return HttpResponseRedirect("/skills/" + skillId)
+	try:
+		skill = Skill.objects.get(pk=skillId)
+		logger.debug('####### Update skill');
+	except Skill.DoesNotExist:
+		logger.debug('####### Update skill- User NOT FOUND');
+		skill = Skill(skillId=skillId, description=description, userId=userId, verificationId=verificationId, skillScore=skillScore)
+	#user.fName = fName
+	skill.description = description
+	skill.save()
+	return HttpResponseRedirect("/skills/" + skillId)
 
 def delete_skill (request, skillId):
-    logger.debug('inside delete_skill')
-    logger.debug('------------')
+	logger.debug('inside delete_skill')
+	logger.debug('------------')
 
-    try:
-        skill = Skill.objects.get(pk=skillId)
-        logger.debug('####### Delete skill');
-    except Skill.DoesNotExist:
-        logger.debug('####### Skill not found');
-    
-    skill.delete()    
-    return HttpResponseRedirect("/skills/" + skillId)
+	try:
+		skill = Skill.objects.get(pk=skillId)
+		logger.debug('####### Delete skill');
+	except Skill.DoesNotExist:
+		logger.debug('####### Skill not found');
+	
+	skill.delete()	
+	return HttpResponseRedirect("/skills/" + skillId)
 
 def create_academic (request, academicId):
-    logger.debug('inside create_academic')
-    #if request.method == 'POST':
-    #json_data = simplejson.loads(request.body)
-    #logger.debug('Raw Data: "%s"' % json_data)
-    #userId = json_data['userId']
-    #institutionId = json_data['institutionId']
-    #degree = json_data['degree']
-    #graduationScore = json_data['graduationScore']
-    #verifiedBy = json_data['verifiedBy']
-    #verifiedDate = json_data['verifiedDate']
-    #academicScore = json_data['academicScore']
-    
-    # -- Remove comments above during actual integration = Test code
-    logger.debug('inside POST')
-    userId = '9'
-    institutionId = '16'
-    degree = 'Bach of Engineering'
-    graduationScore = '0'
-    verificationId = '0'
-    academicScore = '0'
+	logger.debug('inside create_academic')
+	#if request.method == 'POST':
+	#json_data = simplejson.loads(request.body)
+	#logger.debug('Raw Data: "%s"' % json_data)
+	#userId = json_data['userId']
+	#institutionId = json_data['institutionId']
+	#degree = json_data['degree']
+	#graduationScore = json_data['graduationScore']
+	#verifiedBy = json_data['verifiedBy']
+	#verifiedDate = json_data['verifiedDate']
+	#academicScore = json_data['academicScore']
+	
+	# -- Remove comments above during actual integration = Test code
+	logger.debug('inside POST')
+	userId = '9'
+	institutionId = '16'
+	degree = 'Bach of Engineering'
+	graduationScore = '0'
+	verificationId = '0'
+	academicScore = '0'
 
-    try:
-        academic = Academic.objects.get(pk=academicId)
-        logger.debug('####### Create academic');
-    except Academic.DoesNotExist:
-        logger.debug('####### Create academic- Academic NOT FOUND');
-        academic = Academic(academicId=academicId, userId=userId, institutionId=institutionId, academicScore=academicScore, degree=degree, verificationId=verificationId, graduationScore=graduationScore)
-    academic.save()
-    return HttpResponseRedirect("/academics/" + academicId)
+	try:
+		academic = Academic.objects.get(pk=academicId)
+		logger.debug('####### Create academic');
+	except Academic.DoesNotExist:
+		logger.debug('####### Create academic- Academic NOT FOUND');
+		academic = Academic(academicId=academicId, userId=userId, institutionId=institutionId, academicScore=academicScore, degree=degree, verificationId=verificationId, graduationScore=graduationScore)
+	academic.save()
+	return HttpResponseRedirect("/academics/" + academicId)
 
 def update_academic (request, academicId):
-    logger.debug('inside update_academic')
-    logger.debug('------------')
-    #if request.method == 'PUT':
-    #json_data = simplejson.loads(request.body)
-    #logger.debug('Raw Data: "%s"' % json_data)
-    #userId = json_data['userId']
-    #institutionId = json_data['institutionId']
-    #degree = json_data['degree']
-    #graduationScore = json_data['graduationScore']
-    #verifiedBy = json_data['verifiedBy']
-    #verifiedDate = json_data['verifiedDate']
-    #academicScore = json_data['academicScore']
-    
-    # -- Remove comments above during actual integration
-    #createDate = datetime.datetime.now()
-    userId = '9'
-    institutionId = '16'
-    degree = 'Masters of Engineering'
-    graduationScore = ''
-    verificationId = '0'
-    academicScore = '0'
+	logger.debug('inside update_academic')
+	logger.debug('------------')
+	#if request.method == 'PUT':
+	#json_data = simplejson.loads(request.body)
+	#logger.debug('Raw Data: "%s"' % json_data)
+	#userId = json_data['userId']
+	#institutionId = json_data['institutionId']
+	#degree = json_data['degree']
+	#graduationScore = json_data['graduationScore']
+	#verifiedBy = json_data['verifiedBy']
+	#verifiedDate = json_data['verifiedDate']
+	#academicScore = json_data['academicScore']
+	
+	# -- Remove comments above during actual integration
+	#createDate = datetime.datetime.now()
+	userId = '9'
+	institutionId = '16'
+	degree = 'Masters of Engineering'
+	graduationScore = ''
+	verificationId = '0'
+	academicScore = '0'
 
-    try:
-        academic = Academic.objects.get(pk=academicId)
-        logger.debug('####### Update academic');
-    except Academic.DoesNotExist:
-        logger.debug('####### Update academic NOT FOUND');
-        academic = Academic(academicId=academicId, userId=userId, institutionId=institutionId, academicScore=academicScore, degree=degree, verificationId=verificationId, graduationScore=graduationScore)
-    academic.degree = degree
-    academic.save()
-    return HttpResponseRedirect("/academics/" + academicId)
+	try:
+		academic = Academic.objects.get(pk=academicId)
+		logger.debug('####### Update academic');
+	except Academic.DoesNotExist:
+		logger.debug('####### Update academic NOT FOUND');
+		academic = Academic(academicId=academicId, userId=userId, institutionId=institutionId, academicScore=academicScore, degree=degree, verificationId=verificationId, graduationScore=graduationScore)
+	academic.degree = degree
+	academic.save()
+	return HttpResponseRedirect("/academics/" + academicId)
 
 def delete_academic (request, academicId):
-    logger.debug('inside delete_academic')
-    logger.debug('------------')
+	logger.debug('inside delete_academic')
+	logger.debug('------------')
 
-    try:
-        academic = Academic.objects.get(pk=academicId)
-        logger.debug('####### Delete academic');
-    except Academic.DoesNotExist:
-        logger.debug('####### Academic not found');
-    
-    academic.delete()    
-    return HttpResponseRedirect("/academics/" + academicId)
+	try:
+		academic = Academic.objects.get(pk=academicId)
+		logger.debug('####### Delete academic');
+	except Academic.DoesNotExist:
+		logger.debug('####### Academic not found');
+	
+	academic.delete()	
+	return HttpResponseRedirect("/academics/" + academicId)
 
 def create_honor (request, honorId):
-    logger.debug('inside create_honor')
-    #if request.method == 'POST':
-    #json_data = simplejson.loads(request.body)
-    #logger.debug('Raw Data: "%s"' % json_data)
-    #userId = json_data['userId']
-    #honor = json_data['honor']
-    #honorType = json_data['honorType']
-    #honorLevel = json_data['honorLevel']
-    
-    # -- Remove comments above during actual integration = Test code
-    logger.debug('inside POST')
-    userId = '9'
-    honor = 'Won NCAA Basketball Championship'
-    honorType = 'Sports'
-    honorLevel = 'National'
-    verificationId = '0'
+	logger.debug('inside create_honor')
+	#if request.method == 'POST':
+	#json_data = simplejson.loads(request.body)
+	#logger.debug('Raw Data: "%s"' % json_data)
+	#userId = json_data['userId']
+	#honor = json_data['honor']
+	#honorType = json_data['honorType']
+	#honorLevel = json_data['honorLevel']
+	
+	# -- Remove comments above during actual integration = Test code
+	logger.debug('inside POST')
+	userId = '9'
+	honor = 'Won NCAA Basketball Championship'
+	honorType = 'Sports'
+	honorLevel = 'National'
+	verificationId = '0'
 
-    try:
-        honor = Honor.objects.get(pk=honorId)
-        logger.debug('####### Create honor');
-    except Honor.DoesNotExist:
-        logger.debug('####### Create honor NOT FOUND');
-        honor = Honor(honorId=honorId, userId=userId, honor=honor, honorType=honorType, honorLevel=honorLevel, verificationId=verificationId)
-    honor.save()
-    return HttpResponseRedirect("/honors/" + honorId)
+	try:
+		honor = Honor.objects.get(pk=honorId)
+		logger.debug('####### Create honor');
+	except Honor.DoesNotExist:
+		logger.debug('####### Create honor NOT FOUND');
+		honor = Honor(honorId=honorId, userId=userId, honor=honor, honorType=honorType, honorLevel=honorLevel, verificationId=verificationId)
+	honor.save()
+	return HttpResponseRedirect("/honors/" + honorId)
 
 def update_honor (request, honorId):
-    logger.debug('inside update_honor')
-    logger.debug('------------')
-    #if request.method == 'PUT':
-    #json_data = simplejson.loads(request.body)
-    #logger.debug('Raw Data: "%s"' % json_data)
-    #userId = json_data['userId']
-    #honor = json_data['honor']
-    #honorType = json_data['honorType']
-    #honorLevel = json_data['honorLevel']
-    
-    # -- Remove comments above during actual integration
-    #createDate = datetime.datetime.now()
-    userId = '9'
-    honorString = 'Won Chess Grand Master'
-    honorType = 'Sports'
-    honorLevel = 'National'
-    verificationId = '0'
+	logger.debug('inside update_honor')
+	logger.debug('------------')
+	#if request.method == 'PUT':
+	#json_data = simplejson.loads(request.body)
+	#logger.debug('Raw Data: "%s"' % json_data)
+	#userId = json_data['userId']
+	#honor = json_data['honor']
+	#honorType = json_data['honorType']
+	#honorLevel = json_data['honorLevel']
+	
+	# -- Remove comments above during actual integration
+	#createDate = datetime.datetime.now()
+	userId = '9'
+	honorString = 'Won Chess Grand Master'
+	honorType = 'Sports'
+	honorLevel = 'National'
+	verificationId = '0'
 
-    try:
-        honor = Honor.objects.get(pk=honorId)
-        logger.debug('####### Update honor');
-    except Honor.DoesNotExist:
-        logger.debug('####### Update honor NOT FOUND');
-        honor = Honor(honorId=honorId, userId=userId, honor=honorString, honorType=honorType, honorLevel=honorLevel, verificationId=verificationId)
-    honor.honor = honorString
-    honor.save()
-    return HttpResponseRedirect("/honors/" + honorId)
+	try:
+		honor = Honor.objects.get(pk=honorId)
+		logger.debug('####### Update honor');
+	except Honor.DoesNotExist:
+		logger.debug('####### Update honor NOT FOUND');
+		honor = Honor(honorId=honorId, userId=userId, honor=honorString, honorType=honorType, honorLevel=honorLevel, verificationId=verificationId)
+	honor.honor = honorString
+	honor.save()
+	return HttpResponseRedirect("/honors/" + honorId)
 
 def delete_honor (request, honorId):
-    logger.debug('inside delete_honor')
-    logger.debug('------------')
+	logger.debug('inside delete_honor')
+	logger.debug('------------')
 
-    try:
-        honor = Honor.objects.get(pk=honorId)
-        logger.debug('####### Delete honor');
-    except Honor.DoesNotExist:
-        logger.debug('####### Honor not found');
-    
-    honor.delete()    
-    return HttpResponseRedirect("/honors/" + honorId)
+	try:
+		honor = Honor.objects.get(pk=honorId)
+		logger.debug('####### Delete honor');
+	except Honor.DoesNotExist:
+		logger.debug('####### Honor not found');
+	
+	honor.delete()	
+	return HttpResponseRedirect("/honors/" + honorId)
 
 def contribute_to_institution(request, contributionId):
-    logger.debug('inside contribute to institution')
-    
-    #if request.method == 'PUT':
-    #json_data = simplejson.loads(request.body)
-    #logger.debug('Raw Data: "%s"' % json_data)
-    #userId = json_data['userId']
-    #amount = json_data['amount']
-    #memo = json_data['memo']
-    #institutionId = json_data['institutionId']
-    #paymentId = Payment.objects.get(pk=userId, sequence='1')
-    
-    # -- Remove comments above during actual integration
-    #createDate = datetime.datetime.now()
-    userId = '9'
-    paymentId = '1'
-    amount = '500.00'
-    memo = 'Contribution for Library computers'
-    institutionId = '17'
-    
-    try:
-        contribute = Contribution.objects.get(pk=contributionId)
-        logger.debug('Found Contribution')
-    except:
-        logger.debug('Creating new contribution')
-        contribute = Contribution(institutionId=institutionId,userId=userId, amount=amount, memo=memo, paymentId=paymentId)
-    
-    contribute.save()
-    return HttpResponseRedirect("/contributions/" + contribute.contributionId)
+	logger.debug('inside contribute to institution')
+	
+	#if request.method == 'PUT':
+	#json_data = simplejson.loads(request.body)
+	#logger.debug('Raw Data: "%s"' % json_data)
+	#userId = json_data['userId']
+	#amount = json_data['amount']
+	#memo = json_data['memo']
+	#institutionId = json_data['institutionId']
+	#paymentId = Payment.objects.get(pk=userId, sequence='1')
+	
+	# -- Remove comments above during actual integration
+	#createDate = datetime.datetime.now()
+	userId = '9'
+	paymentId = '1'
+	amount = '500.00'
+	memo = 'Contribution for Library computers'
+	institutionId = '17'
+	
+	try:
+		contribute = Contribution.objects.get(pk=contributionId)
+		logger.debug('Found Contribution')
+	except:
+		logger.debug('Creating new contribution')
+		contribute = Contribution(institutionId=institutionId,userId=userId, amount=amount, memo=memo, paymentId=paymentId)
+	
+	contribute.save()
+	return HttpResponseRedirect("/contributions/" + contribute.contributionId)
 
 def update_verification (request, performanceId):
-    logger.debug('inside update_verification')
-    logger.debug('------------')
-    #if request.method == 'PUT':
-    #json_data = simplejson.loads(request.body)
-    #logger.debug('Raw Data: "%s"' % json_data)
-    #verificationId = json_data['verificationId']
-    #verifiedDate = json_data['verifiedDate']
-    #status = json_data['status']
-    #performanceScore = json_data['performanceScore']
-    #verifyType = json_data['verifyType']
-    
-    #Score needs to be updated for performance or skill -- How to retrieve Performance based on verificationId
-    
-    # -- Remove comments above during actual integration
-    #createDate = datetime.datetime.now()
-    userId = '9'
-    verifiedDate = datetime.datetime.now()
-    status = 'Completed'
-    performanceScore = '8'
-    verifyType = 'Skill'
+	logger.debug('inside update_verification')
+	logger.debug('------------')
+	#if request.method == 'PUT':
+	#json_data = simplejson.loads(request.body)
+	#logger.debug('Raw Data: "%s"' % json_data)
+	#verificationId = json_data['verificationId']
+	#verifiedDate = json_data['verifiedDate']
+	#status = json_data['status']
+	#performanceScore = json_data['performanceScore']
+	#verifyType = json_data['verifyType']
+	
+	#Score needs to be updated for performance or skill -- How to retrieve Performance based on verificationId
+	
+	# -- Remove comments above during actual integration
+	#createDate = datetime.datetime.now()
+	userId = '9'
+	verifiedDate = datetime.datetime.now()
+	status = 'Completed'
+	performanceScore = '8'
+	verifyType = 'Skill'
 
-    if verifyType == 'Performance':
-        try:
-            performance = Performance.objects.get(pk=performanceId)
-            performance.performanceScore = performanceScore
-            logger.debug('####### Updated Performance with perforamnceScore');
-        except:
-            logger.debug('####### Update Performance - Could not find performance');
-    
-        performance.save()
-        verificationId = performance.verificationId
-    else:
-        try:
-            skill = Skill.objects.get(pk=performanceId)
-            skill.skillScore = performanceScore
-            logger.debug('####### Updated Skill with score');
-        except:
-            logger.debug('####### Update Skill - Could not find Skill');
-    
-        skill.save()
-        verificationId = skill.verificationId
-    
-    try:
-        verification = Verification.objects.get(pk=verificationId)
-        logger.debug('####### Update verification');
-    except Verification.DoesNotExist:
-        logger.debug('####### Update verification NOT FOUND');
-        verification = Verification(verifiedFor=performance.userId, verifiedBy=userId, verifiedDate=verifiedDate, status=status, verificationId=verificationId)
-    verification.status = status
-    verification.verifiedDate = verifiedDate
-    verification.save()
-    return HttpResponseRedirect("/verification/" + "'" + verificationId + "'")
+	if verifyType == 'Performance':
+		try:
+			performance = Performance.objects.get(pk=performanceId)
+			performance.performanceScore = performanceScore
+			logger.debug('####### Updated Performance with perforamnceScore');
+		except:
+			logger.debug('####### Update Performance - Could not find performance');
+	
+		performance.save()
+		verificationId = performance.verificationId
+	else:
+		try:
+			skill = Skill.objects.get(pk=performanceId)
+			skill.skillScore = performanceScore
+			logger.debug('####### Updated Skill with score');
+		except:
+			logger.debug('####### Update Skill - Could not find Skill');
+	
+		skill.save()
+		verificationId = skill.verificationId
+	
+	try:
+		verification = Verification.objects.get(pk=verificationId)
+		logger.debug('####### Update verification');
+	except Verification.DoesNotExist:
+		logger.debug('####### Update verification NOT FOUND');
+		verification = Verification(verifiedFor=performance.userId, verifiedBy=userId, verifiedDate=verifiedDate, status=status, verificationId=verificationId)
+	verification.status = status
+	verification.verifiedDate = verifiedDate
+	verification.save()
+	return HttpResponseRedirect("/verification/" + "'" + verificationId + "'")
 
 ### Views written by rahul
 from decimal import*
@@ -1168,8 +1171,17 @@ def home_redirect(request):
 			except:
 				challenge = ''
 			if challenge:
+				workquality = challenge.workQuality if challenge.workQuality else 0
+				creativity = challenge.creativity if challenge.creativity else 0
+				innovation =  challenge.innovation if challenge.innovation else 0
+				teamwork = challenge.teamWork if challenge.teamWork else 0
+				addressedProblem =  challenge.addressedProblem if challenge.addressedProblem else 0
+				domainExpertise =  challenge.domainExpertise if challenge.domainExpertise else 0
+				technicalExpertise =  challenge.technicalExpertise if challenge.technicalExpertise else 0
+				solutionPresentation =  challenge.solutionPresentation if challenge.solutionPresentation else 0
+				ownerShip = challenge.ownership if challenge.ownership else 0
 				try:
-					challengeScore = int((Decimal(challenge.workQuality + challenge.creativity + challenge.innovation + challenge.teamWork + challenge.addressedProblem + challenge.domainExpertise + challenge.technicalExpertise + challenge.solutionPresentation + challenge.ownership)/45)*100)
+					challengeScore = int((Decimal(workquality + creativity + innovation + teamwork + addressedProblem + domainExpertise + technicalExpertise + solutionPresentation + ownerShip)/45)*100)
 				except:
 					challengeScore = 0
 				projObj = Project.objects.get(projectId = submission.projectId)
@@ -1244,7 +1256,7 @@ def home_redirect(request):
 		return render(request,'institution-view.html',{'user':validate_user})
 	if validate_user.type == "Admin":
 		return redirect('/assessment-assign-admin/')
-    
+	
 	return render(request, 'index.html')
 
 		
@@ -1360,7 +1372,11 @@ def landing_view(request):
 				assessmentDict_list.append(assessmentDict)
 			except:
 				pass
-		user_verificationList = Verification.objects.filter(verifiedBy = user.userId)
+		user_verificationList = Verification.objects.filter(Q(verifiedBy = user.userId) | Q(verifiedFor = user.userId))
+
+		resp = verprootherlist(user_verificationList)
+		verprolist = resp['verProjectList']
+		verothrlist = resp['verOthersList']
 		for ver in user_verificationList:
 			try:
 				if ver.projectId:
@@ -1381,7 +1397,10 @@ def landing_view(request):
 					verification_for = Volunteer.objects.get(volunteerId = ver.volunteerId)
 			except:
 				verification_for = None
-			verifier = User.objects.get(userId = ver.verifiedBy)
+			try:
+				verifier = User.objects.get(userId = ver.verifiedBy)
+			except:
+				verifier = ''
 			days_passed =  datetime.now() - ver.verifiedDate 
 			days_passed = days_passed.days
 			verificationDict = {'verification_for':verification_for, 'verified_by':verifier, 'days_passed':days_passed}
@@ -1393,8 +1412,17 @@ def landing_view(request):
 			except:
 				challenge = ''
 			if challenge:
+				workquality = challenge.workQuality if challenge.workQuality else 0
+				creativity = challenge.creativity if challenge.creativity else 0
+				innovation =  challenge.innovation if challenge.innovation else 0
+				teamwork = challenge.teamWork if challenge.teamWork else 0
+				addressedProblem =  challenge.addressedProblem if challenge.addressedProblem else 0
+				domainExpertise =  challenge.domainExpertise if challenge.domainExpertise else 0
+				technicalExpertise =  challenge.technicalExpertise if challenge.technicalExpertise else 0
+				solutionPresentation =  challenge.solutionPresentation if challenge.solutionPresentation else 0
+				ownerShip = challenge.ownership if challenge.ownership else 0
 				try:
-					challengeScore = int((Decimal(challenge.workQuality + challenge.creativity + challenge.innovation + challenge.teamWork + challenge.addressedProblem + challenge.domainExpertise + challenge.technicalExpertise + challenge.solutionPresentation + challenge.ownership)/45)*100)
+					challengeScore = int((Decimal(workquality + creativity + innovation + teamwork + addressedProblem + domainExpertise + technicalExpertise + solutionPresentation + ownerShip)/45)*100)
 				except:
 					challengeScore = 0
 				projObj = Project.objects.get(projectId = submission.projectId)
@@ -1403,7 +1431,7 @@ def landing_view(request):
 			
 		
 		Student_strengthList = Strengths.objects.filter(emailId = registered_user.emailId)
-		performanceObjList = Performance.objects.filter(userId = registered_user.userId)
+		'''performanceObjList = Performance.objects.filter(userId = registered_user.userId)
 		for performance in performanceObjList:
 			try:
 				performanceObj = Verification.objects.get(performanceId = performance.performanceId, verifiedFor = registered_user.userId)
@@ -1415,18 +1443,180 @@ def landing_view(request):
 				except:
 					performanceScore = 0
 				performanceDict = {'performance':performance.name,'Score':performanceScore}
+				StudentPerformanceList.append(performanceDict)'''
+		
+		performanceObjList = Verification.objects.filter(verifiedBy = registered_user.userId)
+		for performance in performanceObjList:
+			try:
+				performanceObj = Performance.objects.get(performanceId = performance.performanceId)
+			except:
+				performanceObj = ''
+			if performanceObj:
+				try:
+					performanceScore = int(Decimal(performance.workQuality + performance.communication + performance.expertise + performance.onTime + performance.responsiveness + performance.withinBudget + performance.ownerShip + performance.professionalism + performance.wouldHireAgain)/45*100)
+				except Exception as e:
+					print e.message
+					performanceScore = 0
+				performanceDict = {'performance':performanceObj.name,'Score':performanceScore}
 				StudentPerformanceList.append(performanceDict)
-			
+		
+		
 		StudentPerformanceList = StudentPerformanceList[:5]
 		StudentChallengeList = StudentChallengeList[:3]
 		goalList = Candidate_Goal.objects.filter(studentId = registered_user.userId)
+		verificationList = Verification.objects.filter(Q(verifiedBy = user.userId) | Q(verifiedFor = user.userId))
+
+		VerskillObjs = list(set([i for i in verificationList if i.skillId]))
+		VerskillCompleted = [i for i in VerskillObjs if i.status == 'Completed']
+
+		try:
+			verSkillsPercent = (len(VerskillCompleted)*100)/len(VerskillObjs)
+		except:
+			verSkillsPercent = 0
+
+		VerCertificationObjs = list(set([i for i in verificationList if i.certificationId]))
+		VerCertificationCompleted = [i for i in VerCertificationObjs if i.status == 'Completed']
+
+		try:
+			vercertificationPercent = (len(VerCertificationCompleted)*100)/len(VerCertificationObjs)
+		except:
+			vercertificationPercent = 0
+
+		VeracademicObjs = list(set([i for i in verificationList if i.academicId]))
+		VeracademicCompleted = [i for i in VeracademicObjs if i.status == 'Completed']
+
+		try:
+			veracademicPercent = (len(VeracademicCompleted)*100)/len(VeracademicObjs)
+		except:
+			veracademicPercent = 0
+
+		VerhonorObjs = list(set([i for i in verificationList if i.honorId]))
+		VerhonorCompleted = [i for i in VerhonorObjs if i.status == 'Completed']
+
+		try:
+			verhonorPercent = (len(VerhonorCompleted)*100)/len(VerhonorObjs)
+		except:
+			verhonorPercent = 0
+
+		VerlanObjs = list(set([i for i in verificationList if i.languageId]))
+		VerlanCompleted = [i for i in VerlanObjs if i.status == 'Completed']
+
+		try:
+			verlanPercent = (len(VerlanCompleted)*100)/len(VerlanObjs)
+		except:
+			verlanPercent = 0
+
+		VervolObjs = list(set([i for i in verificationList if i.volunteerId]))
+		VervolCompleted = [i for i in VervolObjs if i.status == 'Completed']
+
+		try:
+			vervolPercent = (len(VervolCompleted)*100)/len(VervolObjs)
+		except:
+			vervolPercent = 0
 		return render(request,'grinder-view.html',locals())
 	if registered_user.type =="Enterprise":
 		request.session['validate_user'] = registered_user
 		enterprise = Enterprise.objects.get(userId = user.userId)
 		request.session['displayName'] = enterprise.name
 		request.session['userData'] = enterprise
+		tm_manager = ''
+		try:
+			my_team = Team.objects.filter(members__userId = user.userId).latest('teamId')
+			tm_manager = Team.objects.get(teamManager = user.userId)
+			if my_team:
+				myteam_mem = my_team.members.exclude(userId = user.userId)
+			else:
+				myteam_mem = []
+				tm_manager = None
+		except:
+			my_team = None
+			myteam_mem = []
+
+		myteamem = []
+		try:
+			my_team = Team.objects.filter(members__userId = user.userId).latest('teamId')
+			myteamem = [i for i in my_team.members.exclude(userId=user.userId)]
+		except:
+			pass
+		myreports = []
+		if tm_manager:
+			myreports = [i for i in tm_manager.members.exclude(userId=user.userId)]
+
+		hiearchyList = []
+		try:
+			otherTeamMember = Team.objects.filter(members__userId = user.userId).exclude(teamId = tm_manager.teamId).latest('teamId')
+		except:
+			otherTeamMember = None
+		loggedUser = User.objects.get(userId = user.userId)
+		if tm_manager and otherTeamMember:
+			hiearchyList.append(otherTeamMember.getTeamMgr())
+		elif not tm_manager and my_team is not None:
+			hiearchyList.append(my_team.getTeamMgr())
+		hiearchyList.append(loggedUser)
+
+		performance_list = Performance.objects.filter(userId = user.userId)[:5]
+		certification_list = Membership.objects.filter(userId = user.userId)
+		academic_list = Academic.objects.filter(userId = user.userId)
+		skill_list = Skill.objects.filter(userId = user.userId)
+		volunteer_list = Volunteer.objects.filter(userId = user.userId)
+		language_list = Language.objects.filter(userId = user.userId)
+		honor_list = Honor.objects.filter(userId = user.userId)
+		goalList = Candidate_Goal.objects.filter(studentId = registered_user.userId)
 		get_projectList = Project.objects.filter( ~Q(status = "Deleted"),userId = enterprise.userId)
+		verificationList = Verification.objects.filter(Q(verifiedBy = user.userId) | Q(verifiedFor = user.userId))
+		user_verificationList = Verification.objects.filter(Q(verifiedBy = user.userId) | Q(verifiedFor = user.userId))
+
+		resp = verprootherlist(user_verificationList)
+		verprolist = resp['verProjectList']
+		verothrlist = resp['verOthersList']
+		
+		VerskillObjs = list(set([i for i in verificationList if i.skillId]))
+		VerskillCompleted = [i for i in VerskillObjs if i.status == 'Completed']
+
+		try:
+			verSkillsPercent = (len(VerskillCompleted)*100)/len(VerskillObjs)
+		except:
+			verSkillsPercent = 0
+
+		VerCertificationObjs = list(set([i for i in verificationList if i.certificationId]))
+		VerCertificationCompleted = [i for i in VerCertificationObjs if i.status == 'Completed']
+
+		try:
+			vercertificationPercent = (len(VerCertificationCompleted)*100)/len(VerCertificationObjs)
+		except:
+			vercertificationPercent = 0
+
+		VeracademicObjs = list(set([i for i in verificationList if i.academicId]))
+		VeracademicCompleted = [i for i in VeracademicObjs if i.status == 'Completed']
+
+		try:
+			veracademicPercent = (len(VeracademicCompleted)*100)/len(VeracademicObjs)
+		except:
+			veracademicPercent = 0
+
+		VerhonorObjs = list(set([i for i in verificationList if i.honorId]))
+		VerhonorCompleted = [i for i in VerhonorObjs if i.status == 'Completed']
+
+		try:
+			verhonorPercent = (len(VerhonorCompleted)*100)/len(VerhonorObjs)
+		except:
+			verhonorPercent = 0
+
+		VerlanObjs = list(set([i for i in verificationList if i.languageId]))
+		VerlanCompleted = [i for i in VerlanObjs if i.status == 'Completed']
+
+		try:
+			verlanPercent = (len(VerlanCompleted)*100)/len(VerlanObjs)
+		except:
+			verlanPercent = 0
+
+		VervolObjs = list(set([i for i in verificationList if i.volunteerId]))
+		VervolCompleted = [i for i in VervolObjs if i.status == 'Completed']
+
+		try:
+			vervolPercent = (len(VervolCompleted)*100)/len(VervolObjs)
+		except:
+			vervolPercent = 0
 		try:
 			project1 = get_projectList[0]
 		except:
@@ -1459,8 +1649,8 @@ def landing_view(request):
 			project8 = get_projectList[7]
 		except:
 			pass
-		return redirect('/challenge/')
-		#return render(request,'enterprise-view.html', locals())	
+		#return redirect('/challenge/')
+		return render(request,'enterprise-view.html', locals())	
 	return redirect('/')
 	
 def add_project(request):
@@ -2224,6 +2414,7 @@ def add_language(request):
 	lang_id = request.GET.get('lang_id')
 	lang_name = request.GET.get('field1')
 	otherlang = request.POST.get('otherlang')
+	getname = request.POST.get('name')
 	try:
 		language = Language.objects.get(languageId = lang_id)
 		language.name = lang_name
@@ -2232,11 +2423,11 @@ def add_language(request):
 		pass
 	form = LanguageForm()
 	if request.method == "POST":
-		if otherlang:
+		if getname == 'Other':
 			langObj = Language(userId = user.userId, name = otherlang)
 			langObj.save()
 		else:
-			langObj = Language(userId = user.userId, name = name)
+			langObj = Language(userId = user.userId, name = getname)
 			langObj.save()
 		return redirect('/landing_page/')
 		
@@ -2964,7 +3155,7 @@ def assessmenthome(request):
 	
 ##Code for LinkedIn integration
 def done(request):
-    
+	
 	details = request.user.social_auth.get().extra_data
 	try:
 		userPresent = User.objects.get(emailId = details['email_address'])
@@ -2992,13 +3183,13 @@ def done(request):
 
 
 def login_success(request):
-    
-    return HttpResponseRedirect('/landing_page/')
-    
+	
+	return HttpResponseRedirect('/landing_page/')
+	
 def error(request):
-    """Error view"""
-    messages = get_messages(request)
-    return render(request,'index.html', {'messages': messages},)
+	"""Error view"""
+	messages = get_messages(request)
+	return render(request,'index.html', {'messages': messages},)
 
 def assessment_home_enterprise(request):
 	try:
@@ -3083,7 +3274,7 @@ def assessmenthomeadmin(request):
 			from datetime import *
 			this_week_rv = requested_verification_list.filter(verifiedDate__gte = today + timedelta(-7)).distinct()
 			last_week_rv = requested_verification_list.filter(verifiedDate__lte = today + timedelta(-7),
-								                              verifiedDate__gte = today + timedelta(-14)).distinct()
+															  verifiedDate__gte = today + timedelta(-14)).distinct()
 			beyond_rv = requested_verification_list.filter(verifiedDate__lte = today + timedelta(-14)).distinct()
 	except:
 		user = ''
@@ -3118,7 +3309,7 @@ def get_assessmentData(request):
 
 
 def slicedict(d, s):
-    return {k:v for k,v in d.iteritems() if k.startswith(s)}
+	return {k:v for k,v in d.iteritems() if k.startswith(s)}
 
 
 import simplejson as json
@@ -3230,46 +3421,46 @@ def reset_password(request):
 
 	
 def multiFileuploader(request):
-    tab_name = request.GET.get('tab_name')
-    if request.method == 'POST':
-        #log.info('received POST to main multiuploader view')
-        if request.FILES == None:
-            return HttpResponseBadRequest('Must have files attached!')
+	tab_name = request.GET.get('tab_name')
+	if request.method == 'POST':
+		#log.info('received POST to main multiuploader view')
+		if request.FILES == None:
+			return HttpResponseBadRequest('Must have files attached!')
 
-        #getting file data for farther manipulations
-        file = request.FILES[u'files[]']
-        wrapped_file = UploadedFile(file)
-        filename = wrapped_file.name
-        file_size = wrapped_file.file.size
-        if tab_name == "Submission":
-           doc = Documents()
-        if tab_name == "Performance":
-           doc = ProjectDocuments()
-        doc.file=file
-        doc.save()
+		#getting file data for farther manipulations
+		file = request.FILES[u'files[]']
+		wrapped_file = UploadedFile(file)
+		filename = wrapped_file.name
+		file_size = wrapped_file.file.size
+		if tab_name == "Submission":
+		   doc = Documents()
+		if tab_name == "Performance":
+		   doc = ProjectDocuments()
+		doc.file=file
+		doc.save()
 		
 		
 		#getting url for photo deletion
-        file_delete_url = '/multifile-delete/'
-        #getting file url here
-        file_url = '/'
+		file_delete_url = '/multifile-delete/'
+		#getting file url here
+		file_url = '/'
 
-        #getting thumbnail url using sorl-thumbnail
-        #im = get_thumbnail(image, "80x80", quality=50)
-        #thumb_url = im.url
+		#getting thumbnail url using sorl-thumbnail
+		#im = get_thumbnail(image, "80x80", quality=50)
+		#thumb_url = im.url
 
-        #generating json response array
-        result = []
-        result.append({"name":filename, 
-                       "size":file_size, 
-                       "url":file_url, 
+		#generating json response array
+		result = []
+		result.append({"name":filename, 
+					   "size":file_size, 
+					   "url":file_url, 
 					   "doc_id":doc.pk,
-                       "delete_url":file_delete_url+str(doc.pk)+'/', 
-                       "delete_type":"POST",})
-        response_data = json.dumps(result)
-        return HttpResponse(response_data, mimetype='application/json')
-    else: #GET
-        return redirect('/')
+					   "delete_url":file_delete_url+str(doc.pk)+'/', 
+					   "delete_type":"POST",})
+		response_data = json.dumps(result)
+		return HttpResponse(response_data, mimetype='application/json')
+	else: #GET
+		return redirect('/')
 								  
 								  
 def multiFileDelete(request,pk):
@@ -3322,7 +3513,7 @@ def invite_RequestAdminDisplay(request):
 			from datetime import *
 			this_week_rv = requested_verification_list.filter(requestedOn__gte = today + timedelta(-7)).distinct()
 			last_week_rv = requested_verification_list.filter(requestedOn__lte = today + timedelta(-7),
-								                              requestedOn__gte = today + timedelta(-14)).distinct()
+															  requestedOn__gte = today + timedelta(-14)).distinct()
 			beyond_rv = requested_verification_list.filter(requestedOn__lte = today + timedelta(-14)).distinct()
 	except:
 		user = ''
@@ -3819,6 +4010,7 @@ def enterprise_verification(request):
 	studentVerificationList = []
 	defaultverificationList = []
 	try:
+		#verificationObj = Enterprise_Verification.objects.get(pk = ver_id)
 		verificationObj = Enterprise_Verification.objects.get(pk = ver_id)
 		userVerified = User.objects.get(userId = verificationObj.studentId)
 	except:
@@ -3834,7 +4026,41 @@ def enterprise_verification(request):
 		StudentList = User.objects.filter(Q(type="Student")|Q(type="Candidate"))
 		StudentObj = User.objects.get(userId = stu_id)
 		studentVerificationList = Enterprise_Verification.objects.filter(studentId = stu_id)
-	completedverificationList = Enterprise_Verification.objects.filter(createdBy = user.userId, status = "Completed")
+	completed_verificationDict = {}
+	pending_verificationDict = {}
+	if ver_id:
+		verificationObj = Verification.objects.get(verificationId = ver_id)
+		verified_for = User.objects.get(userId = verificationObj.verifiedFor) 
+		verification = {'verification':verificationObj, 'verified_for':verified_for}
+	completed_verifications = Verification.objects.filter(status__iexact = 'Completed', verifiedBy = user.userId)
+	for ver in completed_verifications:
+		verified_for = ver.verifiedFor
+		try:
+			verified_for = User.objects.get(userId = verified_for)
+		except:
+			verified_for = ''
+			
+		verified_by = ver.verifiedBy
+		try:
+			verified_by = User.objects.get(userId = verified_by)
+		except:
+			verified_by = ''
+		completed_verificationDict[ver] = {'verified_for':verified_for, 'verified_by':verified_by}
+	pending_verifications = Verification.objects.filter(Q(status__iexact = 'Requested')|Q( status__iexact = 'Accepted'),Q(verifiedBy = user.userId)|Q(verifiedFor = user.userId))
+	for ver in pending_verifications:
+		verified_for = ver.verifiedFor
+		try:
+			verified_for = User.objects.get(userId = verified_for)
+		except:
+			verified_for = ''
+			
+		verified_by = ver.verifiedBy
+		try:
+			verified_by = User.objects.get(userId = verified_by)
+		except:
+			verified_by = ''
+		pending_verificationDict[ver] = {'verified_for':verified_for, 'verified_by':verified_by}
+	'''completedverificationList = Enterprise_Verification.objects.filter(createdBy = user.userId, status = "Completed")
 	for ver in completedverificationList:
 		verifiedFor = User.objects.get(userId = ver.studentId)
 		verifiedBy = User.objects.get(userId = ver.createdBy)
@@ -3845,7 +4071,7 @@ def enterprise_verification(request):
 		verifiedFor = User.objects.get(userId = ver.studentId)
 		verifiedBy = User.objects.get(userId = ver.createdBy)
 		verObj = {'verifiedFor':verifiedFor, 'verifiedBy':verifiedBy}
-		pendingVerificationDict[ver] = verObj
+		pendingVerificationDict[ver] = verObj'''
 	if request.method== "POST":
 		studentId = request.POST.get('stu_id')
 		proj_name = request.POST.get('company')
@@ -4199,6 +4425,8 @@ def get_buzzData(request):
 		except:
 			pass
 	return render(request, 'buzz-data.html', locals())
+
+
 def edit_goalStatement(request):
 	stuId = request.GET.get('stu_id')
 	new_goal = request.GET.get('field1')
@@ -4210,3 +4438,70 @@ def edit_goalStatement(request):
 		studentObj.goalStatement = new_goal
 		studentObj.save()
 	return redirect('/landing_page/')
+
+
+
+def edit_goalStatement_enterprise(request):
+	stuId = request.GET.get('stu_id')
+	new_goal = request.GET.get('field1')
+	try:
+		entrprise = Enterprise.objects.get(userId = stuId)
+	except:
+		pass
+	if entrprise:
+		entrprise.goalStatement = new_goal
+		entrprise.save()
+		
+		
+	return HttpResponseRedirect('/landing_page/')
+	
+	
+	
+def verprootherlist(user_verificationList):
+	verProjectList = []
+	verOthersList = []
+	for ver in user_verificationList:
+		if ver.projectId or ver.performanceId:
+			try:
+				verifier = User.objects.get(userId = ver.verifiedBy)
+			except:
+				verifier = ''
+			try:
+				if ver.projectId:
+					verification_for = Project.objects.get(projectId = ver.projectId)
+				elif ver.performanceId:
+					verification_for = Performance.objects.get(performanceId = ver.performanceId)
+			except:
+				verification_for = None
+			days_passed =  datetime.now() - ver.verifiedDate 
+			days_passed = days_passed.days
+			verificationProjectDict = {'verification_for':verification_for, 'verified_by':verifier, 'days_passed':days_passed}
+			verProjectList.append(verificationProjectDict)
+		elif ver.skillId or ver.certificationId or ver.honorId or ver.languageId or ver.volunteerId or ver.academicId:
+			try:
+				verifier = User.objects.get(userId = ver.verifiedBy)
+			except:
+				verifier = ''
+			try:
+				if ver.skillId:
+					verification_for = Skill.objects.get(skillId = ver.skillId)
+				if ver.certificationId:
+					verification_for = Membership.objects.get(membershipId = ver.certificationId)
+				if ver.academicId:
+					verification_for = Academic.objects.get(academicId = ver.academicId)
+				if ver.honorId:
+					verification_for = Honor.objects.get(honorId = ver.honorId)
+				if ver.languageId:
+					verification_for = Language.objects.get(languageId = ver.languageId)
+				if ver.volunteerId:
+					verification_for = Volunteer.objects.get(volunteerId = ver.volunteerId)
+			except Exception as e:
+				print e.message
+				verification_for = None
+			days_passed =  datetime.now() - ver.verifiedDate 
+			days_passed = days_passed.days
+			verificationOtherDict = {'verification_for':verification_for, 'verified_by':verifier, 'days_passed':days_passed}
+			verOthersList.append(verificationOtherDict)
+		else:
+			pass
+	return {'verProjectList':verProjectList, 'verOthersList':verOthersList}

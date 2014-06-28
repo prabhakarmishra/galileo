@@ -78,7 +78,7 @@ function validateForm()
 				{% if verification %}	
 				<form method="POST" action="/student/save-verification/?ver_id={{verification.verification.verificationId}}" name="verifications">
 				
-					<h2>Authentication Details</h2>
+					<h2>Authentication Details </h2>
 						<p class="far_r"><span>Id:</span> {{verification.verification.verificationId}}</p>
 						<p><span>Verified For:</span> {{verification.verified_for.fName}} {{verification.verified_for.lName}}</p>
 						<div class="clearfix"></div>
@@ -110,6 +110,76 @@ function validateForm()
 						</select>
 						-->
 						</p>
+					<div class="clearfix"></div>
+					{% with verification.verification.get_project as vvp %}
+					{% with verification.verification.get_asmnt as vva %}
+					<h2>Assessment Details</h2>
+					{% if vvp or vva %}
+				        
+				        {% if vvp %}
+				            <p><span>Project Name : </span> {{vvp.name}}</p>
+						    <p><span>Description:</span> {{vvp.dscription}}</p>
+						    <div class="clearfix"></div>
+					    {% endif %}
+					    
+					    {% if vva %}
+					        {% if vva.challenge1Type %}
+					            <p class="far_r"><span>Challenge Type1 : </span> {{vva.challenge1Type}}</p>
+					        {% endif %}
+						    {% if vva.challenge2Type %}
+					            <p><span>Challenge Type2 : </span> {{vva.challenge2Type}}</p>
+					        {% endif %}
+					        <div class="clearfix"></div>
+					        
+					        {% if vva.challenge1Desc %}
+					            <p class="far_r"><span>Description : </span> {{vva.challenge1Desc}}</p>
+					        {% endif %}
+						    {% if vva.challenge2Desc %}
+					            <p><span>Description : </span> {{vva.challenge2Desc}}</p>
+					        {% endif %}
+					        <div class="clearfix"></div>
+					        
+					        
+					        
+					        {% if vva.growthDesc and not vva.growthDesc == "Explain the growth in 140 characters" %}
+					            <p class="far_r"><span>Was there growth in criticality, size, importance or impact of project ? : </span> {{vva.growthDesc}}</p>
+					        {% endif %}
+						    {% if vva.demoDesc and not vva.demoDesc == "Explain the growth in 140 characters" %}
+					            <p><span>Did you have a chance to demonstrate to Senior Executive ? : </span> {{vva.demoDesc}}</p>
+					        {% endif %}
+					        <div class="clearfix"></div>
+					        
+					        {% if vva.promoted and not vva.promoted == "Explain the growth in 140 characters" %}
+					            <p class="far_r"><span>Were you promoted during this project ? : </span> {{vva.promoted}}</p>
+					        {% endif %}
+						    {% if vva.majorGoalDesc and not vva.majorGoalDesc == "Explain the growth in 140 characters" %}
+					            <p><span>Did you establish and achieve major goals during this project ? : </span> {{vva.majorGoalDesc}}</p>
+					        {% endif %}
+					        <div class="clearfix"></div>
+					        
+					        {% if vva.mgrRehireDesc and not vva.mgrRehireDesc == "Explain the growth in 140 characters" %}
+					            <p class="far_r"><span>Were you hired/re-hired by previous manager for this project ? : </span> {{vva.mgrRehireDesc}}</p>
+					        {% endif %}
+						    {% if vva.subordHireDesc and not vva.subordHireDesc == "Explain the growth in 140 characters" %}
+					            <p><span>Did you hire former subordinates ? : </span> {{vva.subordHireDesc}}</p>
+					        {% endif %}
+					        <div class="clearfix"></div>
+					        
+					        {% if vva.gotoPersonDesc and not vva.gotoPersonDesc == "Explain the growth in 140 characters" %}
+					            <p class="far_r"><span>Were you go-to person on the project or did you receive formal recognition ? : </span> {{vva.gotoPersonDesc}}</p>
+					        {% endif %}
+						    {% if vva.mentoredDesc and not vva.mentoredDesc == "Explain the growth in 140 characters" %}
+					            <p><span>Were you mentored ? : </span> {{vva.mentoredDesc}}</p>
+					        {% endif %}
+					        <div class="clearfix"></div>
+			            {% endif %}
+                    {% else %}
+					    <div class="rateit"><span>There is no assessment details for this authentication.</span> </div> 
+					{% endif %}
+					{% endwith %}
+					{% endwith %}
+					
+				
 
 					<div class="clearfix"></div>
 					<h2>Authentication Feedback</h2>
@@ -129,12 +199,12 @@ function validateForm()
 					
 
 					<div class="btngrp">
-						
-						{% if user.type == "Student" or user.type == "Candidate" %}
-						{% else %}
+						{% if user.userId == verification.verification.verifiedFor %} {% else %}
 						<input type="submit" class="btncompleteverify" value="" />
-						<a href="/verify-view/?ver_id={{verification.verification.verificationId}}" ><input type="button"  class="cancelButton" value=""></a>
 						{% endif %}
+
+						<a href="/verify-view/?ver_id={{verification.verification.verificationId}}" ><input type="button"  class="cancelButton" value=""></a>
+
 					</div>
 
 					</form>				

@@ -1,76 +1,108 @@
 from django.db import models
-from datetime import datetime    
+from datetime import datetime	
 import os.path
 
 # Create your models here.
 CURRENCY_CHOICES = (
-        ('INR', 'INR'),
-        ('USD', 'USD'),
-    )
+		('INR', 'INR'),
+		('USD', 'USD'),
+	)
+
+
+
+ROLE_CHOICES = (
+
+		(u'Employee', u'Employee'),
+		(u'Manager', u'Manager'),
+		(u'Admin', u'Admin'),
+
+)
+
+
 class Subscription(models.Model):
-    subscriptionId = models.AutoField(primary_key=True)
-    subscription = models.CharField(max_length=100)
-    userId = models.IntegerField()
-    subscription_dt = models.DateTimeField()
-    
-    def __unicode__(self):
-        return self.name
+	subscriptionId = models.AutoField(primary_key=True)
+	subscription = models.CharField(max_length=100)
+	userId = models.IntegerField()
+	subscription_dt = models.DateTimeField()
+	
+	def __unicode__(self):
+		return self.name
 
 class User(models.Model):
-    userId = models.AutoField(primary_key=True)
-    fName = models.CharField(max_length=30)
-    lName = models.CharField(max_length=30) 
-    dob = models.DateField()
-    #imageref = models.CharField(db_column='imageref',max_length=140)
-    type = models.CharField(max_length=20)
-    contactPhone = models.CharField(max_length=140)
-    emailId = models.CharField(max_length=30,unique=True)
-    password = models.CharField(max_length=10)
-    gender = models.CharField(max_length=6)
-    createDate = models.DateTimeField()
-    facebook = models.CharField(max_length=140)
-    linkedIn = models.CharField(max_length=140)
-    github = models.CharField(max_length=140)
+	userId = models.AutoField(primary_key=True)
+	fName = models.CharField(max_length=30)
+	lName = models.CharField(max_length=30) 
+	dob = models.DateField()
+	#imageref = models.CharField(db_column='imageref',max_length=140)
+	type = models.CharField(max_length=20)
+	role = models.CharField(max_length = 50, blank = True, null = True,
+					choices = ROLE_CHOICES)
+	contactPhone = models.CharField(max_length=140)
+	emailId = models.CharField(max_length=30,unique=True)
+	password = models.CharField(max_length=10)
+	gender = models.CharField(max_length=6)
+	createDate = models.DateTimeField()
+	facebook = models.CharField(max_length=140)
+	linkedIn = models.CharField(max_length=140)
+	github = models.CharField(max_length=140)
+
+	def getEntObj(self):
+		entobj = ''
+		try:
+			entobj = Enterprise.objects.get(userId = self.userId)
+		except:
+			pass
+		return entobj
+
+
+	def getObj(self):
+		try:
+			if Enterprise.objects.filter(userId = self.userId).exists():
+				return Enterprise.objects.filter(userId = self.userId).latest('userId')
+			elif Student.objects.filter(userId = self.userId).exists():
+				return Student.objects.filter(userId = self.userId).latest('userId')
+		except:
+			pass
 
 class CustomUserManager(models.Manager):
-    def create_user(self, username, email):
-        return self.model._default_manager.create(username=username)
+	def create_user(self, username, email):
+		return self.model._default_manager.create(username=username)
 
 
 class CustomUser(models.Model):
-    username = models.CharField(max_length=128)
-    first_name = models.CharField(max_length=128)
-    last_name = models.CharField(max_length=128)
-    email = models.CharField(max_length=100)
-    password = models.CharField(max_length=10)
-    last_login = models.DateTimeField(blank=True, null=True)
+	username = models.CharField(max_length=128)
+	first_name = models.CharField(max_length=128)
+	last_name = models.CharField(max_length=128)
+	email = models.CharField(max_length=100)
+	password = models.CharField(max_length=10)
+	last_login = models.DateTimeField(blank=True, null=True)
 
-    objects = CustomUserManager()
+	objects = CustomUserManager()
 
-    def is_authenticated(self):
-        return True
+	def is_authenticated(self):
+		return True
 	
 	
 class Student(models.Model):
-    userId = models.AutoField(primary_key=True)
-    archetype = models.CharField(max_length=45)
-    collegeName = models.CharField(max_length=45,blank = True, null=True)
-    goalStatement = models.CharField(max_length=45)
-    pedigree = models.CharField(max_length=45)
-    salary = models.CharField(max_length=45)
-    status = models.CharField(max_length=45)
-    image = models.ImageField(upload_to="static/student-photo/", max_length=140, blank = True, null=True)
-    video = models.FileField(upload_to="static/student-video/", max_length=140, blank = True, null=True)
-    candidate = models.BooleanField(default = False)
+	userId = models.AutoField(primary_key=True)
+	archetype = models.CharField(max_length=45)
+	collegeName = models.CharField(max_length=45,blank = True, null=True)
+	goalStatement = models.CharField(max_length=45)
+	pedigree = models.CharField(max_length=45)
+	salary = models.CharField(max_length=45)
+	status = models.CharField(max_length=45)
+	image = models.ImageField(upload_to="static/student-photo/", max_length=140, blank = True, null=True)
+	video = models.FileField(upload_to="static/student-video/", max_length=140, blank = True, null=True)
+	candidate = models.BooleanField(default = False)
 
-    
+	
 class Skill(models.Model):
-    skillId = models.AutoField(primary_key=True)
-    userId = models.IntegerField()
+	skillId = models.AutoField(primary_key=True)
+	userId = models.IntegerField()
 	#name = models.CharField(max_length = 30)
-    description = models.TextField(blank = True)
-    verificationId = models.IntegerField(blank = True, null = True)
-    skillScore = models.FloatField(blank = True, null = True)
+	description = models.TextField(blank = True)
+	verificationId = models.IntegerField(blank = True, null = True)
+	skillScore = models.FloatField(blank = True, null = True)
 
 class Verification(models.Model):
 	verificationId = models.AutoField(primary_key=True)
@@ -117,50 +149,63 @@ class Verification(models.Model):
 		except:
 			return None
 
-	
+	def get_project(self):
+		try:
+			return Project.objects.get(projectId = self.projectId)
+		except:
+			return None
+
+	def get_asmnt(self):
+		try:
+			return Assessment.objects.filter(performanceId = self.performanceId).latest('id')
+		except:
+			return None
+
+
+
 class Academic(models.Model):
-    academicId = models.AutoField(primary_key=True)
-    userId = models.IntegerField()
-    institutionId = models.IntegerField(blank = True, null = True)
-    degree = models.CharField(max_length=45, blank = True, null = True)
-    graduationScore = models.DecimalField(max_digits=5, decimal_places=2,blank = True, null = True)
-    verificationId =  models.IntegerField(blank = True, null = True)
-    academicScore = models.DecimalField( max_digits=5, decimal_places=2, blank = True, null = True)
-    
+	academicId = models.AutoField(primary_key=True)
+	userId = models.IntegerField()
+	institutionId = models.IntegerField(blank = True, null = True)
+	degree = models.CharField(max_length=45, blank = True, null = True)
+	graduationScore = models.DecimalField(max_digits=5, decimal_places=2,blank = True, null = True)
+	verificationId =  models.IntegerField(blank = True, null = True)
+	academicScore = models.DecimalField( max_digits=5, decimal_places=2, blank = True, null = True)
+	
 class Honor(models.Model):
-    honorId = models.AutoField(primary_key=True)
-    userId = models.IntegerField()
-    honor = models.CharField(max_length=45)
-    honorType = models.CharField(max_length=45, blank = True, null = True)
-    honorLevel = models.CharField(max_length=45, blank = True, null = True)
-    verificationId = models.IntegerField(blank = True, null = True)
+	honorId = models.AutoField(primary_key=True)
+	userId = models.IntegerField()
+	honor = models.CharField(max_length=45)
+	honorType = models.CharField(max_length=45, blank = True, null = True)
+	honorLevel = models.CharField(max_length=45, blank = True, null = True)
+	verificationId = models.IntegerField(blank = True, null = True)
 
 class Score(models.Model):
-    scoreId = models.AutoField(primary_key=True)
-    userId = models.IntegerField()
-    scoreDate = models.DateTimeField(default=datetime.now())
-    academicScore = models.FloatField()
-    grindScore = models.FloatField()
-    performanceScore = models.FloatField()
-    
+	scoreId = models.AutoField(primary_key=True)
+	userId = models.IntegerField()
+	scoreDate = models.DateTimeField(default=datetime.now())
+	academicScore = models.FloatField()
+	grindScore = models.FloatField()
+	performanceScore = models.FloatField()
+	
 class Project(models.Model):
-    projectId = models.AutoField(primary_key=True)
-    userId = models.IntegerField()
-    description = models.CharField(max_length=1000, blank = True)
-    project_deadline = models.DateField()
-    name = models.CharField(max_length=140)
-    img = models.ImageField(upload_to = 'project_images',max_length=140, blank = True)
-    currency = models.CharField(max_length = 5, choices=CURRENCY_CHOICES)
-    project_value = models.IntegerField()
-    participate_leaderboard = models.BooleanField(default = False)
-    winner = models.CharField(max_length=140, blank=True, null = True)
-    status = models.CharField(max_length=10, blank=True, null = True)
+	projectId = models.AutoField(primary_key=True)
+	userId = models.IntegerField()
+	description = models.CharField(max_length=1000, blank = True)
+	project_deadline = models.DateField()
+	name = models.CharField(max_length=140)
+	img = models.ImageField(upload_to = 'project_images',max_length=140, blank = True)
+	currency = models.CharField(max_length = 5, choices=CURRENCY_CHOICES)
+	project_value = models.IntegerField()
+	participate_leaderboard = models.BooleanField(default = False)
+	winner = models.CharField(max_length=140, blank=True, null = True)
+	status = models.CharField(max_length=10, blank=True, null = True)
 
 class Membership(models.Model):
-    membershipId = models.AutoField(primary_key=True)
-    userId = models.IntegerField()
-    description = models.CharField(max_length=140)
-           
+	membershipId = models.AutoField(primary_key=True)
+	userId = models.IntegerField()
+	description = models.CharField(max_length=140)
+		   
 class Performance(models.Model):
 	performanceId = models.AutoField(primary_key=True)
 	name = models.CharField(max_length = 100)
@@ -179,89 +224,90 @@ class Performance(models.Model):
 	performanceScore = models.FloatField(blank = True, null = True)
 
 class Payment(models.Model):
-    paymentId = models.AutoField(primary_key=True)
-    createDate = models.DateTimeField(default=datetime.now())
-    cvv = models.IntegerField()
-    #imageref = models.CharField(db_column='imageref',max_length=140)
-    expiration =  models.CharField(max_length=10)
-    paymentNumber = models.CharField(max_length=25)
-    paymentType = models.CharField(max_length=25)
-    sequence = models.IntegerField()
-    userId = models.IntegerField()
-      
+	paymentId = models.AutoField(primary_key=True)
+	createDate = models.DateTimeField(default=datetime.now())
+	cvv = models.IntegerField()
+	#imageref = models.CharField(db_column='imageref',max_length=140)
+	expiration =  models.CharField(max_length=10)
+	paymentNumber = models.CharField(max_length=25)
+	paymentType = models.CharField(max_length=25)
+	sequence = models.IntegerField()
+	userId = models.IntegerField()
+	  
 class Institution(models.Model):
-    userId = models.AutoField(primary_key=True)
-    bankAccountNumber =  models.CharField(max_length=45)
-    bankName = models.CharField(max_length=45)
-    bankRoutingNumber= models.CharField(max_length=45)
-    contact =  models.CharField(max_length=45)
-    contactEmailAddress = models.CharField(max_length=45)
-    contactPhone= models.CharField(max_length=45)
-    name = models.CharField(max_length=45)
-    website= models.CharField(max_length=45)
+	userId = models.AutoField(primary_key=True)
+	bankAccountNumber =  models.CharField(max_length=45)
+	bankName = models.CharField(max_length=45)
+	bankRoutingNumber= models.CharField(max_length=45)
+	contact =  models.CharField(max_length=45)
+	contactEmailAddress = models.CharField(max_length=45)
+	contactPhone= models.CharField(max_length=45)
+	name = models.CharField(max_length=45)
+	website= models.CharField(max_length=45)
 
 class Enterprise(models.Model):
-    userId = models.AutoField(primary_key=True)
-    contact =  models.CharField(max_length=45)
-    contactEmailAddress = models.CharField(max_length=45)
-    contactPhone= models.CharField(max_length=45)
-    name = models.CharField(max_length=45)
-    website= models.CharField(max_length=45)
-    image = models.ImageField(upload_to='enterprise-image', blank = True, null = True)
+	userId = models.AutoField(primary_key=True)
+	contact =  models.CharField(max_length=45)
+	contactEmailAddress = models.CharField(max_length=45)
+	contactPhone= models.CharField(max_length=45)
+	name = models.CharField(max_length=45)
+	website= models.CharField(max_length=45)
+	image = models.ImageField(upload_to='enterprise-image', blank = True, null = True)
+	goalStatement = models.CharField(max_length=100, blank = True, null = True)
 
 class Address(models.Model):
-    addressId = models.AutoField(primary_key=True)
-    addressType = models.IntegerField()
-    street1 = models.CharField(max_length=140)
-    street2 = models.CharField(max_length=140)
-    city = models.CharField(max_length=140)
-    zipcode = models.CharField(max_length=10)
-    
+	addressId = models.AutoField(primary_key=True)
+	addressType = models.IntegerField()
+	street1 = models.CharField(max_length=140)
+	street2 = models.CharField(max_length=140)
+	city = models.CharField(max_length=140)
+	zipcode = models.CharField(max_length=10)
+	
 class UserAddress(models.Model):
-    userAddressId = models.AutoField(primary_key=True)
-    addressId = models.IntegerField()
-    userId = models.IntegerField()
+	userAddressId = models.AutoField(primary_key=True)
+	addressId = models.IntegerField()
+	userId = models.IntegerField()
 
 class Contribution(models.Model):
-    contributionId = models.AutoField(primary_key=True)
-    institutionId = models.IntegerField()
-    memo = models.CharField(max_length=140)
-    paymentId = models.IntegerField()
-    userId = models.IntegerField()
-    amount = models.FloatField()
+	contributionId = models.AutoField(primary_key=True)
+	institutionId = models.IntegerField()
+	memo = models.CharField(max_length=140)
+	paymentId = models.IntegerField()
+	userId = models.IntegerField()
+	amount = models.FloatField()
 
 class Campaign(models.Model):
-    campaignId = models.AutoField(primary_key=True)
-    campaignMaterial = models.CharField(db_column='imageref',max_length=140)
-    name = models.CharField(max_length=140)
-    userId = models.IntegerField()
+	campaignId = models.AutoField(primary_key=True)
+	campaignMaterial = models.CharField(db_column='imageref',max_length=140)
+	name = models.CharField(max_length=140)
+	userId = models.IntegerField()
 
 class Alumni(models.Model):
-    userId = models.AutoField(primary_key=True)
-    mentorship = models.CharField(max_length=140)
+	userId = models.AutoField(primary_key=True)
+	mentorship = models.CharField(max_length=140)
 
 class Accomplishment(models.Model):
-    accomplishmentId = models.AutoField(primary_key=True)
-    description = models.CharField(max_length=140)
-    userId = models.IntegerField()
+	accomplishmentId = models.AutoField(primary_key=True)
+	description = models.CharField(max_length=140)
+	userId = models.IntegerField()
 
 class PairingAnalytics(models.Model):
-    pairingAnalyticsId = models.AutoField(primary_key=True)
-    pairingsId = models.IntegerField()
-    likeCtr = models.IntegerField()
-    commentCtr = models.IntegerField()           
-       
+	pairingAnalyticsId = models.AutoField(primary_key=True)
+	pairingsId = models.IntegerField()
+	likeCtr = models.IntegerField()
+	commentCtr = models.IntegerField()		   
+	   
 class OrderView(models.Model):
-    orderId = models.IntegerField(db_column='orderId')    
-    itemId = models.IntegerField(db_column='itemId')    
-    name = models.CharField(db_column='name',max_length=140)
-    price = models.FloatField(db_column='price')
-    imageref = models.CharField(db_column='imageref',max_length=140)
-    
-    class Meta:
-        db_table = 'alpha_order_view'
-        managed = False
-    
+	orderId = models.IntegerField(db_column='orderId')	
+	itemId = models.IntegerField(db_column='itemId')	
+	name = models.CharField(db_column='name',max_length=140)
+	price = models.FloatField(db_column='price')
+	imageref = models.CharField(db_column='imageref',max_length=140)
+	
+	class Meta:
+		db_table = 'alpha_order_view'
+		managed = False
+	
 #### New table created for storing Student Project Submission
 class Submission(models.Model):
 	submissionId = models.AutoField(primary_key = True)
@@ -375,11 +421,11 @@ class Candidate_Assigned_Assessment(models.Model):
 
 	
 class Image(models.Model):
-    title = models.CharField(max_length=60, blank=True, null=True)
-    image = models.FileField(upload_to="images/")
-    
-    def __unicode__(self):
-        return self.image.name	
+	title = models.CharField(max_length=60, blank=True, null=True)
+	image = models.FileField(upload_to="images/")
+	
+	def __unicode__(self):
+		return self.image.name	
 		
 class SignUp(models.Model):
 	emailId = models.CharField(max_length=60)
@@ -527,3 +573,24 @@ class BuzzAssign(models.Model):
 	response = models.TextField(blank = True, null = True)
 	respondedOn = models.DateTimeField(blank = True, null = True)
 	
+	
+class Team(models.Model):
+	teamId = models.AutoField(primary_key = True)
+	teamName = models.CharField(max_length = 100)
+	headCount = models.IntegerField(blank = True, null = True)
+	teamManager = models.IntegerField(blank = True, null = True)
+	department = models.CharField(max_length = 100,blank = True, null = True)
+	location = models.CharField(max_length = 100, blank = True, null = True)
+	createDate = models.DateTimeField(auto_now_add = True)
+	lastHireDate = models.DateTimeField(blank = True, null = True)
+	members = models.ManyToManyField(User, blank = True, null = True)
+
+	def getTeamMgr(self):
+		try:
+			
+			return User.objects.get(userId = self.teamManager)
+			
+		except Exception as e:
+			print e.message
+			pass
+
